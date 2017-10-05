@@ -1,0 +1,46 @@
+/*
+
+p {
+  color:red;
+}
+
+The p is the selector, in this case an elemental selector. There are many other types of selectors.
+The color:red; is a declaration.
+The color is a property and red is a property value.
+Note the syntax
+
+*/
+
+html {
+  font-size: 10px; /* px means 'pixels': the base font size is now 10 pixels high  */
+  font-family: 'Roboto', sans-serif;
+  background-color: #00539F;
+}
+
+body {
+  width: 600px; /* body will always be 600px wide */
+  margin: 0 auto; /* the first value affects the top and bottom side and the second value the left and right side (auto is a special value that divides the space evenly), you can use four values */
+  background-color: #FF9500; 
+  padding: 0 20px 20px 20px; /* top, left bottom, right padding */
+  border: 5px solid black; 
+}
+
+h1 {
+  margin: 0; /* overrides default margin */
+  padding: 20px 0;
+  color: #00539F;
+  text-shadow: 3px 3px 1px black; /* horizontal offest, vertical offset, blur radius base color */
+  font-size: 60px;
+  text-align: center;
+}
+
+p, li {
+  font-size: 16px;    
+  line-height: 2;
+  letter-spacing: 1px;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+}

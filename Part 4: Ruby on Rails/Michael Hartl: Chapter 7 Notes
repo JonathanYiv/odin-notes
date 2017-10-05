@@ -1,0 +1,143 @@
+DEBUG INFORMATION
+If you include
+	<%= debug(params) if Rails.env.development? %>
+in your application layout file, this will only be displayed in the development environment and will show the debug information on each page
+
+The Rails debug information is shown as YAML
+
+
+RAILS ENVIRONMENTS
+Rails has three environments:
+	Test
+	Development
+	Production
+
+	You can actually create your own environment
+
+	Development
+		the default environment for the Rails console
+		the console has a `Rails` object which you can use the methods #env, #development?, #test?, and #production? on to check the environment
+
+	To run the console in a different environment
+		$ rails console <environment>
+
+	To run the server in a different environment
+		$ rails server --environment <environment>
+
+		If you try to run your server in production locally, you will need a production database, which you can create by:
+			$ rails db:migrate RAILS_ENV=production
+
+
+SASS
+Sass has the mixin facility, which functions similarly to a ruby module.
+You can include a group of CSS rules by creating a mixin with those rules and then including it
+
+
+YAML
+	YAML is the "YAML Ain't Markup Language"
+	It displays objects through the use of whitespace
+
+	object.to_yaml 
+	OR
+	y object
+	both display an object as YAML
+
+
+REST
+	data should be represented as resources that can be CRUD aka the four fundamental operations POST/GET/PATCH/DELETE
+
+	GET /users
+		index
+		users_path
+
+	GET /users/1
+		show
+		user_path(user_id)
+
+	GET /users/new
+		new
+		new_user_path
+
+	POST /users
+		create
+		users_path
+
+	GET /users/1/edit
+		edit
+		edit_user_path(user_id)
+
+	PATCH /users/1
+		update
+		user_path(user_id)
+
+	DELETE /users/1
+		destroy
+		user_path(user_id)
+
+
+
+BYEBUG
+	The byebug gem is automatically included in a Rails app
+	You can put the line `debugger` near where the code you think is bad
+	And it will act similarly to ruby's pry, it will pause the execution and open a console on the CLI server for you to navigate
+	You can exit by typing CTRL+D and removing the line
+
+
+
+FORM_FOR
+	The 'f' object passed to the block, when called with a method corresponding to an HTML form element, it returns code for that element specifically designed to set an attribute of the @user object
+
+	So
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	creates the HTML needed to make a labeled text field element appropriate for setting the name attribute of a User model
+
+
+	The rendered HTML has a few important components
+		the name attribute allows Rails to construct an initialization hash via the params variable for creating the Model instance
+
+		the form tag is created using the Model instance
+			If form_for was passed a new instance of the Model, Rails constructs a form with the POST method
+
+			<form action="/users" class="new_user" id="new_user" method="post">
+
+				The class and id attributes are irrelevant
+				The action="/users" specifies the URL
+				The method="post" specifies the HTTP verb
+
+
+			<input name="utf8" type="hidden" value="&#x2713;" />
+			<input name="authenticity_token" type="hidden" value="NNb6+J/j46LcrgYUC60wQ2titMuJQ5lLqyAbnbAUkdo=" />
+
+				These two hidden inputs essentially use the Unicode character "&#x2713;" aka a checkmark to force browsers to submit data using the right character encoding
+				and includes an authenticity token to thwart CSRF
+
+
+Generic Error Display
+<% if @user.errors.any? %>
+	The form contains <%= pluralize(@user.errors.count, "error") %>.
+	<ul>
+		<% @user.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+		<% end %>
+	</ul>
+<% end %>
+
+
+$ rails generate integration_test <name of test>
+	generates a file /test/integration/<name of test>.rb
+
+
+There are four conventional Flash keys
+	Success
+	Info
+	Warning
+	Danger
+
+	<% flash.each do |message_type, message| %>
+  		<div class="alert alert-<%= message_type %>"><%= message %></div>
+	<% end %>
+
+		is an easy way to display the flash
+
+		The class alert-<message_type> sets the class to something unique that you can style

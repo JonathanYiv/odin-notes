@@ -1,0 +1,240 @@
+Selection Sort: O(n^2)
+Bubble Sort: O(n^2)
+Insertion Sort: O(n^2)
+
+Merge Sort: O(n*logn)
+
+Quick Sort: O(n*logn) on average, O(n^2) worst case running time
+
+
+Algorithm 	Worst-Case 	Best-Case 	Average-Case
+selection 	THETA(n^2) 	THETA(n^2) 	THETA(N^2)
+insertion 	THETA(n^2) 	THETA(n) 	THETA(n^2)
+merge 		THETA(nlgn) THETA(nlgn) THETA(nlgn)
+quick 		THETA(n^2) 	THETA(nlgn) THETA(nlgn)
+
+
+ 
+
+ stable sorting algorithm: the relative order of records with the same key is preserved
+ i.e. sorting points in a Cartesian plane based on x values: (1,2), (1,6)
+ 	Merge sort is a stable sorting algorithm
+
+ merge sort is not an in-place sorting algorithm -- it uses new space dependent on the size of the list
+ Space Complexity is THETA(N) 
+
+
+Big O Notation: Algorithmic Efficiency 
+an equation that shows how runtime scales with respect to some input variables
+a way to measure how an algorithm scales as the amount of data increases
+O stands for Order (i.e. O(n^3) has an Order of N cubed)
+
+
+Pigeon
+O(1) = Constant Time to deliver data + CONSTANT
+
+Internet
+O(N) = Scales linearly with data = LINEAR
+
+#include?
+O(N) , where N is the size of the array = LINEAR
+
+(psuedocode) printPairs(array)
+O(N^2) , where N is the size of the array
+
+
+
+RULES
+1) Different steps get added
+O(a) + O(b) = O(a + b)
+
+2) Drop Constants
+O(2N) => O(N)
+
+3) Different Inputs have Different Variables
+O(a * b) , i.e. comparing two different arrays
+
+4) Drop non-dominant Terms
+O(N) + O(N^2) => O(n^2)
+
+
+
+
+
+
+
+
+O(1): algorithm will execute in same amount of time REGARDLESS of amount of data (like adding an element to the array)
+O(N): algorithm that grows in direct proportion to the amount of data (like linear search)
+O(N^2): algorithm that grows in proportion to the amount of data squared (like bubble sort)
+O(logN): data being used is decreased by roughly 50% with each iteration through the algorithm (like binary search)
+O(NlogN): (like merge sort)
+
+O(1) <= O(logN) < O(N) <= O(NlogN) <  O(N^2) < O(N^3)
+
+
+
+
+QUICK SORT
+identifies a random "pivot"
+moves everything smaller than the pivot to the left, everything larger to the right
+this is called 'partitioning the list'
+it then repeats recursively for each sublist until the recursive depth hits one element or null values
+divide-and-conquer: divide is complex, merge is easy
+The constant factor hidden in THETA notation for Quicksort is quite good
+In practice, it outperforms merge sort and significantly outperforms selection/insertion/bubble sort
+
+SELECTION SORT
+starting at the beginning of the array, it finds the smallest value, then moves it to the beginning of the array, and slowly builds a larger and larger sorted subarray until the full array is sorted
+
+MERGE SORT
+divides the array into subarrays until each subarray is only one element
+then remerges the subarrays one by one in a sorted manner, comparing larger merges accordingly via the first element of each array
+divide-and-conquer: divide is easy, merge is complex
+
+BUBBLE SORT
+goes through the list continuously, swapping each pair if they are in the wrong order
+it doesn't stop until it goes through once with no swaps
+
+INSERTION SORT
+starts with the first element of the array as a sorted subarray
+adds the next element either in front/behind accordingly
+repeats until the sorted subarray is the sorted array
+
+
+
+
+
+
+
+
+
+SELECTION SORT IN JAVASCRIPT
+
+// this method switches two elements on an array with the indices firstIndex and secondIndex respectively
+var swap = function(array, firstIndex, secondIndex) {
+	var temp = array[firstIndex];
+	array[firstIndex] = array[secondIndex];
+	array[secondIndex] = temp;
+};
+
+// this method is given a subarray and starting index, and searches beyond it to find a new minimum index if there is one
+var indexOfMinimum = function(array, startIndex) {
+	var minValue = array[startIndex]; // sets the minValue to the element at startIndex
+	var minIndex = startIndex; // the minIndex is the startIndex by default, it will be replaced if a new minValue is found
+
+	// this for loop searches through the entire subarray, starting one after the provided index
+	// it then compares each element to the minimum value
+	// and if a new minimum value is found, it changes the minValue and minIndex accordingly
+	for(var i = minIndex + 1; i < array.length; i++) { // the reason i is minIndex + 1 is because the search starts after the initial element/index
+		if(array[i] < minValue) {
+			minIndex = i;
+			minValue = array[i];
+		}
+	}
+	return minIndex;
+};
+
+var selectionSort = function(array) {
+	// this is the starter index, it starts at the first element of the array naturally
+	var minIndex = 0;
+
+	// this for loop iterates through every element, for every element, it finds the next smallest element, then switches itself with the next smallest element
+	// if that smallest element doesn't exist, then it essentially "swaps" with itself and stays in place
+	for(var i = 0; i < array.length; i++) {
+		minIndex = indexOfMinimum(array, i);
+		swap(array, i, minIndex);
+	}
+	return array;
+}
+
+
+ANALYSIS OF SELECTION SORT
+
+Assuming n = size of array
+
+the selectionSort method runs its loop n times
+	there are two methods called in the loop
+		the call to swap takes constant time, it is only three lines
+		the call to indexOfMinimum has a loop that traverses the entire array, so it loops n times
+
+indexOfMinimum is clearly run the most times
+	it is run (n) + (n-1) + (n-2) + ... + 2 + 1 times
+	The arithmetic series adding up from 1 to N = (n^2) / 2 + n / 2
+
+Therefore, the n^2 is the most important value
+swap and selectionSort's lines are all run in linear AKA O(N) time
+
+therefore O(N^2) is the performance/complexity of the algorithm
+
+
+
+
+INSERTION SORT IN JAVASCRIPT
+// this method, given an array, starting from the rightIndex (which indicates the last index of the sorted subarray) and value to input, will move all elements
+// to the right until the value is greater than the previous, and then insert the value accordingly
+// it also checks to make sure you don't go beyond the beginning of the array
+var insert = function(array, rightIndex, value) {
+    for(var i = rightIndex; i > -1 && value < array[i]; i--) {
+        array[i + 1] = array[i];   
+    }
+    array[i + 1] = value;
+};
+
+// insertion sort goes through every element in the array, starting with the 2nd, and then calls insertion on it
+var insertionSort = function(array) {
+    for(var i = 1; i < array.length; i++) {
+        insert(array, i - 1, array[i]); 
+        
+    }
+};
+
+
+MERGE SORT IN JAVASCRIPT
+var merge = function(array, p, q, r) {
+    var lowHalf = [];
+    var highHalf = [];
+
+    var k = p;
+    var i;
+    var j;
+    for (i = 0; k <= q; i++, k++) {
+        lowHalf[i] = array[k];
+    }
+    for (j = 0; k <= r; j++, k++) {
+        highHalf[j] = array[k];
+    }
+
+    k = p;
+    i = 0;
+    j = 0;
+    
+    while(i < lowHalf.length && j < highHalf.length) {
+        if(lowHalf[i] < highHalf[j]) {
+            array[k] = lowHalf[i];
+            i++;
+        } else {
+            array[k] = highHalf[j];
+            j++;
+        }
+        k++;
+    }
+
+    while(i < lowHalf.length) {
+        array[k] = lowHalf[i];
+        i++;
+        k++;
+        
+    }
+    while(j < highHalf.length) {
+        array[k] = highHalf[j] ;
+        j++;
+        k++;
+    }  
+};
+
+
+QUICKSORT
+1) Divide by choosing a pivot, and moving all elements <= pivot to the left and elements > pivot to the right (Partitioning)
+generally the pivot is the rightmost element in the subarray
+2) Conquer by recursively sorting the subarrays array 

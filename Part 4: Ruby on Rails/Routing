@@ -1,0 +1,137 @@
+The router is a matching service
+
+It looks at HTTP verb and the URL
+then it matches it with the appropriate controller action to run
+
+It also grabs all the parameters that came with it and makes them available in a hash called 'params' (you can access this in the controller)
+
+IF it can't find a matching route, your app will throw an error
+
+
+The router is contained in config/routes.rb
+
+
+
+
+POINTS TO PONDER
+What is the "Root" route?
+The main page accessed when accessing the server
+
+What are the seven RESTful routes for a resource?
+1) GET all / index
+2) GET one / show
+3) GET page to create / new
+4) POST data to create / create
+5) GET page to edit / edit
+6) PUT edited data to update / update
+7) DELETE data / destroy
+
+Which RESTful routes share the same URL but use different verbs?
+show/update/destroy all access /object/:id
+index/create both access /object
+
+How do you specify an ID or other variable in a route?
+by prepending a colon
+
+How can you easily write all seven RESTful routes in Rails?
+resources :resource_name
+
+What is the Rails helper method that creates the HTML for links?
+link_to
+
+
+
+ROOT URL
+	root to: 'pages#main'
+	or
+	root :to => 'pages#main'
+	or
+	root 'pages#main'
+
+RESTful Routes: 7 Actions to do to a Resource
+	1) GET all / index
+	2) GET one / show
+	3) GET page to create / new
+	4) POST data to create / create
+	5) GET page to edit / edit
+	6) PUT edited data to update / update
+	7) DELETE data / destroy
+
+	example: (these match a URL and a HTTP verb)
+		get "/posts" => "posts#index"
+		get "/posts/:id" => "posts#show"
+		get "/posts/new" => "posts#new"
+		post "/posts" => "posts#create"  # usually a submitted form
+		get "/posts/:id/edit" => "posts#edit"
+		put "/posts/:id" => "posts#update" # usually a submitted form
+		delete "/posts/:id" => "posts#destroy"
+
+		note: show, update, and destroy have the same URL, but they have a different HTTP verb
+		note 2: index and create have the same URL, but again, they have a different HTTP verb
+
+		note 3: the 'id' field is prepended by a colon
+				this means that Rails will save it as 'id' in the params hash
+
+	example 2:
+		resources :posts
+			this is equivalent to example 1
+			it's a shortcut
+
+	example 3:
+		you can define multiple resources at the same time
+
+		resources :check, :these, :out
+
+
+ROUTES/PATHS
+	$ rake routes
+		this will show you all the routes available to your application
+		in the form of
+			Prefix		Verb 		URI Pattern 		Controller#Action
+
+			The Prefix is the 'name' of the route
+
+	Rails helper method 
+		link_to "link text", path
+
+		Note that the path is the 'prefix' from the previous rake routes command
+
+	Rails automatically generates helper methods which correspond to the names of all your routes
+		they end in _path and _url
+		_path will generate the path portion
+		_url will generate the full URL
+
+			resources_path => /resources
+			new_resource_path => /resources/new
+			edit_resource_path(:id) => /resources/:id/edit
+			resource_path(:id) => /resources/:id
+
+	routes that need an ID/parameters will need you to supply them to the helper methods as well
+
+
+REDUCING ROUTES
+	resources :example, :only => [:index, :show]
+	or
+	resources :example, :except => [:index]
+
+
+note: not everything has to be done the RESTful way
+
+Rails routes are matched in the order they are specified
+
+
+
+You can also have singular resources
+
+
+NON-RESOURCEFUL ROUTES
+sometimes simpler routing is more appropriate
+
+
+API
+	contract between pieces of software
+	structured request/response
+
+	If one piece of software is a customer a restaurant, and the waiter is the API, the kitchen is the other piece of software
+	the waiter takes an order and brings back food
+	

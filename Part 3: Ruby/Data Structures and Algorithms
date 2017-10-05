@@ -1,0 +1,194 @@
+POINTS TO PONDER
+What is a data structure?
+a particular way of organizing data in a computer so that it can be used efficiently
+
+What is a stack?
+an insertion-order sorted stack of elements (with no index) where LIFO
+it has a top and bottom
+and you can only add/remove from the top
+
+
+What is a queue?
+a "line" with a front and back, you can only remove from the front, and add to the back
+elements have no index, and it is FIFO
+
+What's the difference between a stack and a queue?
+stacks are like a pile that you can access the top of, queues are like a line that you can join or help the person in front
+
+What is a stack useful for?
+things like storing undo actions
+
+What is a queue useful for?
+things like a print job queue
+
+What's the best way to implement stacks and queues in Ruby (hint: think simple)?
+slightly modifying arrays
+
+Why bother having many different search algorithms?
+some search algorithms perform better in different cases
+
+What is breadth-first-search (BFS)?
+going through each level of depth in a binary tree before moving down a level
+
+What is depth-first-search (DFS)?
+going to the maximum depth in each branch of a binary tree before moving onto the next branch
+
+What situations would you want to use BFS?
+if you know your search object is not too deep into the tree
+
+What situations would you want to use DFS instead?
+if you know your search object is deep into the tree
+
+When would BFS be impractical?
+for an extremely wide tree
+
+
+Data Structure: a particular way of organizing data in a computer so that it can be used efficiently
+Different kinds are suited to different kinds of applications
+Some are highly specialized to specific tasks
+Efficient data structures are key to designing efficient algorithms
+
+Common Algorithms:
+-Sorting
+-Searching
+
+Examples of Data Structures:
+-Array: number of elements in a specific order, generally of same type. They are accessed using an integer index
+-Linked List AKA List: a linear collection of data elements of any type, called nodes, where each node has a value and points to the next node in the linked list
+--compared to an array, values can always be efficiently inserted/removed with relocating the rest of the list
+--however, random access is easier on arrays
+-Record AKA Tuple AKA Struct: an aggregate data structure. It contains a value that contains other values, typically in fixed number and sequence and typically indexed by names. The elements
+-- of records are usually called fields/members
+-Union: a data structure that specifies which of a number of permitted primitive types may be stored in its instances.
+--whereas a record can hold an int and a float, a union can only hold one value 
+-Tagged Union AKA Variant AKA Variant Record AKA Discriminated Union AKA Disjoint Union: includes an additional field indicating its current type, for enhanced type safety
+-Class: a data structure that contains data fields, like a record, as well as various methods which operate on the contents of the record
+--in OOP, records are known as "plain old data structures"
+
+
+Most assembly and some low-level languages lack built-in support for data structures
+Most high-level assembly/programming languages have special syntax or built-in support for certain data structures
+Most programming languages have a library mechanism that allows data structure implementations to be reused by different programs
+
+
+
+Stacks (Data Structure)
+-sorted by insertion order
+-LIFO (Last element in is first out)
+-Elements have no index
+-have a top and bottom
+-push(add) and pop(remove) only from top
+EXAMPLE: undo button stores last actions in a stack
+
+Queues (Data Structure)
+-have a front and back
+-add elements to the back
+-ENQUEUE (add at back) and DEQUEUE (remove from front)
+-elements have no index (can't be accessed)
+-sorted by insertion order
+-FIFO
+EXAMPLE: a print job queue
+
+
+
+Binary Search
+given a sorted list of items, it makes a binary decision
+aka left or right, top or bottom, greater than or less than, this half or that half
+
+
+Binary Search Tree (Data Structure)
+-left subtree of a node only contains values <= node's value
+-right subtree of a node only contains values >= node's value
+-both left and right subtrees of a node are also binary search trees
+-prints left subtree, then node, then right subtree, then move upwards
+-branches downwards
+-"leaf nodes" have no children
+-not a linear structure like arrays or linked lists
+-tree traversal: the process of visiting (reading or processing) each node in the tree exactly once in some order 
+-tree is a special kind of graph (another data structure)
+-each branch down is at another Level of Depth (the root node is at L-0)
+
+TREE TRAVERSAL
+Breadth-first OR Depth-first
+Breadth-first: Go from Level 0 to Level 1 from left to right, then to Level 2 from left to right, etc (Level Order Traversal)
+Depth-first: 
+-Root > Left Subtree > Right Subtree (Preorder Traversal)
+-Left Subtree > Root > Right Subtree (Inorder Traversal)
+-Left Subtree > Right Tree > Root (Postorder Traversal)
+-there are three more, but
+-convention, left must be before right
+You visit all the grandchildren before completing a subtree
+Implementation is easy using recursion
+
+NOTE: depth-first inorder traversal of a binary search tree (subset of a binary tree) would give you a binary list
+
+
+
+algorithm: a sequence of computational steps that transform the input into the output
+input parameters => algorithm aka function => returns output
+algorithms have complexity: running time and growth (such as logarithmic time)
+
+loops have linear complexity
+
+algorithms are only comparable if they share a common input and output
+
+nested loops have polynomial complexity
+
+
+LEVEL-ORDER TREE TRAVERSAL
+-uses a queue
+-enqueues a parent, then processes a parent and enqueues its children, and so on
+- Time Complexity: O(N)
+- Space Complexity: O(1) best case TO O(N) worst case
+
+
+
+
+
+Trie/Prefix Tree (Data Structure)
+store and pattern match on a collection of objects
+
+Heaps/Priority Queues (Data Structure)
+build up an internal sorted tree
+
+
+
+
+DEPTH-FIRST TREE TRAVERSAL
+1) Preorder
+2) Inorder
+3) Postorder
+call-stack grows in recursion
+Space Complexity: O(h) where h = height of tree
+Time Complexity: O(n) at worst, at best O(logN)
+
+
+
+Linked List (Data Structure)
+a linear collection of data elements called nodes that "point" to the next node by means of a pointer
+each node holds a single element of data and a link or pointer to the next node in the list
+a head node is the first node in the list
+a tail node is the last node in the list
+
+Example: [ NODE(head) ] -> [ NODE ] -> [ NODE{tail) ] -> nil
+
+There are doubly linked lists where nodes point forwards and backwards, and circular linked lists where the tail points to the head
+
+
+
+
+Algorithms should be:
+1) Correct
+2) Efficient
+
+Asymptotic Analysis: analysis independent of OS, programming language, etc
+
+
+Linear Search: 1,2,3..
+Binary Search: Dividing in half
+
+
+NOTE: Lisp = List processor
+
+
+

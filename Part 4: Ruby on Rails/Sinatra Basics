@@ -1,0 +1,219 @@
+SINATRA BASICS
+
+Points to Ponder
+1) What are Routes?
+	an HTTP method paired with a URL-matching pattern
+	it basically determines what part of the server you are trying to access depending on the URL, then sends you to where you need to go
+
+2) What are Views?
+	what you see in the browser
+
+3) What are 'sessions' in Sinatra and how do you use them?
+	enable :sessions
+	Sessions are a way of persisting a state in HTTP by using cookies
+	You send a cookie with a bunch of keys/values to the user agent's browser, and generally a session secret is established for security, and this cookie helps 'persist' a state
+
+
+Sinatra is a DSL (Domain-Specific Language) for quickly creating webapps in Ruby with minimal effort
+
+FILE EXAMPLE
+	require 'sinatra'
+
+	get '/' do
+		'Hello World!'
+	end
+
+Run using $ ruby filename.rb
+For a server hosted on localhost:4567
+
+
+ROUTES
+	an HTTP method paired with a URL-matching pattern
+	each route is associated with a block
+
+	get '/' do
+		.. show something ..
+	end
+
+	post '/' do
+		.. create something ..
+	end
+
+	put '/' do
+		.. replace something ..
+	end
+
+	patch '/' do
+		.. modify something ..
+	end
+
+	delete '/' do
+		.. annihilate something ..
+	end
+
+	options '/' do
+		.. appease something ..
+	end
+
+	link '/' do
+		.. affiliate something ..
+	end
+
+	unlink '/' do
+		.. separate something ..
+	end
+
+	<HTTP method> '<URL-matching pattern>' <block>
+
+	routes are matched in the order that they are defined
+	the first route that matches the request is invoked
+
+	routes with trailing slashes are different than the ones without
+		get '/foo' do
+			# does not match "GET /foo/"
+		end
+
+	route patterns may include named parameters, accessible via the params hash
+		get '/hello/:name' do
+			# matches "GET /hello/foo" and "GET /hello/bar"
+			# params['name'] is 'foo' or 'bar'
+		end
+
+	you can also access named parameters via block parameters
+		get '/hello/:name' do |n|
+			# n stores params['name']
+		end
+
+	can also include splat/wildcard parameters
+		get '/this/*/an/*' do
+			# matches /this/is/an/example
+			params['splat'] # this is ["is", "example"]
+		end
+
+	can include block parameters
+		get '/download/*.*' do |path, ext|
+			[path, ext] # this is ["path/to/file", "fileextension"]
+		end
+
+	can route match with regex (or regex with a block parameter)
+
+	can have optional parameters
+		get '/posts/:format?' do
+			# matches "GET /posts/" and any extension "GET /posts/json" or "GET /posts/xml" etc
+		end
+
+	routes can also utilize query parameters
+		get '/posts' do
+			# matches "GET /posts?title=foo&author=bar"
+			title = params['title']
+			author = params['author']
+		end
+
+
+CONDITIONS
+	routes may include a variety of matching conditions (like the user agent)
+		get '/foo', :agent => /Songbird (\d\.\d)[\d\/]*?/ do
+			"You're using Songbird version #{params['agent'][0]}"
+		end
+
+		get '/foo' do
+			# matches non-songbird browsers
+		end
+
+	other available conditions are host_name and provides
+		provides searches the request's Accept header
+
+	You can also easily define your own conditions
+		set(:probability) { |value| condition { rand <= value } }
+
+		get '/win_a_car', :probability => 0.1 do
+			"You won!"
+		end
+
+		get '/win_a_car' do
+			"Sorry, you lost."
+		end
+
+	For a condition with multiple values, use a splat
+		set(:auth) do |*roles| 
+			condition do
+				unless logged_in? && roles.any? { |role| current_user.in_role? role }
+					redirect "/login/", 303
+				end
+			end
+		end
+
+		get "/my/account/", :auth => [:user, :admin] do
+			"Your Account Details"
+		end
+
+		get "/only/admin/", :auth => :admin do
+			"Only admins are allowed here!"
+		end
+
+
+RETURN VALUES
+	the return value of a route block determines at least the response body passed on to the HTTP client, or at least the next middleware in the Rack stack
+	most commonly, this is a string, as in the above examples
+
+	You can return:
+		a valid Rack response
+		Rack body object
+		HTTP status code
+
+		Array with 3 elements: [status (Fixnum), headers (Hash), response body (responds to #each)]
+		Array with 2 elements: [status (Fixnum), response body (responds to #each)]
+		Object that responds to #each and passes only strings to the given block
+		A Fixnum representing the status code
+
+
+CUSTOM ROUTE MATCHERS
+	you can define your own matchers
+	..don't really understand this..
+
+STATIC FILES
+	static files are served from the ./public directory
+
+	you can specify a different location
+		set :public_folder, File.dirname(__FILE__) + '/static'
+
+	Note: a file ./public/css/style.css is available as http://example.com/css/style.css
+
+
+VIEWS/TEMPLATES
+	each template language is exposed via its own rendering method
+	these methods simply return a string
+
+		get '/' do
+			erb :index
+		end
+			this renders views/index.erb
+
+	templates take a second argument, the options hash
+		:locals => {:key => value}
+			list of locals passed to the document
+			handy with partials
+		:default_encoding => settings.default_encoding
+		:views => settings.views
+			views folder to load templates from
+		:layout
+			whether to use a layout (true or false)
+			if a symbol, specify what templates to use
+		:content_type
+		:scope
+		:layout_engine
+		:layout_options
+
+
+FILTERS
+	before filters are evaluated before each request within the same context as the routes will be and can modify the request and response
+	instance variables set in filters are accessible by routes and templates
+
+	after filters are evaluated after each request within the same context as the routes will be and can also modify the request and response
+
+	filters optionally take a pattern
+
+
+config.ru 
+	ru = rackup file
+	file ran when a Rack-compatible server is told to load the application

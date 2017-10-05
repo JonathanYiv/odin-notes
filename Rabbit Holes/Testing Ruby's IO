@@ -1,0 +1,22 @@
+1) There are three constants
+STDIN
+STDOUT
+STDERR
+
+there #fileno => 0,1,2 respectively
+
+2) There are three global variables
+$stdin
+$stdout
+$stderr
+
+They point to the same thing as STDIN, STDOUT, and STDERR respectively
+
+3) puts, gets, print
+gets = stdin.gets
+print = stdout.print
+puts = stdout.puts
+
+4) Why two variables?
+By assigning another IO object to one of the global variables, we can temporarily redirect the IO elsewhere
+Then we can always restore the original behavior by setting the global variables back to equal the corresponding constant

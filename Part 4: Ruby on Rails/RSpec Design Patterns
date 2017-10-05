@@ -1,0 +1,80 @@
+1) Outside-In Testing
+	Start by testing Features -- essentially what a user would expect
+		use words that would make sense to a user
+
+	Then work your way inward to test:
+		Models
+		Controllers
+		Integration
+
+
+Note: Thin controllers and fat models
+
+2) Minimum Valid Object Workflow (Use Factory Girl)
+	If you have a valid object with certain attributes
+	Mutate the attribute
+	The valid object should now be invalid
+
+Note: Be careful of false positives (by testing for validity initially before all the other tests)
+
+3) Predicates?
+expect(user.riding_a_monkey?).to be true
+is equal to
+expect(user).to be_riding_a_monkey
+
+4) Permutation Tables Workflow
+	Define Sets of Data (all permutations)
+	Define the output of each Set
+	Assert the method creates the output from the data
+
+	Input -> Method -> Output
+
+	Essentially, you make a hash of key/value pairs
+		the key will be the data set
+		the value will be the output
+	Then you iterate across each element of the hash and test the permutations accordingly
+
+Note: #compact method removes nil values from an array
+
+5) Golden Master Workflow 
+	Great for:
+		backfill untested legacy code
+		complicated outputs
+		complicated code
+
+	Not good for large applications
+	Use only for a few small isolated things
+
+	1) Take a snapshot of an object to a file
+	2) Verify the snapshot manually (literally view the file and visually check)
+	3) Compare future versions to the verified "master"
+
+	Gem 'Approvals' implements Golden Master testing
+
+PRACTICES
+Use 'let' instead of instance variables
+Be very descriptive in names
+Extract common expectations into Custom Matchers
+Factories over fixtures (Factory Girl)
+
+Note: If it takes more time parsing the test suite and trying to understand it, or debugging the test suite, it's not helpful
+
+
+CUSTOM MATCHERS
+RSpec::Matchers.define :be_a_multiple_of do |expected|
+	match do |actual|
+		actual % expected == 0
+	end
+end
+
+describe 9 do
+	it { is_expected.to be_a_multiple_of(3)}
+end
+
+
+$ rails test:models
+	runs just the model tests
+$ rails test:integration
+	runs just the integration tests
+
+

@@ -1,0 +1,12 @@
+REPL: Read, Evaluate, Print Loop
+	an interactive programming environment which takes a user's inptu, evaluates it, and returns the result to the user
+	IRB is a REPL which is shipped with Ruby
+
+Pry vs IRB
+	IRB is an external REPL where you have to type in new code
+	PRY is like a REPL that you can inject into your program (more flexibility)
+
+Binding
+	A Built-in Ruby class whose objects can encapsulate the context of your current scope (variables, methods, etc) and retain them for use outside of that context
+	binding.pry is essentially prying into the current binding/context of the code from outside of your file
+	the binding.pry line will get interpreted at runtime, and the program will FREEZE and your terminal will turn into a REPL that exists right where you binding.pry line is

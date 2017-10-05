@@ -1,0 +1,49 @@
+
+What does DRY stand for and why is it relevant to you?
+don't repeat yourself
+good programming avoids repetition
+
+What does KISS stand for and why do engineers love it?
+Keep It Simple, Stupid!: simplicity > complexity
+simple code is easier to write, change, and has less bugs
+
+How does MVC follow Separation of Concerns?
+Keeps things separate distinctly and minimally overlapping
+
+How "Don't Make Me Think" is applicable to far more than just writing code -- especially in user-facing experience and design functions.
+Everything should be intuitive with minimum effort
+
+What is "You ain't gonna need it?" (YAGNI)
+Don't add functionality until you need it
+
+How Embrace Change is fundamental to the engineer's career?
+Expect and welcome change! Change will happen so writing it like you wioll change it is better
+
+TETO -- test early, test often
+
+
+
+
+Abstraction Principle: every significant piece of functionality in a program should be implemented in just one place in the source code
+
+Open/Closed Principle: write things that can be extended, not modified
+
+Write Code for the Maintainer
+
+Priniciple of Least Astonishment - follow conventions, do what the comments and name suggest, no side effects
+
+Single Responsibility Principle: a component of code should perform a single well defined task
+
+Minimize Coupling- minimize dependencies, use shared variables minimally
+
+Maximize Cohesion: similar code should be close
+
+Hide Implementation Details
+
+Law of Demeter: code components should only communicate with their direct relations
+
+Avoid Premature Optimization
+
+Code Reuse is not Good
+
+Unless a piece of code has at least one test, it's broken

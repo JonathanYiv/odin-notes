@@ -1,0 +1,661 @@
+Numbers, Operators and Expressions:
+What's the difference between an Integer and a Float?
+whole number vs decimal number
+
+Why should you be careful when converting back and forth between integers and floats?
+might lose information
+
+What's the difference between =, ==, and ===?
+assignment operator, equality operator, subsumption operator (checks if a were a set, if b would fit in that set)
+
+How do you do exponents in Ruby?
+**
+
+What is a range?
+a range of numbers that is iterated through
+
+How do you create a range?
+(a..b)
+
+What's the difference between (1..3) and (1...3)?
+... exludes 3
+
+What are three ways to create a range?
+(start..finish)
+(start...excludedfinish)
+Range.new(start, finish)
+
+
+Strings:
+What's the difference between single and double quotes?
+N/A, different use cases apply like for #{} and if the string has quotes in it
+
+What is string interpolation?
+this = "this"
+"String interpolation is #{this}"
+
+What are escape characters?
+\', \", characters that are normally interpreted specially but a backslash is added to treat it regularly
+
+What are line breaks?
+\n
+
+How do you make other things into strings?
+.to_s
+
+How do you concatenate strings?
+"string " + variable + " string"
+
+How do you access a specific character or substring?
+string[0]
+string[start..finish]
+
+How do you split up strings into arrays?
+#split(splitter)
+
+How are strings and arrays similar?
+accessing and method concepts
+
+How do you get and clean up user input on the command line?
+gets.chomp
+
+What does it mean that strings are "mutable" and why care?
+they can change, it separates them from symbols
+
+What is a symbol?
+a string that is immutable that can be accessed everywhere in its scope
+
+How is a symbol different from a string?
+it is immutable
+
+What is a Regular Expression (RegEx)?
+a combination of symbols that can be matched to strings
+
+How can you center or right-justify a string?
+#ljust
+#rjust
+#center
+
+
+Arrays:
+What are three ways to create an array?
+array = []
+array = Array.new
+array = [5, 7, 8]
+
+How do you prepopulate the array with default data?
+array = Array.new(array_length, default_populated_data)
+
+How do you access items in an array?
+array[index]
+
+How can you access a specific group of items in an array?
+array[start..finish]
+
+How do you modify the items in an array?
+array[index] = newvalue
+
+How do you combine arrays?
+array1 + array2
+
+How do you find the values in one array that aren't in another?
+array subtraction
+
+How do you find values in both arrays?
+array&array2
+
+What is the difference between push/pop and shift/unshift?
+back add/remove vs front remove/add
+
+What is the shovel operator?
+<<, like a push 
+
+How is > arr.pop different from > arr[-1]?
+it removes the last of the array vs it shows the last of the array
+
+How is pushing or <<ing another array into your array different from just adding them together?
+pushing or shoveling it will add the ARRAY as the next element. Adding it will take the array's elements and insert them individually into the array
+
+How do you delete items in an array?
+#delete_at(index)
+
+Why should you be careful deleting items in an array?
+it can mess up the indices
+
+How can you convert arrays to strings?
+#join(joiner)
+
+How can you convert from other data types to arrays?
+#to_a
+#split
+
+How can you figure out if an array contains a particular value?
+#include?
+
+How do you find the biggest item in an array?
+#max
+
+How do you find the smallest item in an array?
+#min
+
+How do you remove any duplicates from your array?
+#uniq
+
+How do you find out how big an array is?
+#size
+
+How do you put an array in order?
+#sort
+
+What are the naming conventions for arrays?
+plural
+
+What should you store in arrays?
+groups of like data
+
+Hashes:
+What is a hash?
+an array, but the indices are keys
+
+What are keys and values?
+key: value
+
+How is a hash similar to an Array?
+holds multiple data objects that are indexed
+
+How is a hash different from an Array?
+indexes are not necessarily numerical
+
+What are 3 ways to create a hash?
+hash = Hash.new{}
+hash = {key: value}
+hash = [ [1, 2], [3, 4]]
+
+What is the hash rocket?
+=>, used to set values
+
+How do you access data in a hash?
+hash[key]
+
+How do you change data in a hash?
+hash[key] = newvalue
+
+What types of data are good to store in a hash?
+slightly more complex data
+
+What are options hashes?
+hashes that carry parameters to be passed into methods
+
+How do you delete data from a hash?
+#delete
+
+How do you add hashes together?
+#merge
+
+How do you list out all the keys or values?
+#keys
+#values
+
+How do you see if the hash contains a key or value?
+#include?
+
+What is a set?
+a hash with only values of true or false
+
+Dates and Times:
+How do you get the current date and time?
+Time.now
+
+How do you find just the Year? Month? Hour? Second? Weekday?
+#year, #month, #hour, #second, #wday
+
+How do you create a Time specifically for 12/25/2013?
+Time.new(2013, 12, 25)
+
+How do you find how many days have passed between two Time's?
+(time1 - time2)/60/60/24
+
+What's the difference between UTC and GMT and Local times?
+Universal Time Central vs Greenwich Mean Time vs your Timezone
+
+How would you find out the time that was 100 seconds ago? 10 days ago?
+subtraction using seconds
+
+Other Random Stuff:
+What is nil?
+absolutely nothing
+
+How do you check if something is nil?
+#nil?
+
+What's the difference between nil and blank and empty?
+nil means nothing
+blank means either nil, false, or empty
+empty is not nil but empty (for arrays, hashes, strings)
+
+Are the following nil or empty?
+" ", "", [], [""], {}
+empty
+
+What's the difference between puts and p and print?
+puts just displays to screen with a newline
+print displays to screen without newline
+p displays to inscreen and inspects
+
+What does inspect do?
+shows object's class name, object id, and a list of instance variables and their ids
+
+What do +=, -=, *= and /= do?
+shortcuts for +, -, *, and / that change the variable
+
+What is parallel assignment?
+a,b = b,a
+
+What's the easiest way to swap two variables?
+see above
+
+
+
+
+
+
+
+NOTES
+
+Ruby is high-level, interpreted, object-oriented, and easy to use
+
+% = Modulo
+** = Exponetiation
+
+print prints to screen and doesn't add a new line
+puts prints to screen and adds a new line
+
+Everything in Ruby is an object, therefore everything has built-in methods
+Everything in Ruby is an expression
+
+# one-line comment
+
+=begin
+multiple line comment
+=end
+
+
+String interpolation involves putting a #{variable} into string
+
+irb: interactive ruby
+
+
+
+
+attr_accessor : declares attributes that are accessors -- you can view and change these
+
+
+Inheritance allows different classes to relate to each other.
+
+class Child < Parent
+end
+
+numbers are part of a class called Fixnum
+
+Ruby has a Kernel module that has methods available in every class and scope throughout ruby like puts
+
+
+procedure/function/subroutine: a method that has no associated object or class (technically associated with the Object class)
+
+
+#.times do 
+...
+end
+for multiple lines of code
+
+or
+
+#.times do { ... }
+for single lines of code
+
+
+1.upto(5) { ... }
+10.downto(5) { ... }
+0.step(50, 5) { ... } counts to 50 in steps of 5
+
+1.upto(5) { |number| puts number }
+the loop passes the state of iteration to |number| as a parameter
+the loop's number "falls down the chute |chute| of the block of code"
+
+constants can be initialized by a variable with the first letter capitalized
+
+
+Text embedded within a program "like this" is called a string literal
+
+Multiple lines can be done using %q(some sort of delimiter) string literal(some sort of delimter)
+or by <<DELIMITER_TEXT string literal DELIMITER_TEXT
+
+
+y > x
+=> true
+
+
+to find ASCII value
+puts ?(symbol)
+
+
+Interpolation
+puts "This is a string with #{interpolated_variable}!"
+
+Or
+puts "This is a string with " + interpolated_variable + "!"
+
+
+
+
+puts "foobar".sub('bar', 'foo')
+=> foofoo
+
+#sub only does the first substitution
+#gsub does a global substitution
+#gsub( pattern, replace_with_this)
+
+
+
+A regular expression is a string that describes a pattern for matching elements in other strings
+
+x = "This is a test"
+puts x.sub(/^../, 'Hello')
+=> Hellois is a test
+
+forward slashes // start and end the regular expression
+^ is an anchor that means it starts from the beginning of any lines
+. means any character
+
+puts x.sub(/..%/, 'Hello')
+=> This is a teHello
+
+$ is an anchor that means it starts from the back of the lines
+\A is an absolute start anchor
+/Z is an absolute end anchor
+
+
+
+moving through a string via section
+"xyz".scan(/./) { |letter| puts letter }
+=>x
+=>y
+=>z
+
+
+REGULAR EXPRESSIONS
+\w is any letter, digit, or underscore
+\W anything \w doesn't match
+\d any digit
+\D anything that \d doesn't match
+\s is whitespace
+\S is non-whitespace
+\d+ matches all digits in a row instead of individual digits, + is a modifier
+
+REGULAR EXPRESSION MODIFIERS
+* match zero or more occurrences of the preceding character, and match as many as possible
++ match one or more occurrences of the preceding character and match as many as possible
+*? match zero or more occurrences of the preceding character and match as a few as possible
++? match one or more occurrences of the preceding character and match as few as possible
+? match either one or none of the preceding character
+{x} match x occurrences of the preceding character
+{x,y} match at least x occurrences and at most y occurrences
+
+
+
+Scanning for vowels
+"This is a test".scan(/[aeiou]/) { |x| puts x }
+=>i
+=>i
+=>a
+=>e
+
+[aeiou] means match any of a, e, i, o, or u
+[a-m] means match any letters between and including a through m
+
+
+~ is a matching operator
+if a string matches the regular expression following this operator, then the expression is true
+
+"c" = ~/[aeiou]
+=> false
+"a" = ~/[aeiou]/
+=> true
+
+Alternatively, you can use #match which returns the section of data and doesn't need a regular expression as input as it will convert it
+
+example:
+puts "String has vowels" if "This is a test".match("[aeiou]")
+
+
+class Time
+Components of Time
+#year
+#month
+#day
+#wday - day of the week
+#yday - number day of the year
+#hour
+#min
+#sec
+#usec - microseconds
+#zone - timezone name
+
+#local, #utc, #gm can be used to instantiate time
+
+time.to_a = [sec, min, hour, day, month, year, wday, yday, isdst, zone]
+
+TIME FORMATTING
+.to_s
+.ctime
+.localtime
+.strftime lets you DIY a presentation for the format of how the time is displayed
+
+You can add and subtract times using seconds
+
+
+
+
+
+
+
+Regex: Regular Expressions
+
+
+
+
+Escape Characters
+\n newline
+\t tab
+
+
+Range
+3 through 11 is expressed as 3..1
+3...11 excludes 11
+You can also do Range.new(start,finish)
+start..finish
+start...exludedfinish
+
+= assignment
+== check for equality
+=== whether the thing on the right is a member or a part or a type of the thing on the left 
+
+
+a === b --- case subsumptiuon operator
+if I had a drawer labeled a would it make sense to put b in that drawer
+if a described a set, would b be a member of that set
+
+
+REFLECTION METHODS
+Some methods ask true/false questions and usually end with a question mark at the end, return true or false
+#is_a?
+
+
+All methods return something, even if it is nil
+Some methods are useful for their side effects
+
+
+BANG METHODS
+end with an explanation point
+#sort!
+they actually modify the original object
+they save over the previous object, aka 'destructive!'
+
+
+The superest class is BasicObject
+
+
+
+
+def methodname(arguments separated by comma)
+	returns whatever follows the return statement or the result of the last piece of code (implicit return statement)
+end
+
+
+DEFAULT VALUES IN METHODS
+def method(arguments=defaultvalue)
+
+
+Double Quotes are often interchangeable with Single Quotes
+except when you want to show double/single quotes inside the string
+or you can escape the quote characters
+
+String Interpolation #{tointerpolate} ONLY WORKS INSIDE double quotes
+
+You can escape characters using a backslash \ where they will just get treated as normal text
+
+
+It is convention to refer to methods with a hash, i.e. #method
+
+Concatenation 
+"string" + variable + "string" + variable
+or
+"string" << "string attachment" (shovel operator)
+
+strings can be treated like an array
+[0..1]
+[0]
+
+strings can be #split into different substrings based on what character you pass in #string(character to split with)
+
+
+
+Symbols 
+:symbol
+A symbol is a string without any depth, basically a name
+They are immutable, do not change
+They are only stored in one place
+
+
+Array Subtraction
+Take away any and all values in the right array from the left array
+
+Array Values in Both
+[1,2,3]&[2,4,5]
+=> [2]
+
+Array Methods
+#push to add end
+#pop to remove end
+#shift remove from front
+#unshift add to front
+
+<< shovel operator is almost identical to push
+
+#delete_at(index)
+#clear to remove array
+#include?(item)
+#index(item) returns first instance
+
+#max
+#min
+#uniq removes duplicates
+#size 
+#shuffle randomizes the order
+#sort
+#sample
+#first
+#last
+
+name arrays with plural form
+
+#join(separator) to convert into a string
+
+Range to Array
+(1..6).to_a
+
+
+
+Hash is a container for data where each piece of data known as a value is mapped to a Key
+Keys can be strings or symbols
+Values can be anything
+{}
+Hash Rocket =>
+
+Examples of Hash Usage
+player = { "health" => 100, "name" => "Jonathan", "speed" => 7}
+
+Option Hashses are used to pass options or parameters to a method
+
+:symbols are used for keys for hashes more often than not
+
+#delete
+#merge
+#keys
+#values
+
+A simple hash is called a Set where all values are true or false
+
+
+
+#nil?
+checks if there is no value
+
+p vs puts
+p runs the #inspect method on the object, informative
+puts runs the #to_s method on the object, pretty
+
+
+
+Parallel Assignment
+a, b = 1, "hi"
+
+a = 1
+b = "hi"
+great way to swap variables
+
+
+
+RUBYS DATA TYPES
+Booleans
+Symbols
+Numbers
+Strings
+Arrays
+Hashes
+
+
+the . is an operator that sends messages to the object
+object.message
+
+
+
+
+
+/myregex/
+=~ or .match
+returns true if matching
+returns nil if no match
+
+=~ returns the numerical position of the string
+
+when creating a class, instance variables and methods are stored as symbols
+
+
+Integers can be specified in different notations
+Decimal
+Hexadecimal (starts with 0x)
+Octal (starts with 0)
+Binary (starts with 0b)
+
+underscores are allowed inside of integers -- they are ignored

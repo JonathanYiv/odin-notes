@@ -1,0 +1,528 @@
+Some server-side languages are PHP, ASP.NET, Ruby, Python, Java
+
+The backend:
+1) Server
+2) Application
+3) Database
+
+
+What is an "interpreted" language? A language that talks to a middle-man interpreter VM 
+What is IRB? Interactive Ruby Shell
+What are Objects? things with attributes and methods
+What are Methods? a function that can be run 
+What are Classes? an abstract object
+What are Blocks? passable parameter {}
+What is an Array? list of items []
+What is an Iterator? something that does something many times
+What are hashes? list of keys/values pairs {}
+What is a library?  a collection of precompiled routines
+What is a gem? a Ruby library
+
+
+to_s converts to strings
+to_i converts to integers
+to_a converts to arrays
+
+methods can add exclamation points to impact the current data instead of making a copy
+can chain methods
+square brackets are used to target [] for example Dir[]
+
+
+
+hash = {}
+hashes aka dictionaries store related info by giving reusable labels to pieces of data (stores a key and a value)
+hash.keys shows a list of keys
+
+
+
+: is a Ruby symbol
+
+A block is a chunk of Ruby code surrounded by curly braces that are always attached to methods
+object.method {,,,}
+
+
+Dir is an object with methods that allow one to check out file directories
+.entries "/" -- anything listed after a method is an 'attachment'
+print something (print is a method)
+
+
+
+do .. end
+
+RUBY IS:
+Editing Files and looking in Directories
+Arguments are a list of things sent to a method
+Block Changes
+
+
+Ruby  speaks to a Virtual Machine which then talks to the OS/Processor
+
+REPL: Read, Evaluate, Print, Loop
+
+
+
+
+Type IRB to open the Interactive Ruby Shell
+
+
+Ruby evaluates right to left, like Japan
+
+
+RUBY VARIABLE RULES
+1) Always start with a lowercase letter
+2) No Spaces
+3) No Special Characters
+4) snake_case instead of camelCase
+5) aren't abbreviated
+6) are named after meaning of contents
+
+
+can use .methods on something to reveal available methods 
+
+
+string[0..4] can be used to access positions 0-4 of the string 
+STRING METHODS
+.length 
+.split
+.split('argument')
+.sub('to replace", "replacement") : find and replace a single occurance
+.gsub("to replace", "replacement") : global substitute, find and replace all occurances
+
+
+
+
+Concatenation exists
+"String " + variable + "String"
+
+Another approach: String Interpolation (only works on a double quoted string)
+Interpolation Marker #{}
+"String #{Variable}"
+
+Variable inside of an interpolated area can be replaced with ruby code or calculations, it is evaluated before the result is interpolated
+
+
+
+
+Symbols start with a colon then letters aka :symbol
+Halfway between a string and number
+A symbol is a named integer
+Any reference to the value within the VM will give back the same value
+
+
+
+NUMBERS
+Integers (whole numbers) and Floats (have decimal point)
+
+
+
+THE EQUIVALENT OF A FOR LOOP
+5.times do
+	puts "Hello, World!"
+end
+
+Prints hello world 5x
+
+
+
+
+
+
+Blocks are a bundle of instructions that are passed to methods
+Many methods accept blocks
+
+A block parameter can be specified inside pipe characters 
+
+5.times do |i|
+	puts "#{i}: Hello, World!"
+end
+
+
+Array = ["1", "2", "3"]
+Array << "4" 
+=> Array = ["1", "2", "3", "4"]
+Array[1] 
+=> "2"
+Array.last 
+=> "4"
+
+Array.sort
+will sort into alphabetical order or ascending value order
+Array.each 
+iterates through each element
+Array.join
+mashes into one string
+Array.index 
+find address of specific element
+Array.include?
+determine if element is present
+
+
+
+
+A Hash is a collection of data where each element of data is addressed by a name
+An unordered collection of key/value pairs
+
+hash = {"objectone" => 1, "objecttwo" => 2, "objectthree" => 3}
+puts "There are #{produce['objecttwo']}" objecttwos in the hash."
+
+The key is the address.
+The value is the data at the address.
+=> is a rocket
+
+hash.keys 
+hash.values
+
+All keys must be unique
+
+
+Shorthand for when keys are symbols
+hash = {objectone: 1, objecttwo: 2, objectthree: 3}
+puts "There are #{hash[:objectone]} objectones in the hash."
+
+
+
+
+CONDITIONAL OPERATORS
+==
+>
+>=
+<
+<=
+&&
+||
+!=
+or 
+and
+not
+Note: comparing strings results in comparing them alphabetically, although Capital letters come before lowercase letters
+
+If/elsif/else exists
+
+
+
+
+
+
+def function(parameter)
+	...
+end
+
+
+
+
+nil is Ruby's nothingness -- something that doesn't exist
+A blank is not nothingness
+
+
+
+Ruby is an Object-Oriented Programming language. Everything is an object.
+All objects hold information called attributes, and can perform actions, called methods
+
+Classes
+Classes are abstract descriptions of a category or type of thing
+It defines what attributes and methods all objects of that type have
+
+
+
+DEFINING A CLASS
+class Student
+	attr_accessor :first_name, :last_name, :primary_phone_number
+
+	def introduction
+		puts "Hi, I'm #{first_name}!"
+	end
+end
+
+attr_accessor defines attributes for instances of a class
+The class is the idea of a student, we can create instances of the Class
+
+
+puts is a method to print to screen
+puts stands for "put string"
+it converts whatever parameters you give it to string before outputting
+
+gets is a method that stands for "get string"
+Type gets to do keyboard input until you press enter
+gets.chomp gets rid of any "enters" at the end of a string
+
+
+
+
+STRING METHODS
+.reverse creates a copy of string and reverses it by character
+.length reveals length of string
+.upcase changes all lowercase letters to uppercase
+.downcase changes every uppercase letter to lowercase
+.swapcase switches the case of every letter in the string
+.capitalize capitalizes the first character to uppercase if it is a letter
+.center(width) centers the string
+.ljust pads the string from the left
+.lright pads the string from the right
+
+
+
+
+NUMBER METHODS
+** exponentiation
+% modulus
+.abs() absolute value of number
+rand returns a float >= 0.0 and < 1.0
+rand(10) returns an integer >= 0 and < 10
+srand sets the seed of the rand function
+
+MATH OBJECT
+Math::PI 
+Math::E
+Math:: PI/3
+
+
+# A comment!
+
+while
+end
+
+
+DRY: Don't Repeat Yourself!
+
+
+
+
+
+
+
+.class
+.superclass
+Identifies the parental classes of an object
+
+
+CLASS INSTANTIATION
+class MyClass
+	#stuff
+end
+
+class MyClassChild < MyClass
+	#this guy inherits everything from myClass
+end
+
+Class names have all words capitalized by tradition
+
+
+A Class is like a Recipe.
+Creating the recipe produces an "instance"
+
+variable = MyClass.new 
+=> this is an instance of MyClass
+
+
+
+TYPES OF VARIABLES
+Local: can only be used in a finite part of the program. are destroyed once you exit that part of the program, variable
+Global: a variable that can be used throughout the entire program, use $variable
+Constants: global variables that should not ever change, usually all uppercase VARIABLE
+Class: variables who are limited to the class they are defined in, @@variable
+Instance: variables whose scope is limited to one particular instance of a class, @variable
+
+
+
+
+ARRAY METHODS
+array.each dosomething
+
+Methods which act like loops are called iterators
+iterators are always followed by do...end
+
+3.times do 
+	dosomething
+end
+
+does something 3x
+
+
+
+.push adds an object to the end of the array
+.pop removes last object from array
+
+
+
+There are 2-Dimension Arrays
+array =[[some, thing], [else, here], [lots, of], [stuff, ok]]
+
+array[0][1] = thing
+
+
+
+
+Objects in ruby are like nouns
+Methods are like verbs
+Parameters are like adverbs
+
+
+
+
+class Something
+
+	def initialize # when an object is created, this function is automatically called
+		function
+	end
+
+	def function
+		what the function does
+		@instance_variable = value
+	end
+
+	def instance_variable
+		@instance_variable
+	end
+
+	private
+
+	#methods defined here are internal methods
+end
+
+something = Something.new 
+
+something.each do |die|
+	puts Something.function
+end
+
+puts something.instance_variable
+
+
+
+
+BLOCKS AND PROCS
+It's the ability to take a block of code and wrap it in an object called a proc,
+store it in a variable or pass it to a method, and run the code in the block whenever you feel like
+It is a method that isn't bound to an object because it is an object
+Anonymous function
+
+proc is short for procedure
+
+
+
+
+
+
+BLOCKS, PROCS, AND LAMBDAS
+
+
+BLOCKS
+do |variable|
+	...
+end
+FOR MULTIPLE LINES
+
+.each { |variable| puts variable } FOR SINGLE LINES
+
+Can be called with call and yield
+Have implicit return, the last line is implicitly returned
+Blocks are used as arguments to other methods
+
+
+LAMBDA
+something = -> { puts "Text" }
+
+Can be called with call and yield
+Lambdas return from the lambda itself
+Lambdas will raise an exception if it doesn't have the correct number of arguments
+A subproc
+
+PROC
+proc_example = Proc.new { does something }
+Procs return from the current method
+Procs don't need the correct number of arguments
+Has closure: will carry with it values like local variables/methods from the context where it was defined
+
+
+
+Procs are objects, blocks are not
+Only one block can appear in an argument list
+
+
+
+Blocks are anonymous code chunks that can dropped into other methods -- most common
+Procs are identical to blocks but you can store them in variables, which lets you pass them into functions and save them for later -- used sometimes
+Lambdas are full unnamed methods -- used rarely
+Methods are taking named methods and passiung them around as arguments/returns -- used rarely
+
+
+
+Ruby Loops
+1) For
+
+for i in 1..50
+	puts "#{i}"
+end
+
+.. is an inclusive operator to include 50
+... is an exclusive operator to exclude 50
+
+2) While
+
+i = 1
+while i <= 50
+	puts "#{i}"
+	i += 1
+end
+
+
+
+3) Until
+
+i = 1
+until i > 50
+	puts "#{i}"
+	i += 1
+end
+
+
+
+4) Loop
+
+i = 1
+loop do
+	puts "#{i}"
+	i += 1
+	break if i > 50
+end
+
+
+5) .times 
+
+5.times do
+	puts "Hello world!"
+end
+
+
+
+Ternary Conditional Statement
+boolean ? Do this if true: Do this if false
+
+expression unless boolean
+
+
+Classes use camelCase
+
+
+When creating a class, you want to create a method called initialize
+It will run the initalize method upon instantiation
+
+instance = Class.new("parameters")
+
+
+A block is a block of code
+
+a proc is a saved block
+variable = Proc.new do |param|
+	block
+end
+
+
+a lambda is a proc but it cares about the arguments it gets and returns to its calling method
+lambda { |param| block }
+
+
+
+modules are classes without isntances and without subclasses
+can "include Module" in a class to mixin
+can "extend Module" in a class to allow class to use module's information

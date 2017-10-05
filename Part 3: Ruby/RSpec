@@ -1,0 +1,249 @@
+POINTS TO PONDER
+How do you run an RSpec test suite?
+$ rspec
+
+How do you write a basic RSpec test?
+describe Class do
+	it "something to equal match expected" do
+		expect(something).to matcher(expected)
+	end
+end
+
+What aspects of your methods should you test?
+that, given an input, it produces the correct output
+
+What is a stub?
+an object that provides predefined answers to method calls
+
+What is a mock?
+an object that substitutes for a real object
+
+What is a double?
+an object with limited cap+abilities (for testing purposes)
+
+How are they different?
+Mock Objects are objects that substitute for a real object.
+	Doubles and Stubs are both types of Mock Objects.
+
+	However, stubs are just an interface that returns predefined answers to method calls. They are not tested because they perform exactly as created.
+	On the other hand, doubles are mock objects with limited capabilities (for testing purposes). What happens to them IS tested.
+
+i.e. testing a method might require interacting with an interface, and the stub replaces that interface and provides predefined answers to isolate the test
+i.e. testing an object's interaction with other objects might need you to create a double object to simulate the behavior
+
+When would you use them?
+as a replacement for nonexisting objects
+when you are working with objects that depend on an external resource
+to avoid invoking code which would degrade the performance of the test
+to avoid setting up a complex scheme of data/dependency objects
+
+
+RSpec:
+	a DSL (Domain Specific Language) -- something that does a very specific thing in a certain language
+
+	used by including the rspec gem which contains:
+		rspec-core
+		rspec-expectations
+		rspec-mocks
+
+	BDD (Behavior Driven Development) oriented 
+		BDD is a subset of TDD (Test Driven Development):
+			0) think carefully about what building and how
+			1) run the smallest possible test case that matches what we need to program
+			2) run the test for failure
+			3) write some code with the goal of making the test pass
+			4) run your test suite, repeat 3/4 until all tests pass
+			5) refactor your code
+		BDD adds that tests are written as "SPECIFICATIONS OF SYSTEM BEHAVIOR"
+
+	Newbie Problem: writing tests which do too much/too little/are too complex
+
+	by convention:
+		tests written with RSpec are called "specs" (short for specification) and are stored in /rspec
+
+
+	# spec/filename.rb
+	require 'requirement'
+
+	describe ClassName do
+		...
+	end
+		The Describe block is always used at the top to put specs in a context
+		It can accept either a Class Name (must exist) OR any string you'd like
+
+		$ bundle exec rspec
+			runs the specs in dot format
+		$ bundle exec rspec --format documentation OR -fdoc
+			runs the specs in documentation format
+
+	describe ".classmethod" do
+		context "string describing situation" do
+			it "string describing specific example (test case)" do
+				expect(...).to matcher(value)
+				expect(...).not_to matcher(value)
+			end
+		end
+	end
+
+		should be read like a sentence for each test case/example: given a .classmethod, given this situation, given this specific example, it expects this
+
+	describe "#instancemethod" do
+	end
+
+	MATCHERS: https://relishapp.com/rspec/rspec-expectations/v/3-1/docs/built-in-matchers
+		eql()
+
+
+
+MOCKING: a TDD technique that involves using fake dependent objects or methods in order to write a test
+	reasons for usage:
+		stand-ins for objects that don't exist yet (PRIMARY REASON)
+		stand-ins for objects that depend on an external resource
+		to avoid setting up a complex scheme of data or dependency objects 
+		to avoid invoking code which would degrade the performance of the test while at the same time being unrelated to the test you are writing
+	this is done with the rspec-mocks gem, which is packaged with rspec
+
+DOUBLES: a test double is a simplified object which takes the place of another object in a test
+	feed = double("feed")
+
+MEtHOD STUBS: creating fake methods on a double
+	allow(feed).to receive(:fetch).and_return("test")
+
+	feed.fetch
+	=> "test"
+			and_return() defines the return value of the stubbed method
+				it is optional, if undefined the stubbed method will return nil
+			you can also use 'allow' on a real object
+
+
+
+
+
+
+note: BUNDLE EXEC is a command to exeecute a script in the context of the current bundle
+
+
+
+
+
+The DESCRIBE method creates an example group
+	within the block passed to describe:
+		declare nested groups using teh DESCRIBE or CONTEXT methods
+		declare 'examples' using the IT or SPECIFY methods
+
+
+
+RSPEC COMMAND LINE
+	--help: shows a full list of options
+	--example [text]: runs the examples that match the text
+
+
+
+PROGRESS FORMATTER
+	.....F...*.....
+		'.' is a passing example
+		'F' is a failing example
+		'*' is a pending example
+
+
+
+BEFORE AND AFTER HOOKS
+	execute arbitrary code before and/or after the body of an example is run
+
+
+SUBJECT
+	if the first argument to the outermost example group is a class, an instance of that class is exposed to each example via the subject method
+
+	you can also explicitly define the subject
+
+
+EXPECTATIONS
+	expect(actual).to matcher(expected)
+	expect(actual).not_to matcher(expected)
+
+	MATCHERS
+		expect(actual).to be(expected) # passes if actual.equal?(expected)
+		expect(actual).to eq(expected) # passes if actual == expected
+		expect(actual).to be >
+						  be >=
+						  be <=
+						  be <
+						  be_between(minimum, maximum).inclusive
+						  							  .exclusive
+						  match(/expression/)
+						  be_within(delta).of(expected)
+						  start_with
+						  end_with
+						  be_truthy
+						  be true
+						  be_falsey
+						  be false
+						  be_nil
+						  exist
+
+
+note:
+ruby convention is to call Class Method's name ::method or .method
+				   to call instance method's name #method
+
+note:
+	you can name a subject like so:
+		subject(:name)
+
+Guidelines:
+1) Use Contexts 
+2) Concise Descriptions
+3) Single Expectation Tests (unless non-isolated tests)
+4) Test all possible cases (valid, edge, and invalid)
+5) Use Expect
+6) Use Subject
+7) Use let instead of before to create an isntance variable
+8) Only use mocks if you really know them
+9) Don't use too much data
+
+
+
+
+TYPES OF TESTS
+	Unit Tests
+		the smallest unit of functionality, typically a method/function
+		(example: given a class with a particular state, calling x method on the class should cause y to happen)
+		it should not:
+			call out into non-trivial collaborators
+			access the network
+			hit a database
+			use the file system
+			spin up a thread
+			etc
+		any kind of dependency that is slow and/or hard to understand/initialize/manipulate should be stubbed/mocked
+
+		simple, easy to debug, reliable, fast to execute
+
+	Integration Tests
+		combine units of code and testing that the resulting combination functions correctly
+		they can and do:
+			call into non-trivial collaborators
+			access the network
+			access a database
+			use the file system
+			spin a thread
+			etc
+
+		can find wiring bugs (instance of class A unexpectedly receives null instance of B)
+				 environment bugs 
+
+		are heavier on code, less reliable, harder to maintain, failures are harder to diagnose
+
+	Acceptance Tests
+		Standard Acceptance Testing
+			performs tests on the full system
+			touch mountains of code, tracking failure can be tricky
+
+
+
+TYPES OF TESTS 2
+	Unit Tests: exercise the smallest pieces of testable software to determine whether they behave as expected
+		Input -> ... -> Output
+	Integration Tests: verify the communication paths/interactions between components to detect interface defects
+	Component Tests: test a portion of the system and using test doubles to isolate the code under test
+	End-to-End Tests: verify that a system meets external requirements and achieves its goals, testing the entire system from end to end

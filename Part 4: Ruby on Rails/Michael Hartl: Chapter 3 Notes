@@ -1,0 +1,179 @@
+RANDOM
+	$ bundle install --without production
+		--without production
+			this is a remembered flag, so it will be automatically included the next time we run $ bundle install
+
+	eventually install/configure PostgreSQL in development
+		To Google:
+			"install configure postgresql ubuntu"
+			and
+			"rails postgresql setup"
+
+STATIC PAGES
+	For a small number of pages, use a Static Pages controller
+
+	For a large number of static pages, use the 'high voltage' gem
+
+	Static Pages don't use standard REST actions (REST architecture isn't the best solution for every problem)
+
+
+DIRECTORY STRUCTURE
+app
+	assets
+		config
+		images
+		javascripts
+		stylesheets
+	channels
+	controllers
+		application_controller.rb
+		concerns
+	helpers
+	jobs
+	mailers
+	models
+	views
+bin
+config
+config.ru
+db
+Gemfile
+lib
+log
+
+
+	app/ has core app code (MVC and Helpers)
+	app/assets has assets like CSS/JS/images
+	bin/ is binary executable files
+	config/ is the app configuration
+	db/ has database files
+	doc/ has app documentation
+	lib/ has library modules
+	lib/assets has library assets (CSS/JS/images)
+	log/ has app log files
+	public/ has data accessible to the public via web browsers such as 404
+	bin/rails is a program for generating code/opening console sessions/starting a local server
+	test/ has app tests
+	tmp/ is temporary files
+	vendor/ is third-party code (plugins/gems)
+	vendor/assets has vendor assets
+	README.md is the app description
+	Rakefile has the utility tasks available via $ rake
+	Gemfile has the gem reqs 
+	Gemfile.lock has a list of gems to ensure that all copies of the app use the same gem versions
+	config.ru is the config file for Rack middleware
+	.gitignore has patterns for files Git should ignore
+
+
+RAILS SHORTCUTS
+$ rails g => $ rails generate
+
+$ rails s => $ rails server
+
+$ rails c => $ rails console
+
+$ rails t => $ rails test
+
+$ bundle => $ bundle install
+
+
+RAILS NAMING CONVENTIONS
+Controllers use CamelCase
+Filenames use snake_case
+
+
+UNDOING CODE GENERATION
+$ rails generate controller ControllerName action_one action_two
+$ rails destroy controller ControllerName action_one action_two
+
+$ rails generate model Example key_one:value_one key_two:value_two
+$ rails destroy model Example
+
+
+UNDOING MIGRATIONS
+$ rails db:migrate
+$ rails db:rollback 
+	undoes a single migration
+
+$ rails db:migrate VERSION=<number>
+	<number> can be any number to rollback 
+	migrations are numbered sequentially
+
+
+HTTP
+	GET is getting a page
+	POST is submitting a form to create things (can be used to delete/create)
+	PATCH updates
+	DELETE destroys things
+
+
+TESTS
+	the test suite should serve as a safety net and executable documentation of the app source code
+
+	when DONE RIGHT, writing tests should allow faster development
+		only true when tests are well-written
+
+
+	BENEFITS OF TESTS
+		1) Tests protect against regressions (functioning feature stops working for some reason)	
+		2) Tests allow code to be refactored (change form without changing function) with greater confidence
+		3) Tests act as a client for the application code, thereby helping determining its design and its interface with other parts of the system
+
+	WHEN TO TEST
+		If a test is short/simple compared to the code it will test, write the test first
+
+		If the desired behavior is unclear, write code first, then write a test
+
+		Write tests for security first because security is top priority
+
+		If a bug is found, write a test to reproduce it and protect against regressions, then fix it
+
+		Don't write tests for code likely to change in the future
+
+		Write tests before refactoring code, focusing on error-prone code likely to break
+
+	IN PRACTICE
+		usually write controller/model tests first
+		write integration tests (functionaltiy across MVC) second
+		will skip testing with safe code or will soon change
+
+
+RAILS
+	Rails comes with a special layout file called
+		application.html.erb
+			<%= yield %>
+				injects the contents of views
+			<%= csrf_meta_tags %>
+			<%= style_sheet_tag ... %>
+			<%= javascript_include_tag "application", ... %>
+				this includes the stylesheet and javascript together with the rails method csrf_meta_tags which prevents CSRF (Cross-Site Request Forgery)
+
+			<%= stylesheet_link_tagh 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+				this uses the Rails function 'stylesheet_link_tag' to include application.css for all media types
+
+
+UNIX PROCESSES
+$ ps aux
+	see all processes on the system
+
+$ ps aux | grep <type>
+	shows all processes of a type
+
+The first number is the 'process id' aka 'pid'
+$ kill -15 <pid>
+	kills the process
+
+
+If spring gets overloaded
+$ spring stop
+	if this doesn't work
+		$ pkill -15 -f spring
+
+
+USING GUARD
+$ bundle exec guard
+	opens the guard prompt
+
+	hit enter to run all tests
+
+	CTRL+D to exit

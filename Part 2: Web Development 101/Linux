@@ -1,0 +1,38 @@
+WHAT TALKS TO WHAT
+CPU <->
+Memory <->  Kernel (Linux) <-> Applications
+Devices <->
+
+
+APT = Advanced Packaging Tool
+
+
+Linux is a Type of Kernel
+There are many Linux Distributions
+
+LINUX DISTRIBUTIONS (PACKAGE MANAGER)
+Gentoo (Portage)
+Debian
+	Ubuntu
+		Linux Mint
+RHEL (RPM)
+	Fedora
+ArchLinux (Pacman)
+openSUSE (RPM)
+
+
+UNIX
+	Linux
+	Android
+	iOS
+	macOS
+
+
+DISTRIBUTIONS
+>Hardcore
+ArchLinux
+Gentoo
+Debian, RHEL
+Fedora, Ubuntu
+openSUSE, Linux Mint
+>Softcore

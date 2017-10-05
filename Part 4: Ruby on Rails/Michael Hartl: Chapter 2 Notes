@@ -1,0 +1,107 @@
+Scaffolding:
+	generate scaffold
+
+	Scaffolding generates a bunch of code
+
+
+REST
+	Representation State Transfer (REST)
+	Web Apps should use HTTP as originally envisioned
+		Lookups should use GET requests
+		Mutation should be used by PUT requests
+		Creation should be used by POST requests
+		Deletion should be used by DELETE requests
+
+	GET requests should NOT be used for updating information
+		they should be idempotent (issuing a request twice should be no different from issuing it twice)
+
+	most application components are modeled as 'resources' that can created, read, updated, and deleted (CRUD operations of relational databases/four HTTP verbs: POST, GET, PATCH, DELETE)
+
+
+NOTES
+	$ rails new <project_name>
+		creates a new directory with a vanilla rails app
+
+	$ rails generate scaffold <argument>
+		<argument> is the singular version of the resource name, together with optional parameters for the data model's attributes
+		example:
+			$ rails generate scaffold User name:string email:string
+
+	first step of making a web-app: Create a Data Model (which represents the structures needed by our application)
+
+	Models are singular
+	Resources/Controllers are Plural
+
+	$ rails db:migrate
+		migrates the database
+		i.e. it updates the database with a new data model 
+
+	$ rails server
+		runs the local webserver
+
+	one of the most powerful features of Rails is the ability to form associations between different data models
+
+	$ rails console
+		opens up a ruby environment with the app loaded
+		you can access variables/methods
+		> exit 
+			lets you exit the console
+			can also use CTRL+D
+
+	to get the application's database to work, you also have to migrate the production database
+		$ heroku run rails db:migrate
+
+INHERITANCE
+	Models
+		Models inherit from ApplicationRecord which inherits from ActiveRecord::Base
+
+		ActiveRecord::Base is the base class for models provided by Active Record
+
+		ActiveRecord::Base has the ability to communicate with the database, treat the database columns as Ruby attributes, etc
+
+	Controllers
+		Controllers inherit from ApplicationController which inherits from ActionController::Base
+
+		ActionController::Base is the base class for controllers provided by the Rails library Action Pack
+
+		ActionController::Base has the ability to manipulate model objects, filter inbound HTTP requests, render views as HTML
+
+		Rules defined in the Application Controller automatically apply to ever action in the application (example: logging in/logging out)
+
+
+MISCELLANEOUS
+	Make is a build automation tool that automatically builds executable programs/libraries from source code by reading files called Makefiles which specify how to derive the target program
+
+	Rake is 'Ruby Make'
+
+	Before Rails 5, Ruby on Rails use Rake
+		$ rake db:migrate
+			should be
+				$ bundle exec rake db:migrate (to ensure Rake version matches the Gemfile)
+		$ rake test
+
+
+VISITING /users/1/edit
+	1) The browser sends the request to the Rails Router
+	2) The Rails Router sends the edit method to the Users controller
+	3) The Users controller asks the Model for the user
+	4) The model gets the user from the database
+	5) The model sends the user to the controller
+	6) The controller sends the user to the view (edit.html.erb probably)
+	7) the HTML is rendered accordingly and sent to the controller
+	8) The controller sends the HTML to the browser
+
+
+MORE NOTES
+	scaffolding automatically creates code to model data and interact with it through the web
+	scaffolding is good for getting started quickly but is bad for understanding
+
+	Rails uses the MVC (Model-View-Controller) pattern for structuring web applications
+
+	As interpreted by Rails, the REST architecture includes a standard set of URLs and controller actions for interacting with data models
+
+	Rails supports data validations to place constraints on the values of data model attributes
+
+	Rails comes with built-in functions for defining associations between different data models
+
+	We can interact with Rails applications at the command line using the Rails console

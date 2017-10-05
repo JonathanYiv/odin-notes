@@ -1,0 +1,136 @@
+RESTful Thinking
+	There are ONLY 7 different things to do to a resource via the web
+	Resource = Thing in your Database/Model
+
+	example: (blog post model)
+		1) GET all the posts (index)
+		2) GET one post (show)
+		3) GET the page that lets you create a new post (new)
+		4) POST the data you just filled out for a new post back to the server so it can create the post (create)
+		5) GET the page that lets you edit a post (edit)
+		6) PUT/PATCH the data you submitted to edit the post back to the server so it can make the changes (update)
+		7) DELETE a post (delete)
+
+	this is the ONLY way to model your requests
+
+	if you can't think of a way these seven scenarios would apply to a resource, rethink your structure
+
+
+URL
+	https://	www.google.		com/				search?		q=what+is+a+url
+	protocol 					top level domain   	path 		parameter
+
+
+	http://www.google.co.uk:80/videoplay?docid=23490432#123
+	Protocols include HTTP, HTTPS, FTP, etc
+	Host/Hostname is www.google.com
+	Subdomain is www
+	Domain name is google.co.uk
+	Top-Level Domain (TLD) is .uk
+	Second-Level Domain (SLD) is co.uk
+	Port is 80 (default port for web servers)
+	Path is /videoplay
+	Parameters are ?docid=23490432
+	#123 is a fragment or a named anchro
+		an internal section within a web document
+
+
+	static vs dynamic
+		static url is a document that can be returned by a webserver without the webserver doing any computation
+		dynamic url is a document that requires the webserver to do some computation before returning the web document
+
+
+MVC
+	app
+		model
+		view
+		controller
+
+	1) browser sends request
+	2) router figures out which controller to sent it to
+	3) controller asks model for data and etc
+	4) controller passes data to the views (HTML templates waiting for the data)
+	5) view is filled with data, view is sent to the client that made the original request
+
+
+	Explanation 2
+	1) Browser makes a request
+	2) Web Server receives the request. It routes to find the correct controller (route pattern: /controller/action/id)
+	3) Dispatcher creates new controller, calls the action, and passes the parameters
+	4) Controllers parse the requests and asks the model to do things accordingly
+	5) Models talk to the database, store/validate data, perform the business logic
+	6) Views are what the user sees
+	7) The controller returns the view and metadata to the server
+	8) The server combines the data into an HTTP response and sends it to the user
+
+
+	Rule: Fat Model, Skinny Controller
+	Models do the grunt work
+	Views are the happy face
+	Controllers are the mastermind behind it all
+
+
+ERB
+	<% ... %> <% end %> run the code, with a newline
+	<%- ... %> run the code without a newline
+	<%= ... %> run the code and print the return value
+	<%= h ... %> print the code and html escape the output : h() is a ruby function
+
+
+APIs (Application-Programming Interface)
+	set of programming instructions/standards for accessing a Web-based software app or Web tool
+	a software company releases the API to the public so other developers can design products powered by its service
+
+	an API is just a software to software interface
+		Our web browser goes in the front door
+		Our web server goes in the side door via the API
+
+	example:
+		you want Google Maps data
+		hit its API using the rules specified in its API documentation
+
+	seamless integration: one interface that actually hides many applications working together using APIs
+
+	APIs resemble Saas (Software as a Service)
+
+
+COOKIES (aka browser or tracking cookies)
+	created when a browser loads a website
+	the website sends info to the browser which then creates a text file
+	the browser sends this file to the server whenever accessing the same website
+
+	useful for:
+		session cookies preserving session state (websites "remember" you between requests)
+		authentication cookies authenticating the user
+
+	persistent/tracking cookies are used to store user preferences
+
+
+	cookies are plain text, they can not execute nor can they self-execute
+	they can not make copies of themselves
+	they are not viruses
+
+	malicious purposes:
+		tracking cookies can be used as spyware to compile long-term records of individuals' browsing histories
+
+	use clear descriptions of how cookies are deployed on your site
+
+	browsers have built-in privacy settings that provide differing levels of cookie acceptance, expiration time, and disposal
+
+
+AUTHENTICATION
+	1) You retrieve the cookie that the user sends you
+	2) use it to find the user in your database
+	3) if the user exists, display the customized web page for that user
+
+	In the context of Rails:
+		A company at Platformatec created a gem called 'Devise' to handle authentication cookies
+
+
+AUTHORIZATION
+	authentication lets you determine WHO the user is
+	authorization lets you limit what the user can see/do based on their permission level
+
+	examples:
+		admin vs regular user
+		logged in vs logged out

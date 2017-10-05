@@ -1,0 +1,75 @@
+SASS = Syntactically Awesome Stylesheets
+	Improvements on CSS:
+		Nesting
+		Variables
+		Mixins
+
+	Supports .scss (which adds features to CSS)
+		all valid CSS files are also valid SCSS files
+
+	Nesting
+		Example:
+			.class {
+				property: value;
+			}
+
+			.class element {
+				property2: value2;
+			}
+
+			can now be
+
+			.class {
+				property: value;
+				element {
+					property2: value2
+				}
+			}
+
+			also supports attributes
+
+			.class {
+				property: value;
+				&:hover {
+					property2: value2;
+				}
+			}
+
+	Variables
+		Sass allows us to define variables to eliminate duplication and write more expressive code
+
+			$example: #777;
+
+			this is a variable
+
+
+
+Uses of assert_select
+	assert_select "div"
+		matches <div>...</div>
+
+	assert_select "div", "foobar"
+		matches <div>foobar</div>
+
+	assert_select "div.nav"
+		matches <div class="nav">...</div>
+
+	assert_select "div#profile"
+		matches <div id="profile">...</div>
+
+	assert_select "div[name=yo]"
+		matches <div name="yo">...</div>
+
+	assert_select "a[href=?]", '/', count: 1
+		matches <a href="/">...</a>
+
+	assert_select "a[href=?]", '/', text: "foo"
+		matches <a href="/">foo</a>
+
+
+
+Generating Integration Tests
+	$ rails generate integration_test <name>
+
+Only Running Integration Tests
+	$ rails test:integration

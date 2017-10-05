@@ -1,0 +1,167 @@
+Controllers
+1) Browser sends HTTP request
+2) The Router sends the HTTP request to the appropriate controller and action, including the parameters
+3) The Controller takes the parameters, speaks to the Model to get the necessary data, wraps the data in instance variables, and sends that to the View
+4) The View renders the instance variables accordingly
+
+
+POINTS TO PONDER
+Why is it important what you name your Models, Controllers, and Views?
+Rails automagically knows the relationships between the Models, Controllers, and Views if and only if they are named according to convention.
+
+Where is the view file located that's rendered by default for a given controller?
+The view file is located inside the /app/views/<name of controller> directory named the same as the controller action.
+
+What's the difference between a #render and a #redirect_to?
+A render is the default conclusion of an action method in the controller. It loads the appropriate view file and sends the instance variables defined by the controller to the view.
+A redirect_to overrides the implicit rendering and directs users to a new page. This redirect is treated as a completely new HTTP request that goes through the router.
+
+
+What happens to the controller's instance variables in each case?
+For a render, the instance variables are passed to the view.
+For a redirect, the instance variables are wiped out.
+
+What is a shortcut for redirecting to a specific post (tip: this works in all kinds of places like #link_to and #*_path)?
+redirect_to @post
+
+Does a method finish executing or get interrupted when it hits a #render or #redirect_to?
+The method finishes executing.
+
+What happens if you have multiple renders or redirects?
+A multiple render/redirect error.
+
+What are Strong Parameters?
+Generally, users can submit data via forms. 
+Oftentimes, that data is not a 'scalar' piece of data, most commonly a hash.
+To prevent bad users from submitting inappropriate key/value pairs via the hash, Rails strips and doesn't allow any parameter that you have not explicitly allowed.
+These parameters and this system is called 'Strong Parameters.'
+
+When can you just use the params hash directly and when do you need to specifically "whitelist" its contents?
+You can use the params hash directly for scalar values.
+You need to "whitelist" its content for non-scalar values.
+
+What are "scalar" values?
+Scalar values are things that are 'flat', like strings, numbers, booleans, etc (simple data types)
+
+What does #require do? #permit?
+Require requires the name of your data to be in params (otherwise error), and then permit permits individual attributes inside the hash that can be used
+
+What's the #flash?
+The flash is a notice that lasts for one page, generally after performing some type of action
+
+What's the difference between #flash and #flash.now?
+Flash.now is used to show a flash immediately, this is used for renders
+Flash is used to show a flash on the next page (this is the only data that persists during a redirect), this is used for redirects
+
+
+NAMING CONVENTIONS
+	things are to be named a certain way, then executes things behind the scenes based on those names
+
+	examples:
+		Once a controller's action finishes, it grabs all the instance variables from the controller and sends them over to the view file (named the same as the controller action, inside a folder named after the controller)
+
+		Your controller and action have to be named exactly what you called them in your routes.rb file
+
+
+	Conventions:
+		Pluralize the last word in the controller's name like:
+			DucksController
+			FireDucksController
+
+
+RENDERING/REDIRECTING
+	normally, a page is rendered and the controller passes the instance variables to the view
+
+	there are situations where you want to override the convention of Rails implicitly rendering a view file named the same as your controller action
+
+	Redirects can direct a user to a new page, and this redirect is treated as a completely new HTTP request (router -> controller#action), which means that any instance variables would be wiped out
+
+	render/redirect statements don't immediately stop your controller action like a return statement
+		so be careful you don't run them twice (multiple render error)
+
+
+PARAMS/STRONG PARAMETERS
+	the params hash contains the parameters of the request, stored as key/value pairs
+
+	generally, hashes are the most useful data structure to receive from forms (which you can design accordingly)
+		however, to prevent users from sending harmful data, Rails 4 implemented strong parameters
+			strong parameters makes you explicitly verify that you are willing to accept certain items of a hash or array
+
+			to whitelist/explicitly allow parameters:
+				use the methods
+					require
+					permit
+
+					You require the name of your array/hash to be in params (otherwise error) and then permit the individual attributes inside that has to be used
+
+					example:
+						params.require(:post).permit(:title, :body, :author_id)
+
+						this whitelists and returns only the has of only those params specified
+
+						otherwise, params[:post] would not exist 
+						furthermore, additional fields would be stripped away and made inaccessible 
+
+					this is usally done in a private method at the bottom of your controller and called when necessary
+
+					Note: You can also do nested permitting
+
+
+THE FLASH
+	The flash is a little message that appears at the top of an application
+
+	The convention for the flash is to use these keys:
+		:success
+		:error
+		:notify
+
+	example:
+		flash[:success] = "Great! Your post has been created!"
+
+	The flash erases itself after use
+
+	note that a flash will not be lost during a redirect, and you will have access to it
+
+	the behavior for a render, however, requires you to use flash.now
+
+	example:
+		flash.now[:error] = "Rats! Fix your stuff"
+
+	flash vs flash.now
+		flash is delayed until a redirect
+		flash.now is used immediately
+
+
+
+PARAMETERS
+	Two Types:
+		1) Query String Parameters (part of the URL)
+		2) POST data (from an HTML form) (can only be sent as part of an HTTP POST request)
+
+	Both types are available in the params hash
+
+
+	Note: Arrays inside query strings
+		/example?array[]=1&array[]=2&array[]=3
+		params[:array] = ["1", "2", "3"]
+
+	Note: the params hash will always contain the :controller and :action keys
+		  use #controller_name and #action_name methods instead to access these values
+
+	When a parameter is marked as required, it will result in a 400 Bad Request if not all required parameters are passed in
+
+STRONG PARAMETERS
+	Permitted Scalar Types
+		String
+		Symbol
+		NilClass
+		Numeric
+		TrueClass
+		FalseClass
+		Date
+		Time
+		DateTime
+		StringIO
+		IO
+		ActionDispatch::Http::UploadedFile
+		Rack::Test::UploadedFile

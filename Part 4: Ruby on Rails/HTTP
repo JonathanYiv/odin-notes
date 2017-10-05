@@ -1,0 +1,304 @@
+HTTP (Hyper Text Transfer Protocol -- on version HTTP/1.1)
+	summary:
+		the client sends a URL + Verb (request) to a server
+		the server replies with a Status Code + Message Body (response)
+
+	features:
+		stateless (does not keep state between exchanges of requests and responses)
+		request/response cycle (a communication is a request/response pair)
+		application-layer protocol for communicating between distributed systems
+		foundation of the modern web
+
+	request/response
+		Both have Header and (usually) Body components
+		The Header contains information about the request/response itself (metadata)
+			including 
+				which website to send/return to
+				status of the response
+		The Body of a request contains
+			data submitted by a form/cookies/authentication tokens
+		The Body a response contains
+			the HTML page you are trying to access
+		Each request uses one of four main HTTP verbs
+			GET
+			POST
+			PUT
+			DELETE
+			(mostly GET and POST)
+
+	details:
+		communication usually takes place over TCP/IP, the default port is 80 (but other ports can be used)
+
+	HTTP 1.0 vs 1.1
+		1.1 adds:
+			persistent connections
+			chunked transfer-coding
+			fine-grained caching headers
+
+	requests
+		requests are sent via URLs (Uniform Resource Locators)
+
+		http://		www.domain.com 		:1234	/path/to/Resource 	?a=b&x=y
+		Protocol 	host 				port 	resource path 		query
+
+		Protocol can be https for secure communications
+
+		The resource path is the local path to the resource on the server
+
+	HTTP verbs
+		popular verbs
+			GET: fetch an existing resource (URL contains necessary information the server needs to locate and return the resource)
+			POST: create a new resource (usually carry a payload that specifies the data for the new resource)
+			PUT: update an existing resource (payload may contain the updated data for the resource)
+			DELETE: delete an existing resource
+
+			PUT/DELETE sometimes considered specialized versions of the POST verb
+				may be packaged as POST requests with the payload containing the exact action (create, update, or delete)
+
+		less popular verbs
+			HEAD: similar to GET, but without the message body
+				  used to retrieve the server headers for a particular resource, generally to check if the resource has changed (via timestamps)
+			TRACE: used to retrieve the hops that a request takes to round trip from the server
+				   each intermediate proxy/gateway would inject its IP/DNS name into the 'Via' header field
+				   used for diagnostic purposes generally
+			OPTIONS: used to retrieve the server capabilities
+					 client-side, can be used to modify the request based on what the server can support
+
+	Status Codes
+		The Server RESPONDS with status codes and message payloads
+
+		The Status Code tells the client how to interpret the server response
+
+		1xx: Informational Messages
+
+		2xx: Successful
+			request successfully processed
+			200 OK is most common
+
+			202 Accepted
+				request was accepted but may not include the resource in the response
+				useful for async processing server-side
+
+			204 No Content
+				there is no message body in the response
+
+			205 Reset Content
+				tells client to reset its document view
+
+			206 Partial Content
+				response only contains partial content
+				additional headers indicate further details
+
+		3xx: Redirection
+			client must take additional action
+			generally jumps to a different URL to fetch the resource
+
+			301 Moved Permanently
+				the resource is at a new URL
+
+			303 See Other
+				resource temporarily at a new URL
+				Location response header contains temp URL
+
+			304 Not Modified
+				resource has not changed so client can use cached copy
+				relies on client sending Etag (Entity Tag) info that is a hash of the content that the server compares with its own ETag
+
+		4xx: Client Error
+			server thinks client is at fault by requesting an invalid resource or making a bad request
+
+			404 Not Found
+				resource is invalid and does not exist
+				most popular
+
+			400 Bad Request
+				request was malformed
+
+			401 Unauthorized
+				request requires authentication
+				client sends request with the Authorization header
+
+			403 Forbidden
+				server has denied access
+
+			405 Method Not Allowed
+				invalid HTTP verb used, or server doesn't support verb
+
+			409 Conflict
+				server could not complete request because client is trying to modify a resource that is newer than the client's timestamp
+				usually for PUT requests during collaborative edits on a resource
+
+		5xx: Server Error
+			server failure
+
+			500 Internal Server Error
+				most common
+
+			501 Not Implemented
+				server doesn't support requested functionality
+
+			503 Service Unavailable
+				internal system on server has failed or server is overloaded
+
+	Structure of a Request/Response
+		message = <start-line>
+				  *(<message-header>)
+				  CRLF
+				  [<message-body>]
+
+			<start-line> = Request-Line | Status-Line
+			<message-header> = Field-Name ':' Field-Value
+
+		A message can contain one or more headers, which are classified into:
+			General Headers (applicable for both request/response messages)
+				Cache-Control
+				Connection
+				Date
+					used to timestamp the request/response message
+				Pragma
+					a custom header, includes implementation-specific headers
+					commonly-used is `Pragma: no-cache` which is really just `Cache-Control: no-cache`
+				Trailer
+				Transfer-Encoding
+					break the response into smaller parts with the `Transfer-Encoding: chunked` value (streams response)
+				Upgrade
+					used to switch protocols and allow a smooth transition to a newer protocol
+				Via
+					used in a TRACE message and updated by all intermittent proxies/gateways
+				Warning
+
+			Request Specific Headers
+				Request-Line = Method SP URI SP HTTP-Version CRLF
+					Method can be:
+						OPTIONS
+						HEAD
+						GET
+						POST
+						PUT
+						DELETE
+						TRACE
+					SP is the space separator between tokens
+					HTTP-Version is specified as HTTP/1.1
+					CRLF is a new line
+
+					example:
+						GET /articles/http-basics HTTP/1.1
+						<other stuff>
+
+				Request Headers
+					Accept
+					Accept-Charset
+					Accept-Encoding
+					Accept-Language
+					Authorization
+					Expect
+					From
+					Host
+					If-Match
+					If-Modified-Since
+					If-None-Match
+					If-Range
+					If-Unmodified-Since
+					Max-Forwards
+					Proxy-Authorization
+					Range
+					Referer
+					TE
+					User-Agent
+
+					note:
+						all the Accept prefixed headers indicate the acceptable media-types, languages, and character sets on the client
+						From, Host, Referer, User-Agent identify details about the client that initiated the request
+						the If- prefixed headers are used to make a request more conditional (server returns the resource only if the condition matches, otherwise 304 Not Modified)
+
+			Response Specific Headers
+				Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
+					HTTP-Version is HTTP/1.1
+					Status-Code is one of the status codes
+					Reason-Phrase is a human readable version of the status code
+
+					example:
+						HTTP/1.1 200 OK
+
+					Response Headers
+						Accept-Ranges
+						Age
+							time in seconds since message generated on server
+						ETag
+							MD5 hash of the entity and used to check for modifications
+						Location
+							used when sending a redirection and contains the new URL
+						Proxy-Authenticate
+						Retry-After
+						Server
+							identifies the server generating the message
+						Vary
+						WWW-Authenticate
+
+			Entity Headers (meta-information about the content aka Message Body aka Entity)
+				Allow
+				Content-Encoding
+				Content-Language
+				Content-Length
+				Content-Location
+				Content-MD5
+				Content-Range
+				Content-Type
+				Expires
+					indicates a timestamp of when the entity expires
+					random: a "never expires" entity is sent with a timestamp of one year into the future
+				Last-Modified
+					last modification timestamp for the entity
+
+				note:
+					all the Content- prefixed headers provide info about the structure/encoding/size of the message body
+
+					custom headers can also be created/sent by the client, they will be treated as entity headers by the HTTP protocol
+
+	HTTP Tools
+		Chrome DevTools
+			Network Tab can be used to monitor HTTP communication
+				has
+					Headers
+					Preview
+					Response
+					Cookies
+					Timing
+
+		Command Line
+			curl
+			tcpdump
+			tshark
+
+	Rails
+		the ActionController and ActionDispatch modules provide the API for handling request/response messages
+
+		ActionController
+			reads the request URL
+			renders output
+			redirects to a different end-point (aka route) (via an action method)
+				the action method has:
+					params - gives access to the URL parameters and POST data
+					request - contains info about the client/headers/URL
+					response - used to set headers and status codes
+					render - renders views by expanding templates
+					redirect_to - redirects to a different action method or URL
+
+		ActionDispatch
+			provides fine-grained access to the r/r messages
+
+			ActionDispatch::Request
+			ActionDispatch::Response
+
+			query methods to determine type of request
+				get?()
+				post?()
+				head?()
+				local?()
+
+			request.headers() shows request headers
+
+			SETTINGS
+			cookies()
+			location=()
+			status=()

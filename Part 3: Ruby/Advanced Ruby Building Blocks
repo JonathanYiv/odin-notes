@@ -1,0 +1,754 @@
+Conditionals and Flow Control
+What is a "boolean"?
+true/false
+
+What are "truthy" values?
+values that evaluate to true on their own
+
+Are nil, 0, "0", "", 1, [], {} and -1 considered true or false?
+false, true, true, true, true, true, true, true
+
+When do you use elsif?
+when you have other cases than the if and else
+
+When do you use unless?
+to do something unless a condition is true
+
+What does <=> do?
+a <=> b
+returns -1 if a < b
+returns 0 if a == b
+returns 1 if a > b
+
+Why might you define your own <=> method?
+to compare objects from a new class of your own creation
+
+What do || and && and ! do?
+or, and, not
+
+What is returned by puts("woah") || true?
+> woah
+
+What is ||=?
+assigns value if the current value is nil
+Conditional Assignment Operator
+
+What is the ternary operator?
+boolean ? true_action : false_action
+
+When should you use a case statement?
+for a lot of specific case scenarios, too many elsifs
+
+Iteration
+What does loop do?
+continues infinitely until break
+
+What are the two ways to denote a block of code?
+do ... end or {}
+
+What is an index variable?
+a variable that helps track iteration
+
+How do you print out each item of a simple array [1,3,5,7] with:
+loop?
+i = 0
+loop
+	puts array[i]
+	i += 1
+	break if i == array.length
+end
+
+while?
+i = 0
+while i < array.length
+	puts array[i]
+	i += 1
+end
+
+for?
+for i in 0..array.length
+	puts array[i]
+end
+
+#each?
+array.each { |item| puts item }
+
+#times?
+i = 0
+array.length.times do
+	puts array[i]
+	i += 1
+end
+
+What's the difference between while and until?
+while continues until a condition is false
+until continues until a condition is true
+
+How do you stop a loop?
+break
+
+How do you skip to the next iteration of a loop?
+next
+
+How would you start the loop over again?
+redo
+
+What are the (basic) differences between situations when you would use while vs #times vs #each?
+while for a condition 
+times for a specific number
+each to go through elements of an object
+
+What does nesting loops mean and when would you use it?
+loop within loop
+2D arrays, hashes
+
+Blocks, Procs, and Lambdas:
+How is a block like a function?
+it is an anonymous function
+
+How is a block different from a function?
+anonymous
+
+What are the two ways to declare a block?
+do ... end or { ... }
+
+How do you return data from a block?
+it is implicit
+
+What happens if you include a return statement in a block?
+it exits the method
+
+Why would you use a block instead of just creating a method?
+only using functionality once
+
+What does yield do?
+when constructing a method, allows you to pass a block to a method and yield to it
+
+How do you pass arguments to a block from within a method?
+yield(argument)
+
+
+How do you check whether a block was actually passed in?
+#block_given?
+
+What is a proc?
+a named block
+
+What's the difference between a proc and a block?
+anonymous vs named
+
+When would you use a proc instead of a block?
+reuse
+
+What is a closure?
+blocks and procs and lambdas carry variables with them wherever they are and can access them
+
+What is a lambda?
+a proc with requirements on arguments that returns within the lambda
+
+What's different between a lambda and a proc?
+returns within and returns to the method
+
+What is a Method (capital "M")?
+a passable method
+
+
+What do Methods basically allow you to do that could probably be pretty interesting when you're writing some more advanced programs later on?
+pass methods
+
+!!!! Need better understanding of Methods, Lambdas, and Lambdas vs Procs
+
+Enumerable and Modules
+What is a module?
+a bunch of functions that you can add to classes
+
+Why are modules useful?
+they let you create a bunch of universal functions and extend class functionality with them
+
+What does #each do?
+iterate through each element in an object
+
+What does #each return?
+returns the original object
+
+What does #map do?
+same as #collect
+modifies the elements of the original object
+
+What does #map return?
+returns a new object that was modified from the original
+
+What is the difference between #map and #collect?
+N/A
+
+What does #select do?
+selects elements of an object that meet a condition 
+
+What does #select return?
+a new object with the selected elements
+
+What is the difference between #each #map and #select?
+each is more for side effects, map is to modify, select is to pick
+
+What does #inject do?
+lets you track a variable throughout the iterations
+
+When might you use #inject?
+to sum something
+
+How do you check if every item in a hash fulfills a certain criteria?
+#all?
+
+What about if none of the elements fulfill that criteria?
+#none?
+
+What (basically) is an enumerator?
+something that iterates through elements of an object
+
+Writing Methods
+How many things should a method ideally do?
+one
+
+What types of things should a method modify?
+nothing global, only local
+
+What should you name a method?
+what it does
+
+What does self mean?
+refers to the the caller that called the method
+
+What do you need to do to create your own Ruby script file?
+name a file something.rb
+
+How would you run a Ruby script from the command line?
+ruby something.rb
+
+How can you check whether your script was being run from the command line?
+__FILE__ == $0
+
+What is a shebang line?
+a line which specifies a path for the system to run to access the interpreter
+
+What does require do?
+lets you add a gem or script into irb
+
+What does load do?
+loads a script into irb, when you update and save, it reloads irb accordingly
+
+What is the difference between require and load?
+require doesn't refresh when the script is modified
+
+How do you access any parameters that were passed to your script file from the command line?
+ARGV
+
+What does #send do?
+lets you send a method to an object
+
+When would #send be used that's different from just running the method on an object 'normally'?
+metaprogramming or sending a private method
+
+
+
+
+
+ANOTHER CONTROL FLOW SCHEME
+unless condition
+else
+end
+
+== is known as a comparator or a relational operator
+
+LOOPS
+while condition
+end
+
+until condition
+end
+
+for variable in start..finish
+end
+
+loop {break} or loop do break end
+
+#each iterates over each element of an object
+object.each { |item| ... }
+or
+object.each do |item|
+	...
+end
+the |placeholder| is just the element of the object at the time
+
+#times
+10.times {}
+or
+10.times do
+	...
+end
+
+NEXT
+the next keyword can be used to skip over certain iterations of the loop
+
+
+
+BLOCKS
+curly braces {} are interchangeable with do end
+
+
+
+text.split(delimiter)
+
+
+2D ARRAY
+[[a, b], [c, d], [e, f]]
+
+a hash is a collection of key-value pairs
+
+#select lets you filter a hash for values that means certain critera
+hash.select do |key, value|
+	criteria
+end
+OR
+hash.select { |key, value| criteria }
+
+#each_key iterates over keys
+#each_value iterates over values
+
+
+
+
+
+HASH LITERAL NOTATION
+hash = {
+	key: value
+	key: value
+}
+
+HASH CONSTRUCTOR NOTATION
+hash = Hash.new
+
+HASH DEFAULT VALUE
+hash = Hash.new(default_value)
+
+When looping over an array or hash, we call it iterating over it
+
+Hashes must have unique keys, but can have duplicate values
+
+
+ITERATING HASH
+hash.each do |key, value|
+	...
+end
+
+
+
+A way to keep count using hashes:
+Instantiate the hash with default values of 0
+when a new hash key is constructed, the default value will be 0
+you can increment it accordingly
+
+
+
+Separation of Concerns: separating tasks 
+make the program less redundant and the code more reusable
+
+
+
+def is short for define
+methods have three aprts
+1) The header, which includes def, the name of the method, and any arguments the method takes
+2) The body, the code block that the method carries out
+3) The end, ending with the end keyword
+
+
+Argument: the input to a method
+Parameter: the defined name for a method's input (placeholders)
+
+
+SPLAT ARGUMENTS
+arguments preceded by a * which tells the program that the method can receive one of more arguments
+
+
+
+
+
+Blocks are nameless methods
+similar to anonymous functions in JS and lambdas in Python
+Blocks can only be called once, then vanishes
+
+can be defined
+do end
+or 
+{}
+
+a method can take a block as a parameter
+
+
+SORTING
+sorting arrays is a common problem in computer science
+there are many algorithms with trade-offs and advantages
+
+
+
+COMBINED COMPARISON OPERATOR <=>
+It returns 0 if the first operand equals the second
+Returns 1 if the first operand is greater than the second
+Returns -1 if the first operand is less than the second
+
+
+NOTE: I STILL NEED TO UNDERSTAND THE COMBINED COMPARISON OPERATOR BETTER AND HOW IT WORKS AS INPUT TO THE #SORT METHOD
+
+
+
+
+
+
+def method(parameter=default)
+end
+
+The default is the default IF the user doesn't type in two arguments
+
+
+
+
+nil and false are both non-true values in Ruby
+all other objects are regarded as "truthy"
+nil means nothing at all
+
+
+
+#to_sym converts to symbol
+#to_s
+#intern internalizes string into symbol
+
+=> hash rocket NO LONGER NEEDED
+
+
+
+
+
+
+
+
+case variable
+	when
+		...
+	when
+		...
+	when
+		...
+	else
+		...
+end
+
+OR
+
+case variable
+	when ... then ...
+	when ... then ...
+	when ... then ...
+	else ...
+end
+
+
+CRUD: Create, Read, Update, Delete
+
+
+
+
+if condition
+	expression
+end
+
+OR
+
+expression if condition
+
+
+
+
+TERNARY CONDITIONAL EXPRESSION
+boolean ? Do this if true : Do this if false
+
+
+CONDITIONAL ASSIGNMENT OPERATOR ||=
+if the variable is nil, it will assign
+if not, it won't assign
+
+
+
+
+
+#upto
+#downto
+BETTER THAN FOR LOOPS
+
+EXAMPLE
+
+1.upto(3) {}
+or
+"L".upto("Z") {}
+
+
+#respond_to? takes a symbol and returns true if an object can receive that method and false otherwise
+
+
+#collect method takes a block and applies the expression to every element in an array
+#collect!
+
+
+
+Methods that accept blocks have a way of transferring control from the calling method to the block and back again
+We can build this into the methods we define by using the yield keyword
+You can even pass parameters to yield
+
+BLOCKS ARE NOT OBJECTS
+A Proc is a SAVED BLOCK AND ARE OBJECTS
+Name a block and turn it into a Proc
+Procs help keep code DRY
+
+you can pass Procs as blocks by using &proc
+
+proc = Proc.new { ... }
+
+object.method { ... } is equivalent to object.method(&proc)
+
+Procs can be called using the #call method
+
+proc.call 
+
+
+
+
+You can also pass a ruby method name around with a symbol
+
+Example:
+
+strings = ["1", "2", "3"]
+nums = strings.map(&:to_i)
+=> [1,2,3]
+
+
+
+Lambdas are like procs with the exception of some syntax and behavioral quirks
+lambda { puts "Hello!" } is equivalent to Proc.new { puts "Hello!" }
+
+DEFINING LAMBDA
+lambda { |param| block }
+
+Lambdas will check for number of arguments passed to it, and throw an error if incorrect
+When a lambda returns, it passes control back to the calling method as opposed to a proc which returns immediately without going back to the calling method
+
+
+
+A block is a bit of code between do..end or {}
+Not an object, but can be passed to iterators
+
+A proc is a saved block we can use over and over
+
+A lambda is a proc but it cares about # of arguments and it returns to the calling method rather than returning immediately
+
+
+
+
+#inspect gives a textual representation of an object
+
+
+More Array Functions
+#first
+#last
+
+
+
+
+#delete_if is a function
+
+
+
+Time stores times as a number of seconds from the Unix time epoch: January 1st, 1970 00:00:00 Greenwich Mean Time (GMT)/Coordinated Universal Time (UTC)
+
+
+
+RANGES can also use alphabet
+
+
+
+<=> the spaceship operator can be overridden in your own class to teach it how to sort new objects of your own creation
+
+
+
+a ||= b
+expands to
+a || a = b
+if a hasn't been set (aka nil), then ruby will go to the other side and assign the value
+
+
+ITERATORS
+#each
+#times
+#map
+#select
+#upto
+#downto
+loop
+while
+until
+for (don't use in Ruby!)
+
+ITERATOR STATEMENTS
+break stops the current loop
+next jumps to the next iteration
+redo restarts the loop
+retry will re-evaluate the condition before restarting the loop
+
+
+
+
+#block_given? is the same as 
+yield if block_given?
+
+procs need to be called
+blocks are yielded
+when building functions
+
+a Method is not a method
+
+
+
+
+Enumerable is a module that has methods like #map and #select and #each
+Modules are a package of methods that get mixed in with other classes
+they can be included in any class
+
+#each goes through each item in the object and passes it to the block specified, then returns the original collection
+#each_with_index passes the position into the block passes in |item, index|
+#select runs the block on every item of your object and only returns an object with the items that the block returned true
+#collect will run the block and return an object with whatever your block returned
+#map is #collect
+
+#each used for side effects and not what it returned
+#each_with_index passes item and index
+#select returns a new object filled with items that met the block's condition
+#map/#collect returns a new array filled with whatever has been run
+
+
+#inject or #reduce
+array.inject(initial_value=array[0]) { |continuous_tracker_with_initial_value_that_is_passed_onward, item| ... }
+
+#any? returns true/false if ANY of the elements pass the condition in the block
+#all? returns true/false, do ALL elements pass the condition in the block
+#none? returns true/false if NONE of elements return true
+#find returns the first item in your object for which the block condition returns true
+#find_all
+
+
+#group_by will run block and return a hash that groups all the different types of return from that block
+#grep returns an array with the items that match the specified Regex 
+
+#include?
+#sort
+#count
+
+
+
+
+BEST PRACTICE: CREATING METHODS
+
+a method should only do ONE thing
+if it's doing two, create another method
+if it's doing a dozen, a new class
+
+methods should be short < 10 lines
+
+don't modify global variables or side effects
+
+name methods descriptively but concisely
+end method with ? if it returns true or false
+
+
+self refers to whatever object the current method was called on 
+
+
+
+
+
+
+TURN FILE INTO EXECUTABLE
+$ chmod +x your_filename.rb
+include SHEBANG LINE in file (points to executable)
+#!/usr/bin/path
+
+
+
+
+
+require can add gems or scripts into irb
+require './script.rb' OR load can ensure it will update irb if you change the file
+require 'gem_name'
+
+
+
+ARGV lets you access variables that were passed to your script from the command line
+ruby /script.rb "variable"
+
+ARGV = "variable"
+__FILE__ is the name of the current file
+$0 is the original file that was run
+
+
+
+
+#send lets you send methods to an object
+
+
+
+you can send only one block to a method
+you can send multiple procs to a method
+
+
+
+
+
+
+chmod +x file.rb
+chmod marks files as executable (+x)
+then add a shebang line as the first line in the ruby file
+#!usr/bin/ruby
+
+or in my case
+#!~/.rvm/rubies/ruby-2.3.3/bin/ruby
+
+then you can run it like
+./file.rb
+
+
+a way to replicate the do..while loop that iterates at least once before evaluating the condition
+
+begin
+	...
+end while condition
+
+OR
+
+begin
+	...
+end until condition
+
+
+for loops can loop over arrays too
+array = [1,2,3,4,5,6]
+for value in array
+	...
+end
+
+
+
+
+1.step(10, 2)
+steps by 2
+> 1 3 5 7 9
+
+
+
+ARGV is the "Argument Variable"
+it holds the arguments you pass to your Ruby script (another name for a .rb file)

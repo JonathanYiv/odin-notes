@@ -1,0 +1,327 @@
+Ruby on Rails uses "convention over configuration" -- the creators of Rails have made a lot of decisions for you about structure and how code should run
+
+TIP: Write down the things I don't know/confuse me, and go looking for them later
+
+What is Rails?
+A Ruby framework
+
+What language is Rails written in?
+Ruby 
+
+Refresher: What are gems?
+Libraries in Ruby
+
+What are the seven gems that make up Rails?
+!!!
+
+What is the purpose of the gemfile?
+It lists each gem used by the application. The gemfile is used by a utility program called Bundler that adds each gem to the Ruby programming environment
+
+What is the command to create a new Rails app from the command line?
+rails new app_name in the directory
+
+How is a GET request different from a POST request? 
+GET: retrieve data from a specified resource
+POST: submit data to be processed to a specified resource
+PUT: update a specified resource
+DELETE: delete a specified resource
+
+
+What is REST?
+Representation State Transfer
+Architectural style for designing networked applications
+Relies on a stateless, client-server protocol, almost always HTTP
+Treats server objects as resources that can created or destroyed
+Can be used by virtually any programming language
+
+What is a view?
+This renders the view for the user
+
+What is a controller?
+This receives requests from the browser, communicates to the model to get the necessary information, then selects the right view to render for the user
+
+What is a model?
+This talks to the database and handles business logic
+
+
+RAILS GUIDING PRINCIPLES
+Opinionated: there is a way to do something
+Omakase: entrusting the chef to make a good full-stack framework
+Convention over Configuration: rails make assumptions and reduces configuration
+DRY: Don't Repeat Yourself
+Rails is magic -- a weakness is the lack of flexibility and black-boxed operations that are obscure to you
+
+
+
+
+RAILS FILE ORGANIZATION
++-app
+| +-assets
+| | +-images
+| | +-javascripts
+| | +-stylesheets
+| +-controllers
+| +-helpers
+| +-mailers
+| +-models
+| +-views
++-config
++-db
++-features
++-lib
++-log
++-public
++-script
++-spec
+
+App/ is the core application code, including models, views, controllers, and helpers
+App/assets is the application assets such as CSS, JS, and images
+Bin/ is the binary executable files
+Config/ is the application configuration
+Db/ is the database files
+Doc/ is the documentation for the application
+Lib/ is the library modules
+Lib/Assets is the library assets such as CSS/JS/Images
+Log/ is the application log files
+Public/ is the data accessible to the public such as error pages
+Bin/Rails is a program for generating code, opening console sessions, or starting a local server
+Test/ is application tests
+Tmp/ is temporary files
+Vendor/ is third-party code such as plugins or gems
+Vendor/Assets is third-party assets such as CSS/JS/Images
+README.md is a brief description of the application
+Rakefile has the utility tasks available via the rake command
+Gemfile has the gem requirements for this app
+Gmefile.lock has the list of gems used to ensure that all copies of the app use the same gem versions
+config.ru is a configuration file for rack middleware
+.gitignore holds patterns for files that should be ignored by git
+
+
+
+
+
+
+
+
+
+Stack: the set of technology or software libraries used to develop an application or deliver web pages
+LAMP: linux (os), Apache (web server), MySQL (database), PHP (programming language)
+
+Rails stacks can be used with:
+OSes like Linux, Mac OS X, Windows
+Databases like SQLite, MySQL, PostgreSQL, and others
+Web servers like Apache, Nginx, and others
+
+Beginner Stack: Ruby on Rails(programming lang), Brick web server, SQLite database, and an OS
+
+
+
+MVC Architecture
+Model, View, Controller
+
+Model is the objects and database
+View is the presentation layer, what the user sees and interacts with (HTML, CSS, Javascripts)
+Controller receives user actions and invokes changes to the model and the view
+
+
+Browser <-> Controller <-> Model <-> Database
+Controller <-> View 
+
+Controller handles decisions (ActionController)
+Model handles data (ActiveRecord)
+View handles presentation (ActionView)
+
+(ActionPack = ActionView + ActionController)
+
+
+
+Modle handles data and business logic
+View presents data to the user in any supported format and layout
+Controller receives user requests and calls appropriate resource sto carry them out (such as HTTP GET or POST requests) -- usually calls the appropriate model then selects the proper view
+
+
+APIs: Application Program Interface
+Contract provided by one piece of software to another
+Structured request and response
+
+
+
+HTTP Methods
+GET: retrieve data from a specified resource
+POST: submit data to be processed to a specified resource
+PUT: update a specified resource
+DELETE: delete a specified resource
+
+HEAD: same as get without a body
+OPTIONS: returns the supported HTTP methods
+PATCH: update partial resources
+
+
+
+
+App/ contains the controllers, models, views, helpers, mailers, channels, jobs, and assets for the application
+Bin/ contains the rails script that starts the app and can contain other scripts used to setup, update, deploy, or run the application
+Config/ configures the application's routes, database, and more
+config.ru is the Rack Configuration for Rack based servers used to start the application
+db/ contains the current database schema as well as the database migrations
+Gemfile and Gemfile.lock specify what gem dependencies are needed
+Lib/ has extended modules for the application
+Log/ has the application log files
+Public/ is the only folder seen by the world as-is, contains static files and compiled assets
+Rakefile locates and loads tasks that can be run from the command line , don't change, add files to add your own tasks (lib/tasks)
+README.md is the brief instruction manual for the application
+Test/ has all unit tests, fixtures, and other test apparatus
+Tmp/ has temporary files like cache and pid files
+Vendor/ is a place for all third-party code which includes vendored gems
+.gitignore tells git while files or patterns to ignore
+
+
+
+
+A controller's purpose is to receive specific requests for the application
+A router decides which controller receives which requests
+
+
+
+
+new.html.erb
+The first extension, html, is the format of the template
+The second extension, erb, is the handler of the template 
+There are different handlers, like builder for XML, coffee handler for Javascript, helper method form_for for forms
+
+
+A frequent practice is to place the standard CRUD actions in each controller in the following order: index, show, new, edit, create, update and destroy. You may use any order you choose, but keep in mind that these are public methods; as mentioned earlier in this guide, they must be placed before declaring private visibility in the controller.
+
+
+
+Note: SQLite3 is Rails default
+
+App/ has most of the work one puts into an app
+Bin/ contains the app's executables (bundle, rake, rails, spring)
+Config/ controls the environment settings for the app (also contains the initalizers subfolder which holds items to run on startup)
+Db/ has a migrations subfolder where your migrations (used to structure the database) are stored
+Lib/ stores code you control to reuse outside the project
+Log/ has log files, one for each environment (development, test, and production)
+Public/ has static files that are stored and accessed 
+Test/ has tests here
+Tmp/ has temporary cached files
+Vendor/ has code that is not underr your control, infrequently used
+
+
+
+
+Config/Database.yml controls how Rails' database connection system will access my database
+
+
+
+
+
+
+
+COMMANDS
+rails new app (creates a new app)
+
+bin/rails server (starts the server)
+
+bin/rails generate model Name (generates a model named Name)
+
+bin/rake db:migrate starts the rake program which is a ruby utility for running maintenance-like functions on your app (working with the DB, executing unit tests, deploying to a server, etc), then does db:migrate which looks in your set of functions for the database (db) and run the migrate function, which finds all migrations, then looks at a special DB table to determine which migrations have/haven't been run, then runs any un-run migrations
+
+bin/rails console opens an irb interpreter which is a CLI (command-line interface) to my application
+
+bin/rake routes gives a list of routes in the application
+
+bin/rails generate controller name creates: (app/controllers/name_controller.rb, app/views/names, test and helper files, coffeescript and SCSS files for the controller)
+
+
+
+
+
+
+Rails uses migration files to perform modifications to the database
+Migrations can run against most databases
+
+When a migration is performed, a table is created in the database with the proper attributes.
+Rails then uses 'reflection' to determine that, using the database's columns, that the model has these attributes
+
+
+All tables will have an id column which allows you to look up specific rows with the unique ID number
+
+
+
+
+When a Rails server gets request, it sends it the router, which then dissects the request based on the address and other HTTP parameters 
+The router's configuration file is at config/routes.rb
+
+
+
+BIN/RAKE ROUTES
+The table; Prefix, Verb, URI Pattern, Controller#Action
+
+
+PREFIX: has two methods, i.e. prefix_path (relative path) and prefix_url (full URL with protocol, server, and path)
+Generally use the prefix_path
+The prefix is the route name
+
+The HTTP Verb: there are GET, POST, PUT, and DELETE requests among others
+
+URI Pattern has markers that start with ":" that are made available to the controller with that name, things in parenthesis are optional
+Example:
+/articles(.:format) will match the URLs /article/, /articles.json, /articles, and etc
+
+The fourth column is where the route maps to in the applications
+Exampel:
+prefix#index so requests will be sent to the index method of the PrefixesController class
+
+There are seven core actions of Rails' REST implementation:
+1) Index
+2) Create
+3) New
+4) Edit
+5) Show
+6) Update
+7) Destroy
+
+
+
+
+@variable
+The @ marks it as an instance level variable
+Being instance level allows it to be accessible from both the controller and the view
+A normal Ruby instance variable is available to all methods within an instance
+
+
+Rails assumes that an index action in the controller should have a corresponding index.erb template in the view folder
+
+
+ERB is a templating language that lets HTML get mixed with Ruby
+1) An ERB clause starts with <% or <%= and ends with %>
+2) If the clause started with <%, the result of the ruby code will be hiodden
+3) If the clause started with <%=, the result of the ruby code will be output in place of the clause
+
+
+
+
+<%= link_to TEXT, PATH %>
+<%= form_for(parameter) do |name of parameter| %><% end %>
+
+
+Params
+The params method lets you access the request parameters of a URL
+so params[:id] would pull the :id from the request parameters
+
+
+Ruby comes with:
+core library
+standard library
+irb REPL (read evaluate print loop)
+rake utility -- a tool to automate ruby dev tasks
+gem command -- tool to manage rubygems
+documentation tools (rdoc and ri)
+
+
+Some popular gems are
+rubocop: this gem checks for ruby style guide violations and other potential issues in your code
+pry: helps debug ruby programs
+sequel: provides a set of classes and methods that simplify database access
+rails: a web framework that simplifies and speeds webapp development

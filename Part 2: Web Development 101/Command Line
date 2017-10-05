@@ -1,0 +1,94 @@
+echo = output
+pwd = print working directory
+cd = change directory
+	directories
+		~ = home
+		- = previous
+		. = current
+		.. = parent
+ls = list direectories
+	flags
+		-a = show hidden
+		-l = show in list format
+touch = create new file
+file [file] = identify file type
+cat = "concatenate" = combine files and display
+sudo = "superuser do"
+history = show previous commands
+clear = clear screen
+cp = copy
+	flags
+		-i = prompt for overwrite
+		-r = copy inside of directory as well (recursively copy)
+	syntax
+		cp [file] [newpath]
+mv [oldfile] [newfile] = rename
+   [file] [path] = move
+   [file1] [file2] [path] = move both
+   [directory1] [directory2] = rename directory
+mkdir = make directory
+	flags
+		-p = --parents = make parent directories as needed
+		-v = --verbose == print a message for each created directory
+rm = remove file
+rmdir = remove directory
+find [search path] -name [search criteria]
+	flags
+		-type 
+help = shows a list of commands
+	flag
+		--help = a flag that can be added to various commands to show information on them
+man [command] = open the manual for that command
+whatis [command] = small description of command
+which [command] = location that a program/command is running from
+SHORTCUTS
+	TAB = shortcut to finish predictable commands
+	Shift + Ctrl + T = new tab
+	Alt [Tab Number] = switch tabs
+	CTRL+l = clear screen
+	CTRL+D = exit
+	CTRL+b = back one character
+		+f = forward one character
+		+d = delete cursor character
+		+u = undo
+		+a = start of line
+		+e = end of line
+	CTRL+C = kill process
+	CTRL+Z = stop process
+WILDCARDS
+	* = any string
+	? = one character
+	[] = any character in brackets
+less [file] = open file viewer
+	commands
+		q = quit back to shell
+		arrow keys = navigate
+		Page Up/Page Down keys = navigate pages
+		g = go to beginning
+		G = go to end
+		/search/ = search for text forwards
+		?(text) = search backwards for text
+			n = next search match
+			N = previous search match
+		h = help 
+		space = next page
+		b = previous page
+		j = next line
+		k = previous line
+		[#]G = go to line [#]
+		= = file info
+OPERATORS
+	> = redirection operator that overwrites (stdout)
+		>> = redirection operator that doesn't overwrite
+	< = stdin redirection
+FILE DESCRIPTORS
+	0 = stdin
+	1 = stdout
+	2 = stderr
+[stdout] | [stdin] 
+	| = pipe, what you output goes to input
+env = environment variables
+	$[variable] = access an environment variable
+	PATH = listing of directories to search through when given a [command]
+[command]; [command]; [command] = run all these commands
+[command1] && [command2] = run command1, and if it succeeds, run command 2

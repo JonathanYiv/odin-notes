@@ -1,0 +1,46 @@
+Recursion: a function that calls itself to solve a big problem by "Dividing and Conquering" (aka D&C)
+
+Any problem you can solve with recursion, you can solve with iterators
+They are rare as a good solution, but they have their benefits in solving certain problems
+
+
+POINTS TO PONDER
+Why is recursion a useful technique for solving a big problem?
+It "divides and conquers" a big problem into smaller subproblems
+
+What are the limitations of using recursive solutions?
+memory
+
+What types of problems are more suited for simple loops than recursion?
+ones where it is easier to understand or where a loop would have solved it better or with substantially less memory
+
+What is meant by "recursive depth?"
+how many levels of recursion deep you go
+
+What is a "stack overflow" (the concept, not the website)?
+when you have too much recursive depth and the stacks are too deep and an error occurs
+
+Why is that relevent to a recursive problem?
+it can cause a failure to solve the recursive problem
+
+
+TWO PRINCIPLES OF RECURSION
+1) A Base Case -- an end goal
+2) A process in which the task at hand is reduced towards the end goal/base case
+
+
+IMPLEMENTATION ISSUES
+non-recursive programs can store the partial sub-problems in a STACK or QUEUE or PRIORITY QUEUE which gives more freedom in the choice of 
+the next sub-problem to be solved
+which is important to: breadth-first recursion AND branch and bound method 
+
+stack overflow if the stack size that grows too much
+time efficient D&C algorithms usually have relatively small recursion depth
+
+hybrid algorithms using both recursive and non-recursive methods can be more efficient than JUST recursion or JUST non-recursive methods
+One example is "short-circuiting the base case" aka "arm's length recursion"
+
+FFT Algorithm: Fast Fourier transform
+
+some sub-problems may be evaluated many times over (redundantly) 
+it may be worth it to save these solutions (a technique known as memoization)

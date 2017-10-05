@@ -1,0 +1,5 @@
+Databases match data with attributes in a 'relation'
+The relation is modeled in a table where each column is an attribute type and each row holds the attributes of one entity
+
+Entity Type is the category of entity that is stored in a table.
+Attribute Type is the category of attributes for an entity type.

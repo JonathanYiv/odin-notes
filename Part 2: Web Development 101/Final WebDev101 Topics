@@ -1,0 +1,152 @@
+
+What are the major components of a Rails application?
+Model, View, Controller
+
+What is Waterfall Development?
+a sequential non-iterative design process
+progress flows steadily downwards through conception, initiation, analysis, design, construction, testing, production/implementation/maintenance
+originates from manufcaturing and construction industries
+
+What is Waterfall good for?
+you don't, it's old
+Well, when you know what the final product is, without changes, and definition is key to success
+
+What is Agile Development?
+handling a project by vertical slices, handling the database/schema/model/routing/controller/UI for a single feature before moving on
+
+What is Agile good for?
+getting a minimum viable product out quickly with features that work
+adapting to changing requirements
+
+Why does testing fit well into an Agile methodology?
+they ensure the single feature works well before you can move on
+
+What does DRY mean?
+Don't Repeat Yourself
+It's a major concept in programming that you shouldn't write code to solve the same issue twice
+
+What is a user "Role"?
+who is going to use the site
+
+What is a "User Story"?
+As a _____ I want to ____ so that I can ______
+
+What's the difference between a "Feature" and a story?
+a story is a single thread of interaction from a particular user's perspective
+As a ____ I want to ____ so that I can ________
+Who is this for? What do they want to do? Why do they want to do it?
+
+At what stage of a startup should you start building your web app?
+After planning 
+
+What members of a team typically work together to produce a web application?
+If done right, all of them
+
+
+
+
+
+
+"Fat Models, Skinny Controllers" - controllers shouldn't contain any logic related to modelling
+ORM: object-relational mapping
+
+Models are named  in singular form (i.e. gallery.rb)
+Views are stored in app/views/ inside a subdirectory that matches the pluralized model name (i.e. app/views/galleries/index.html.erb)
+
+Views/layouts/ also has the boilerplate HTML code used for every page
+it is at app/views/layouts/application.html.erb
+all other views are rendered at <%= yield %>
+
+Do not assign variables, define classes, define methods, define constants, && avoid complex conditionals, avoid complex method calls in VIEWS
+
+Controllers are like the telephone switchboard operator
+
+
+
+
+
+
+
+config/routes.rb defines paths that the user can use to interact with an application
+
+Syntax
+verb "/route" => "controller#action"
+
+Verb is one of the HTTP verbs: POST, GET, PUT, PATCH, DELETE
+"/route" is the URL path relative to the application root 
+controller is the name of a specific controller
+action is the name of a specific action method within that controller
+
+
+An action is a method in the controller that a route points to
+When called, an action gathers the data necessary to render a view, then returned a rendered view to the user
+
+
+The convention in Rails is to use these seven actions:
+Index- display some or all resources of that type
+Show- display a single resource
+New- display a form for creating a new resource
+Create- actually create the resource
+Edit- display a form for changing a resource
+Update- actually change the resource
+Destroy- delete the resource
+
+An easy way to define routes to all of the above is
+resources :name
+which provides the following routes
+
+GET /name name#index 
+GET /name/new name#new
+POST /name name#create
+GET /name/:id name#show
+GET /name/:id/edit name#edit
+PATCH/PUT /name/:id name#update
+DELETE /name/:id name#destroy
+
+or you can define a subset of the routes
+resources :name, except: OR only: [list of actions]
+
+
+
+
+rails generate controller users index
+Tell RAILS to GENERATE a CONTROLLER, name it USERS and create an action in the controller called INDEX 
+
+In the method, you define the instance variable so that we can access it later on in the view
+
+
+Rails is designed for agile development, or vertical slices
+
+
+
+Product Design Sprints (invention of Google Ventures' design team)
+0: prepare (schedule, research, user interview/survery)
+1: understand (identify user, proble, and job: what job is the user hiring the product to do?)
+2: diverge (brainstorm, evaluate, rank ideas)
+3: converge (choose best ideas)
+4: prototype (use a mastered tool to prototype)
+5: test (interview client and plan for moving forward)
+
+
+
+Trello board is the software equivalent of a physical wall with columns of sticky notes
+
+
+
+Fundamentals to Visual Design
+1) Alignment (achieved with grids)
+2) Emphasis (achieved with size, position, color)
+3) Consistency (buttons, links, headers look alike)
+4) Whitespace (elegant, timeless, gives eyes a rest)
+Successful visual designs don't draw attention to themselves, the content is front-and-center
+workflows through the site are obvious 
+
+
+
+
+AARRR framework
+Acquisition: know the userbase, try new channels and run tests and kill/double down on different channels
+Activation: visitor finds prodyuct desirable enough to try, is able to use it and get to aha moment as quickly as possible
+Retention: user regularly uses product, it does its job
+Revenue: user pays  for product
+Referral: users refer other users, ideal acquisition channel

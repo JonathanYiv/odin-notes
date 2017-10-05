@@ -1,0 +1,109 @@
+REMEMBER
+https://www.theodinproject.com/courses/ruby-on-rails/lessons/deployment
+Remember this for when you need to deploy to Heroku!
+
+Deployment Locations
+	EC2 = Amazon Elastic Compute Cloud 
+		cloud-computing platform that lets users rent virtual computers on which to run their own computer applications
+
+	Heroku
+		heroku is actually built on EC2
+
+ABOUT HEROKU
+	Heroku gives you virtual "Dynos" which run your app
+
+	1 Dyno = 1 Instance of your Application
+
+	To preserve costs, Heroku will put your dyno to sleep (after an hour of inactivity)
+	It can take 30-40 seconds to reboot a dyno
+		countermeasures include a pinging service or paying for an additional dyno
+
+	You can use the Heroku Toolbelt on the Command Line to manage your application OR going to their website
+
+	$ heroku open
+		opens your app
+
+	You can change the app's name BUT
+		you have to update your git remote accordingly so your local app knows where to deploy to Heroku
+
+
+	domainr.com
+		lets you find new domains
+
+	you will want to link your heroku domain to a custom domain
+		custom domains can be purchased fromr registrats like GoDaddy or IWantMyName
+			https://devcenter.heroku.com/articles/custom-domains
+				this link details how to point your app subdomain via CNAME file 
+
+
+HEROKU ADDONS
+	Heroku has add-ons (third party apps)
+
+	$ heroku addons
+		shows you your existing addons
+	$ heroku addons:add newrelic:standard
+		adds a new addon
+
+	Types
+		1) New Relic
+			application monitoring and analytics service
+			tracks when service has gone down, where bottlenecks are, can set up pinging
+		2) PGBackups
+			lets you make backups of your database
+		3) SendGrid
+			an email service
+			does most of the email stuff for you, which is actually super complex
+		4) ETC: Visit the Heroku Addons Center
+
+
+ESSENTIAL HEROKU COMMANDS
+	$ heroku run rails db:migrate
+	$ heroku run console (this is in Production, this is all real data!)
+	$ heroku logs -t
+		shows your server logs
+		equivalent to $ rails server outputting its streaming
+		-t is the tail flag which makes it a stream
+	$ heroku restart
+		if your application has failed and won't start up
+
+
+HEROKU ERRORS
+	Two main places:
+		1) The Deployment Process
+		2) Running the App (500 Server Error)
+
+	Debugging:
+		Check the Logs
+		Check the Error Output
+		Google/Search Stack Overflow
+		Backtrack to the last Working Deploy if applicable
+
+	Diagnosing Errors Resource: https://devcenter.heroku.com/articles/error-pages
+
+	Regarding Precompilation Issues... You will often edit:
+		config/environments/production.rb
+		config/initializers/some_gem.rb (to configure a gem)
+
+		You will probably add/edit something like:
+			config.assets.compile = false
+
+	Regarding 500s...
+		$ heroku logs -t
+			check the server output
+
+		First Deployment: Did you migrate your database?
+
+		You should build useful error messages into your application logs: https://devcenter.heroku.com/articles/logging
+
+		using SQLite3 in development but using PostgreSQL in production
+
+		Environment Variables/Config Variables?
+			use a gem like 'fiagro' or upload them using:
+				$ heroku config:set YOUR_VARIABLE=some_value
+					will make that variable available to all isntances of your app running on Heroku
+
+
+LOCALHOST
+	$ rails server -p 3001
+		creates a rails server on a different port
+		this way you can run multiple Rails apps at the same time

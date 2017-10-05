@@ -1,0 +1,654 @@
+ORM = Object Relational Mapper
+	ActiveRecord is a type of ORM
+		ORMs make it so you don't have to manually call the database yourself
+
+
+SQL: asking questions of your database and occasionally adding/changing things in it
+
+SQL has a few dozen words, but only a dozen or so are consistently needed for our purposes
+
+Visualize your SQL queries! (i.e. excel tables moving/combining/reshuffling)
+
+
+POINTS TO PONDER
+What is the Primary Key?
+	the id column for a table
+
+What are Foreign Keys?
+	columns with ids matching other tables
+
+What is a Schema?
+	a special setup file for your database (updated whenever database structure changes)
+	describes database, table, and columns
+	restricts/allows unique values in particular columns
+	can also index columns for faster searching later
+
+
+Statements:
+SELECT
+CREATE TABLE
+DROP TABLE
+CREATE INDEX
+DROP INDEX
+UPDATE
+DELETE
+INSERT INTO
+CREATE DATABASE
+DROP DATABASE
+COMMIT (concept)
+ROLLBACK (concept)
+
+Clauses:
+DISTINCT
+WHERE
+IN
+AND
+OR
+BETWEEN
+LIKE
+ORDER BY
+COUNT
+
+Functions:
+GROUP BY
+HAVING
+AVG
+COUNT
+MIN
+MAX
+SUM
+
+
+What are Indexes good for?
+	faster searching
+
+What is the difference between WHERE and HAVING?
+	WHERE is used for conditions in general
+	HAVING is used for conditions when an aggregate function has been applied
+
+
+
+
+SQL is the language to talk to many relational databases
+	These databases use lots of table to store different types of data
+		Tables are long lists like spreadsheets
+			Each row is a different record (object)
+			Each column is one of that record's attributes
+			All tables include an ID column which has unique row numbers -- the PRIMARY KEY
+
+		You can link tables together by making one of the columns point to the ID of another table -- this is a FOREIGN KEY
+
+
+CREATE DATABASE
+	sets up the database
+
+CREATE TABLE
+	sets up an individual table
+
+
+Schema
+	a special file that has the setup information for your database
+	is updated whenever you make changes to your database structure
+
+	it describes the database, tables, and columns
+
+	it also restricts/allows unique values in a particular column
+
+	it can also index columns for faster searching later with CREATE INDEX
+
+
+Note: SQL likes semicolons at the end of lines;
+   	  SQL also likes single quotes instead of double quotes
+
+
+SQL CRUD
+	Create, Read, Update, Delete
+
+	Most commands will be of the Read category
+
+	Create
+		INSERT INTO Table(column1, column2) VALUES (insertion1, insertion2);
+		can insert multiple sets of values at once
+
+	Destroy
+		DELETE * FROM users WHERE users.id > 5
+
+	Update
+		UPDATE Table
+		SET property=value, property2=value2
+		WHERE condition;
+
+	Read
+		SELECT * FROM table WHERE condition
+		SELECT table.column, table.column2 FROM table
+
+		SELECT DISTINCT 
+			selects unique values of a column
+			SELECT DISTINCT table.column FROM table
+
+
+COMMAND STRUCTURE
+	Contains:
+		action ("statement")
+		table
+		conditions ("clauses")
+
+	SQL can use comparison operators, logical operators
+
+
+
+
+
+
+Note: Don't do DELETE * FROM users 
+because it will delete all users
+something like
+DELETE * FROM users WHERE users.id = 1 
+is what you probably meant
+
+
+
+Note: * is a wildcard
+
+
+MASHING TABLES TOGETHER
+	JOIN - zips the tables
+	ON - identifies the columns for zipping
+
+	"left" is the original table
+	"right" is the other table
+
+	Types of SQL Joins
+		INNER JOIN
+			most common
+			keeps only the rows from both tables where they match up
+
+		LEFT OUTER JOIN
+			keep all the rows from the left table and add on any rows from the right table that match with the left tables
+			set any empty cells this produces to null
+
+		RIGHT OUTER JOIN
+			opposite of LEFT OUTER JOIN
+
+		FULL OUTER JOIN
+			Keep all rows from all tables, even if there are mismatches
+			set mismatches to null
+
+	You can also specify conditions using WHERE as well
+
+	example:
+		SELECT * FROM TableA
+		INNER JOIN TableB
+		ON TableA.column = TableB.column
+		WHERE condition
+
+	You can even do multiple joins in a row
+
+
+FUNCTIONS
+	Use functions to aggregate (compile into one more multiple data pieces) data
+
+	SELECT MAX(users.age) FROM users
+	SELECT MIN(users.age) FROM users
+
+	Aliases can be used (AS)
+
+	Don't use WHERE, use HAVING for aggregates
+
+
+	Note: Aggregate functions have to be used with the GROUP BY clause, it splits the tables into different piles based on the value of each row
+
+
+LIKE (The Regex of SQL)
+	LIKE can search through text-based values
+	% and _ are special characters
+		% means zero, one, or multiple characters
+		_ means one character
+
+
+CREATING TABLES
+	example: (note, no quotes)
+		CREATE TABLE "tablename"
+		("column1" "data type",
+		 "column2" "data type",
+		 "column3" "data type");
+
+	example with constraints
+		CREATE TABLE "tablename"
+		("column1" "data type" [constraint],
+		 "column2" "data type",
+		 "column3" "data type" [constraint]);
+
+	Table/Column names must start with a letter and can be followed by letters/numbers/underscores with a max of 30 characters
+	Don't use any SQL reserved keywords
+
+
+
+DATA TYPES
+	char(size) - fixed-length character string - (size) specifies length
+	varchar(size) - variable-length character string - (size) specifies max length
+	number(size) - number value with a max number of column digits specified by (size)
+	date - date value
+	number(size, d) - number value with a maximum number of digits of "size" total, with a maximum number of "d" digits to teh right of the decimal
+
+
+CONSTRAINTS
+	some common constraints:
+		unique
+		not null
+		primary key
+
+SQL has two parts: DDL and DML
+	DDL is Data Definition Language - can create tables, drop tables, create and drop other aspects of a database
+	DML
+
+
+
+SELECT IN-DEPTH
+	queries the database and retrieves the selected data that matches the criteria you specify
+
+	SELECT has five main clauses to choose from
+	FROM is the only required clause
+
+
+	SELECT [ALL | DISTINCT] column1[,column2] FROM table1[,table2] [WHERE "conditions"] [GROUP BY "column-list"] [HAVING "conditions] [ORDER BY "column-list" [ASC | DESC] ]
+
+		ALL (default if not specified)
+		DISTINCT - selects only unique
+
+
+	AGGREGATION FUNCTIONS
+		MIN returns the smallest value in a given column
+		MAX returns the largest value in a given column
+		SUM returns the sum of the numeric values in a given column
+		AVG returns the average value of a given column
+		COUNT returns the total number of values in a given column
+		COUNT(*) returns the number of rows in a table
+
+	ORDER BY
+		lets you select a column to sort by and displays in ascending order by default
+
+		You can specify ASC or DESC
+
+	GROUP BY
+		gathers all the rows together that contain data in the specified column and perform the aggregate function on that selection
+
+		If I have a bunch of "blah" columns with a few subsets, then I select those columns with the GROUP BY columns and perform an aggregate function on them
+
+	AND
+		can join two or more conditions in the WHERE class, same as &&
+
+	OR
+		can join two or more conditions in the WHERE class, same as ||
+
+	IN
+		tests whether a value is "in" a list of values
+
+		SELECT ... FROM ... WHERE <value> IN <list of values>;
+
+		There is also NOT IN
+
+	BETWEEN
+		SELECT ... FROM ... WHERE <value> BETWEEN <lower bound> and <upper bound>
+
+		There is also NOT BETWEEN
+
+	MATHEMATICAL FUNCTIONS
+		* - + / %
+
+
+
+	Aggrevations convert many rows into a single row
+
+
+SUBQUERIES
+	you can nest queries
+
+
+
+
+PROTIPS
+	You can concatenate using LIKE
+
+	SELECT column
+	FROM table
+	WHERE column LIKE CONCAT(column, 'string')
+
+
+	REPLACE
+		REPLACE(string, occurance, replacement)
+		replaces all occurances in string with replacement
+
+
+
+MORE ON JOINS
+The difference between an INNER JOIN aka JOIN
+and OUTER JOINS like LEFT JOIN, RIGHT JOIN, FULL JOIN
+is that INNER JOIN only takes data that matches in both tables
+in a scenario where the a table does not have data to match, that row gets dropped
+an outer join fixed this scenario with three different types
+if the right table is missing data that would cause rows to drop, use LEFT JOIN to keep all the rows and fill those nonexistent columns with null
+if the left table is missing data that would cause rows to drop, use RIGHT JOIN to keep all the rows and fill those nonexistent columns with null
+if both tables are missing data that would cause rows on either side to drop, use FULL JOIN to keep all the rows and fill those nonexistent columns with null
+
+You generally will have to write additional logic to deal with NULLs in the result
+
+
+
+NULL VALUES
+you can set an alternative to null values
+you would use a data-type appropriate default value
+	0 for numerical data
+	empty strings for text data
+
+if database needs to store incomplete data, then null values can be appropriate (like taking averages of numerical data)
+
+You can test for null values by using IS NULL and IS NOT NULL in the WHERE clause
+
+
+GROUP BY
+	Instead of aggregating across all the rows, you can apply the aggregate functions to individual groups of data within that group
+	This would then create as many results as there are unique groups defined as by the GROUP BY clause
+
+	It groups rows that have the same value in the column specified
+
+	Note:
+		GROUP BY x
+			put all those with the same value for x in one group
+
+		GROUP BY x, y
+			put all those with the same values for BOTH x and y in one group
+
+
+
+Note:
+	SELECT group_by_column, AGG_FUNC(column_expression) AS aggregate_result_alias, …
+	FROM mytable
+	WHERE condition
+	GROUP BY column
+	HAVING group_condition;
+
+		note that WHERE is before GROUP BY
+		HAVING is after GROUP BY
+
+		HAVING is only needed with usage of the GROUP BY clause
+
+
+
+(this is the good shit right here)
+The Structure of a SELECT query
+
+SELECT DISTINCT column, AGG_FUNC(column_or_expression), …
+FROM mytable
+    JOIN another_table
+      ON mytable.column = another_table.column
+    WHERE constraint_expression
+    GROUP BY column
+    HAVING constraint_expression
+    ORDER BY column ASC/DESC
+    LIMIT count OFFSET COUNT;
+
+
+
+    	First, you start the query with SELECT
+
+    	You can specify DISTINCT to prevent duplicate values in rows for the specified column from appearing
+    	The default is ALL to have all rows appear
+
+    	You can apply aggregate functions to a column or expression, but use alias AS to rename it for clarity
+
+    	You use FROM to select a table to pull the data from
+
+    	If necessary, you perform a inner join aka JOIN or outer join aka LEFT JOIN, RIGHT JOIN, FULL JOIN depending on whether you have null values and if you need them
+    	You specify where the tables are joined ON, usually a primary key and a foreign key
+
+    	you can specify constraints on the data selected using the WHERE clause
+
+    	The WHERE clause always precedes the GROUP BY clause, which is only necessary if performing aggregate functions
+    	Aggregate functions will perform on all the rows unless you use GROUP BY to divide the data into groups based on the column specified
+    	(for example, GROUP BY x will divide a dataset into as many groups as there are different x values)
+    	Sometimes, you have to specify multiple GROUP BY columns, in which case a unique set of those columns will be a group
+
+    	the HAVING expression is only used after the GROUP BY clause and thus consequently after an aggregate function is used, but is not necessary
+    	it functions similarly to WHERE but it acts as a constraint upon the newly aggregated data
+
+    	you can ORDER BY a specific column
+    	and specify DESC for descending values
+    	ASC is the default
+
+    	you can LIMIT <number> the amount of results you get
+    	and OFFSET <number> the starting point from where you get results
+
+
+
+    ORDER OF EXECUTION IN A QUERY
+
+    1) FROM and JOIN(s)
+
+    	The FROM clause and subsequent JOIN(s) are first executed to determine the total working set of data that is being queried
+    	This includes subqueries in this clause and can cause temporary tables to be created under the hood containing all the columns/rows of the tables being joined
+
+    2) WHERE
+
+    	Once the total working set of data, the WHERE constraints are applied to the individual rows, and rows that do not satisfy the constraint are discarded.
+    	Each of the constraints can only access columns directly from the tables requested in the FROM clause
+
+    	Note! Aliases in the SELECT part of the query are not accessible in most databases since they may include expressions dependent on parts of the query that have not yet executed.
+
+    3) GROUP BY
+
+    	The remaining rows after the WHERE constraint are applied are then grouped based on common values in the column specified in the GROUP BY clause.
+
+    	There will only be as many rows as there are unique values in that column
+
+    4) HAVING
+
+    	If the query has a GROUP BY clause, then the constraints int eh HAVING clause are applied to the grouped rows, discarding the grouped rows that don't satisfy the constraint.
+
+    	Aliases are not accessible.
+
+    5) SELECT
+
+    	Expressions in the SELECT query are computed.
+
+    6) DISTINCT
+
+    	Of the remaining rows, rows with duplicate values in teh column marked as DISTINCT will be discarded.
+
+    7) ORDER BY
+
+    	Remaining rows are sorted accordingly. You can reference aliases.
+
+    8) LIMIT / OFFSET
+
+    	Finally, the rows that fall outside the range specified by LIMIT and OFFSET are discarded.
+
+
+
+Database Schema
+	Describes the structure of each table and the datatypes that each column of the table can contain.
+	This fixed structure is what allows a database to be efficient and consistent despite storing millions or even billions of rows.
+
+
+INSERT
+	INSERT INTO <table>
+	VALUES (<value or expression>, <another value or expression>, ...),
+		   (<value or expression 2>, <another value or expression 2>, ...)
+		   ...;
+
+
+		generally each row you insert should contain values for each corresponding column
+		you can insert multiple rows by just listing them sequentially
+
+
+	For incomplete data, you can insert rows for certain columns by specifying them explicitly
+
+		INSERT INTO <table>
+		(<column>, <column2>, ...)
+		VALUES (<value or expression>, <another value or expression, ...)
+			   ...;
+
+
+			inserting values this way has the benefit of being forward compatible
+			like adding a new column
+
+
+UPDATE
+
+	UPDATE <table>
+	SET <column> = <value or expression>,
+		...
+	WHERE <condition>;
+
+	this statement works by taking multiple column value pairs and applying those changes to each and every row that satisfies the constraint in the WHERE clause
+
+	be careful you don't mess things up here...
+
+
+
+DELETE
+
+	be very careful here
+
+	DELETE FROM <table>
+	WHERE <condition>;
+
+	the WHERE clause determines which rows to delete
+
+
+CREATE TABLE
+	CREATE TABLE IF NOT EXISTS <table> (
+		<column> <data type> <table constraint> DEFAULT <default value>,
+		<another column> <data type> <table constraint> DEFAULT <default value>,
+		...
+	);
+
+
+		IF NOT EXISTS suppresses the error of trying to create a table if it already exists
+
+		This defines a series of columns with a type of data allowed, with an optional table constraint on values being inserted, and an optional default value
+
+
+	TABLE DATA TYPES
+		INTEGER - whole integer values
+		BOOLEAN - 0 or 1
+		FLOAT, DOUBLE, REAL - more precise numerical data
+		CHARACTER(num_chars), VARCHAR(num_chars), TEXT - text-based datatypes can store strings/texts. Both CHARACTER and VARCHAR are specified with max number of characters they can store.
+		DATE, DATETIME - date and timestamps
+		BLOB - binary data in blobs, opaque to database, store with right metadata to requery them
+
+	TABLE CONSTRAINTS
+		PRIMARY KEY - values in this column must be unique so each value can identify a single row in this table
+		AUTOINCREMENT - for integer values, this value is automatically filled in and incremented with each row insertion (not supported in all databases)
+		UNIQUE - all values in this column have to be unique, doesn't have to be a key for a row int he table
+		NOT NULl - inserted value can not be NULL
+		CHECK(expression) - lets you run a  more complex expression to test whether the values inserted are acceptable
+		FOREIGN KEY - consistency check that ensures that each value in this column corresponds to another value in a column in another table
+
+
+ALTERING TABLES
+	
+	Adding Columns
+		ALTER TABLE <table>
+		ADD <column> <data type> <optional table constraint> DEFAULT <default value>;
+
+	Removing Columns
+		ALTER TABLE <table>
+		DROP <column to delete>
+
+	Renaming the Table
+		ALTER TABLE <table>
+		RENAME TO <new table name>
+
+	each database implementation is slightly different
+
+
+DROPPING TABLES
+	DROP TABLE IF EXISTS <table>
+
+		use IF EXISTS to suppress an error if the table doesn't exist
+
+		if you have a table that is dependent on columns in the to be dropepd table, such as a FOREIGN KEY dependency, you will have to update all dependent tables
+		first to remove the dependent rows or remove those tables entirely
+
+
+
+Note: subqueries must be fully enclosed in parenthesis to establish proper hierarchy
+
+Note: There is also Unions, Intersections, and Exceptions
+
+
+
+
+COALESCE takes any number of arguments and returns the first value that is not null.
+
+  COALESCE(x,y,z) = x if x is not NULL
+  COALESCE(x,y,z) = y if x is NULL and y is not NULL
+  COALESCE(x,y,z) = z if x and y are NULL but z is not NULL
+  COALESCE(x,y,z) = NULL if x and y and z are all NULL
+
+
+
+CROSS JOINS
+are basically just
+
+	SELECT * FROM table, table2
+
+	For every x row in table and y row in table2, it will create x * y rows
+
+
+
+Implicit Inner Join
+	SELECT * FROM table, table2 WHERE table.id = table2.id
+	Not best practice
+
+Explicit Inner Join
+	SELECT * FROM table JOIN table2 ON table.id = table2.id
+
+
+
+Khan Tips
+Run a SELECT with the same WHERE before changing your database (updating/deleting)
+
+You can use a 
+	BEGIN TRANSACTION;
+	...
+	COMMIT;
+
+	to perform both commands if and only if both commands work
+	otherwise it will rollback the transaction
+
+Make backups
+Make replications
+
+
+
+USING MYSQL ON UBUNTU
+	$ mysql-workbench
+		opens up a mysql workbench
+
+	$ sudo service mysql status
+		shows whether mysql is active
+
+	$ sudo service mysql start
+		starts mysql
+
+	$ sudo service mysql stop
+		stops mysql
+
+
+	$ mysql -u root -p
+		runs the mysql executable
+		provides root with the user option
+		prompts for the password option
+
+		after inputting password, it will open up the mysql server
+		all input are SQL statements send to the server for execution
+
+		Note: 
+			help
+			QUIT or \q
+			clear
+
+
+	This has most of the inforamtion you need: https://dev.mysql.com/doc/mysql-getting-started/en/

@@ -1,0 +1,482 @@
+Javascript
+
+Javascript has data types:
+
+1) Strings: a grouping of words/numbers surrounded by quotes 
+For example "dragon" or 'llama'
+var string = "Jonathan";
+
+2) Numbers: any number, including numbers with decimals
+For example: 4, 8, 1240359835, 1.34242
+var number = 28;
+
+3) Boolean: either True or False
+var boolean = true;
+
+
+
+
+
+console.log('Here is what is printed to the console');
+
+
+
+
+operators:
++ Add
+- Subtract
+* Multiply
+/ Divide
+
+% modulus -- shows the remainder after division
+e.g. 13 % 5 = 3 because 5 goes into 13 twice, then leaves over 3 as the remainder
+
+
+
+Javascript Functions:
+
+1) Math.random(); produces a random number between 0 and 1
+2) Math.floor(): rounds down to the nearest whole number
+
+
+// This is a comment
+/* This is a
+multiple line comment */
+
+
+Variable Declaration:
+var varName = 'Variable Name'
+variables can hold any data type
+camelCase convention: lowercase first word, new word is capitalized
+
+
+
+
+Interpolation: putting a variable into a string
+console.log('text' + variable + 'text');
+
+
+
+Control Flow: making decisions with code
+
+If/else statements
+If/else if/else statements
+switch statements with multiple cases
+
+IF ELSE SHORTHAND
+boolean ? ifresult(); : elseresult();
+
+
+console.log('What\'s the backslash do?'); = What's the backslash do?
+
+
+Comparison Operators 
+< Less than
+> Greater than
+<= Less than or equal to
+>= Greater than or equal to
+=== Equals to (both value and type) // Use this primarily!
+== compares value
+!== Does not equal to 
+&& both must be true
+|| etiher can be true
+! opposite
+They will return a boolean: true or false
+
+
+
+switch (variable) {
+  case 1: something; break;
+  case 2: sonmething; break;
+  default: something; break;
+}
+
+
+
+
+Instantiating a function: 
+
+function functionName(parameter1, parameter2) {
+  return;
+}
+
+OR
+
+var function = function(parameter) {
+  ...
+}
+
+Calling a function:
+
+functionName(argument1, argument2);
+
+
+
+
+Scope
+Global Scope: a variable outside of a function can be used by any part of the program 
+Functional Scope: variables inside a function that can only be accessed within the function
+
+
+
+ARRAYS
+Arrays are lists.
+var array = [a, b, c];
+a is at position 0
+b is at position 1
+
+Javascript is zero-indexed
+
+array[0] = a
+
+Strings are also stored like arrays
+
+array.length = length of array
+string.length = length of string
+
+ARRAY FUNCTIONS
+array.push( d, e);
+Adds items to end of array
+so now array = [a, b, c, d ,e]
+
+array.pop() = deletes the last item of the array
+
+There are more functions
+
+
+
+LOOPS
+for loops: loop a block of code a known amount of time
+while loops: loop a block of code an unknown amount of times
+
+
+for(var i = 0; i < array.length, i++) {
+  ...
+}
+
+for(start; stop; iterate) {
+  ...
+}
+
+while(condition) {
+  ...
+}
+
+do {
+  ...
+} while(condition);
+
+
+
+
+
+
+
+jQuery is a Javascript Library that helps Javascript  interact with the DOM
+
+
+Linking a Javascript file to HTML involves using:
+<script type="text/javascript" src="path"></script> right before the closing body tag (so that it doesn't run before the elements are rendered)
+You can also link libraries, link jQuery, this way
+Libraries need to above your javascript file so the file has access to the libraries
+
+
+SETTING A VARIABLE EQUAL TO AN HTML ELEMENT
+var variable = document.getElementsByClassName('class-name');
+WITH JQUERY
+var $variable = $('.skillset'); (any CSS selector works!)
+
+
+DOM: Document Object Model
+term for elements in an HTML file
+
+It is convention to name variables that hold jQuery slectors with a dollar sign $
+
+
+
+
+JQUERY FUNCTIONS
+.hide() = sets to display:none
+.fadeIn(milliseconds) = fades in a display:none feature over time
+.on('click', function() {} ) = runs a function on click
+.show() = sets to visible
+.toggle() = hides and shows on clicks
+.toggleClass() = removes or add class 
+.next() = select the next direct element
+.text() = changes text
+.slideToggle(milliseconds) = animate an element's entrance and exit
+$(document).ready(function) = ensures DOM is fully loaded to run function
+
+JAVASCRIPT KEYWORDS
+this = refers to the clicked element
+
+
+
+
+anonymous function name is just a variable that points to a function
+
+var name = function() {
+  ...
+}
+Unnamed function.
+
+
+
+
+
+
+DECLARING A JAVASCRIPT OBJECT
+
+myProfile = {
+  name: "Jonathan Yiv",
+  email: "JonathanYiv@gmail.com",
+  'zip code': 27529,
+  isInvited: true
+}
+Inside an object is a bunch of properties consisting of a key and a value
+
+You can nest objects and even use arrays
+
+To access an object's property, use the dot notation
+
+myProfile.name; == Jonathan Yiv
+
+
+
+
+FUNCTION CREATION
+
+
+Function Declaration
+
+function doThis() {
+  ...
+}
+doThis() invokes the function
+
+
+
+Function Expression
+
+var doThis = function() {
+  ...
+}
+doThis is a variable that stores the returned object of the function
+
+
+
+Function Declarations with names are useful for recursive functions
+
+
+
+You can chain things
+for example
+
+n = 5;
+n.double().square(); == 100
+
+
+
+
+Javascript Properties:
+Dynamic
+Weakly typed
+Multi-paradigm
+Imperative
+Functional
+Object-Oriented
+First-Class Functions
+Prototype-based
+
+
+
+Typing is dynamic: there is no type declaration before variable names, the keyword var is used
+
+
+
+
+
+var a = 1;
+b = --a;
+
+RESULT: a = 0 and b = 0
+
+
+ASSIGNMENT OPERATORS
++=
+-=
+*=
+/=
+%=
+^=
+|=
+&=
+
+
+
+BROWSER OBJECTS WITH GLOBAL SCOPE
+document
+window
+console
+
+
+
+naming a variable $something just is a convention to indicate that $something is containing a jQuery object
+
+$() is a function that creates jQuery objects
+
+
+
+
+$("jQuery Object").append(element);
+$("jQuery Object").prepend(element);
+
+.after()
+.remove() deletes all content and the element itself
+.empty() deletes an element's content and all its descendants
+$('selector').addClass('className')
+.removeClass()
+.toggleClass()
+.height()
+.width()
+$("element").css("property", "value");
+$('element').html() will get/set the HTML contents of the first element it finds
+.val() gets the value of form elements
+
+.on('event', 'selector', function() {
+  ...
+});
+
+Using jQuery you can:
+Add/remove classes
+Add/remove elements
+Add/remove styling
+Animate elements
+Move elements
+
+
+
+
+jQuery
+can find elements in an HTML document
+can change HTML content
+can listen to what a user does and react accordingly
+can animate content on the page
+can talk over the network to fetch new content
+
+The Document Object Model is a tree-like structure created by browsers so we can quickly find HTML elements using Javascript aka DOM
+
+
+DOCUMENT 
+->HTML
+-->HEAD
+--->TITLE
+-->BODY
+--->H1
+--->P
+
+each browser has a slightly different DOM interface
+
+jQuery("selector") = $("selector")
+
+$(document).ready() is used to ensure the DOM is fully loaded
+
+
+Descendants Selector
+$("parent descendant") selects the descendants
+
+Child Selector
+$("parent > child") selects the direct children, not all descendants
+
+
+Multiple Selector
+$("element1, element2") selects both elements
+
+Psuedo-Selector
+$(element descendants:first) selects the first descendant
+Other pseudo-classes include odd, even, last
+The index starts at 0 (which is an even number)
+
+
+
+TRAVERSING: faster
+$("element").find("subelement");
+Selection.Traversal 
+
+$("element").first();
+$("element").last();
+$("element").next();
+
+Chaining: $v.first().next().next().prev();
+
+TRAVERSING UP:
+.parent();
+
+TRAVERSING DOWN:
+children("elementtype");
+
+
+.append() adds as last child of element
+.prepend() adds as first child of element
+.before() adds as previous element
+.after() adds as following element
+.closest() searches up through ancestors
+.find() searches down through children
+
+.remove()
+
+.appendTo()
+.prependTo()
+.insertAfter()
+.insertBefore()
+
+.filter()
+
+.addClass()
+
+.val() get a value 
+
+.removeClass()
+
+.on(<event>, <event handler>)
+
+$("element").on('click', element, function() {
+  ...
+});
+
+
+.slideDown()
+
+.fadeIn()
+.fadeOut()
+.fadeToggle()
+
+.css(<attribute>, <value>) to set
+.css(<attribute>) to get
+.css(<object>) to set
+
+
+MOUSE EVENTS
+click
+focusin
+mousedown
+mousemove
+mouseover
+mouseenter
+dblclick
+focusout
+mouseup
+mouseout
+mouseleave
+
+KEYBOARD EVENTS
+keypress
+keydown
+keyup
+
+FORM EVENTS
+blur
+select
+change
+focus
+submit

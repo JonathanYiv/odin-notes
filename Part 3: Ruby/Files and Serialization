@@ -1,0 +1,176 @@
+files are a really long string/stream of bytes that are read from top to bottom, left to right
+
+serialization: converting your data into a storable format like a string
+
+There are generally accepted formats for serializing Data: YAML and JSON
+YAML saves configuration files in Ruby on Rails
+JSON is ubiquitous across the web, and delivers complex/deeply nested objects (like Google Maps API sending data to your program)
+
+
+POINTS TO PONDER
+What are two ways to store a file from your hard drive into a string or array in your Ruby script?
+serializing and writing to files
+
+What are three things made possible or much easier by serialization?
+object persistence, caching, communicating over the internet, 
+
+What is JSON?
+Javascript Object Notation
+
+What is YAML?
+YAML ain't Markup Language
+
+How do you turn a Ruby object into JSON?
+JSON.generate(object)
+
+How do you turn JSON into a Ruby object?
+JSON.parse(data)
+
+
+
+
+I/O = Input/Output
+screens, keyboards, files, and networks are all forms of I/O
+data from these devices is sent to/from programs as a stream of characters/bytes
+
+
+INTERESTING FACT: Unix-like systems treat all external devices as files, you can find all the devices under /dev directory
+
+I/O Streams are located under the /dev/fd directory.
+Files are given a number known as a file descriptor
+
+The three default streams:
+1) Standard Input /dev/fd/0 aka stdin
+2) Standard Output /dev/fd/1 aka stdout
+3) Standard Error /dev/fd/2 aka stderr
+
+stdin defaults from keyboard
+stdout and stderr default to writing to terminal
+
+
+
+$stdin, $stdout, $stderr are global variables that point to the constants: STDIN, STDOUT, and STDERR that point to Ruby IO objects wrapping the streams
+
+IO objects can be written to using puts and print
+IO objects can read from using gets
+
+puts "Hello World" == $stdout.puts "Hello World"
+
+
+$stdin is read-only (gets)
+$stdout and $sterr are write-only (puts and print)
+
+
+CREATING A NEW IO OBJECT
+io = IO.new(1)      --- remember 1 is stdout
+
+Other streams (non-default) need to be opened with
+name = IO.sysopen('/path', ...)
+io = IO.new(name)
+
+
+SINCE EVERYTHING IS A FILE
+we can open an IO stream to a text file in the same way we open a device
+1) create file descriptor with path to our file
+2) create an IO object for that file descriptor
+3) when done, close the stream
+
+
+
+Note: attempting read/write from a closed stream will raise an IOError
+
+
+
+
+EXAMPLE
+File:
+Lore ipsum 
+dolor
+sit amet
+
+
+IO.sysopen '/path/to/that/file/lorem.txt'
+=> 8
+file = IO.new(8)
+file.gets
+=> "Lorem ipsum\n"
+file.pos
+=> 12
+file.gets
+=> "dolor\n"
+file.gets
+=> "sit amet...\n"
+file.pos
+=> 30
+file.gets
+=> nil
+file.eof?
+=> true
+file.rewind
+file.pos
+=> 0
+
+
+
+SUB-CLASSES
+File docs
+File#size, File#chmod, File.path
+
+
+SOCKETS
+TCPSocket
+UDPSocket
+UNIXSocket
+Socket
+
+
+StringIO
+
+Tempfile docs
+
+
+
+
+SERIALIZATION METHODS
+JSON: Javascript Object Notation
+all elements are comment separated
+brackets for arrays
+curly braces denote level of nesting
+
+
+YML/YAML is like a mark-up language
+XML uses spaces for serialization
+
+
+
+Ruby has two serialization mechanisms:
+1) human readable format: YAML
+2) binary format: Marshal  (don't use puts when writing to a file, use a record separator other than a newline), fast
+3) or use third parties (JSON -- only accepts hashes, arrays, and primitives) (hashes must contain the json_class key)
+
+YAML::dump(object) to serialize
+YAML::load(object) to unserialize
+
+For speed, choose Marshal
+For speed and readability, choose JSON although it requires adding methods to custom objects
+For human readability with small sets of data, choose YAML
+
+
+YAML = YAML Ain't Markup Language
+MessagePack is a binary format 
+
+
+
+Closing files is necessary because as data queues up to be written, it sits in a memory buffer before being actually written to the hard disk
+File's #close forces a flush of the pending data
+
+
+Dir.glob(/path/**/*) takes a directory name and/or a pattern and returns an array of file names
+
+
+
+
+When a program is talking to another program, communication is done through an API (Application Programming Interface)
+an interface that lets a program to either read/write data to another program, or both ways
+
+serial: objects are lumped together as a string of characters, one character after another (like #to_s)

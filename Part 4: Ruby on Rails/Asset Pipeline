@@ -1,0 +1,125 @@
+POINTS TO PONDER
+What is the "Asset Pipeline?"
+	the process of concatenating asset files of each filetype and running preprocessors
+
+What are "Manifest Files?"
+	files that know which files to concatenate
+
+Why would you namespace your stylesheets?
+	to prevent conflict in styling
+
+What does it mean to "Escape" HTML?
+	to allow HTML to be submitted
+
+
+ASSET PIPELINE
+	assets = additional files called by the browser after the intiial HTML is received
+		includes:
+			CSS stylesheets
+			Javascript files
+			images
+			videos
+			etc
+
+	Rails concatenates asset files of each filetype to reduce redundancy in browser requests for files
+	The process used to do this is called the ASSET PIPELINE
+
+	because
+		one slightly larger file in one request > multiple smaller files in many requests
+
+
+	Manifest Files = files that determine which files to concatenate
+		/app/assets/javascripts/application.js is the javascript manifest file
+
+		the //= lines tells Rails which files to go find and include
+		the require_tree helper method grabs everything in the current directory
+
+
+		/app/assets/stylesheets/application.css.scss is the stylesheet manifest file
+
+		the *= lines tells Rails which files to go find and include
+		also uses the require_tree helper
+
+
+	To prevent overriding or conflicts with multiple styles from different stylesheets, use namespacing
+		you essentially wrap the container with another container that is the 'namespace'
+
+		example:
+			<div class="user">
+      			<div class="container">
+        			<!-- a bunch of code for displaying the user -->
+      			</div>
+    		</div>
+
+    		user is the namespace
+    		container is the styled class
+
+    		.user .container {
+    			...
+    		}
+
+    		only targets the namespaced container
+
+
+    note: In development, the asset pipeline is turned off
+
+    as part of the pipeline, preprocessors run as well
+
+
+UNESCAPING HTML
+	sometimes you want to allow submissions that include HTML code
+	so you escape HTML
+	<%= raw
+	or
+	CGI::escapeHTML
+
+
+FINGERPRINTING
+	When a file's name is based on its content, this allows browsers to determine whether their cached version is different from the current version
+	If so, then it can request a new version
+	If not, it can rely on the cached version
+
+	This is known as cache busting
+
+
+
+
+The asset pipeline allows for convenience in development and efficiency in production.
+
+Asset Pipeline
+	1) Minify
+	2) Compile and Preprocessing 
+	3) Fingerprint (MD5 is an algorithm to fingerprint files -- it is a hashing function)
+
+	All stylesheets will be combined into application.css
+	All javascript will be combined into application.js
+
+Asset Directories
+	These are the standard directories for static assets.
+		app/assets: assets specific to the present application
+		lib/assets: assets for libraries written by your dev team
+		vendor/assets: assets from third-party vendors
+
+	Each of these directories have these subdirectories.
+		images/
+		javascripts/
+		stylesheets/
+
+Manifest Files
+	The Sprockets middleware gem reads this to know how to combine into single files
+
+	The require_tree requires the existing directory and the tree subdirectories
+	The require_self line specifies where in the loading sequence the file itself gets included
+
+Preprocessor Engines
+	.scss = Sassy Rails = Sass
+	.coffee = CoffeeScript
+	.erb = embedded Ruby = ERb
+
+	Preprocessor Engines can be chained
+	The preprocessing occurs from right to left
+
+
+
+
+

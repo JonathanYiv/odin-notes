@@ -1,0 +1,808 @@
+POINTS TO PONDER
+What is an ORM?
+	an object relational mapper that maps application objects to relational database management systems (RDMS)
+
+Why is Active Record more useful than just using SQL?
+	it adds a 'magical' API between SQL and your Rails app by allowing you to manage your database with ruby code
+
+What are the two steps required to make a new row in your database table with ActiveRecord?
+	write or generate the appropriate migration
+	run the migration
+
+What are "generators" in Rails?
+	command line commands that use templates to create a bunch of things following a convention
+	you can even make your own
+	they write boilerplate code
+
+
+
+Rails = 7 Ruby gems
+1 of the gems is ActiveRecord, which handles all the database stuff
+
+ActiveRecord is an 'ORM,' an object-relational-mapper.
+	ORMs take data stored in a database table using rows/columns, which needs to be modified or retrieved by writing SQL statements, and lets you interact with the data
+	as though it was a normal Ruby object
+
+	example:
+		instead of writing code to connect to data, then using SELECT * FROM query to get an array of all users
+		you use
+		User.all
+
+The type of database does not matter (although you need to set up the config/database.yml file properly)
+ActiveRecord handles all the differences between the databases
+
+	note: as such, switching databases means that you just change configuration files and not major code
+
+
+
+MODELS
+	Models inherit from ActiveRecord
+
+	Each database table corresponds with ONE model
+
+	example: (creating a Ruby object representing a row)
+		u = User.new(name: "Jonathan", email: "JonathanYiv@gmail.com")
+
+		note that it is being passed a hash
+		you can also set attributes just like any other ruby object i.e.
+		u.name = "Jonathan"
+
+
+		ALSO NOTE: this does not save that model instance into the database
+		it just creates it, and will be lost once you exit the scope
+
+		TO SAVE
+			u.save
+
+		TO COMBINE BOTH STEPS
+			u = User.create(name: "Jonathan", email: "JonathanYiv@gmail.com")
+
+			This combines the new and create methods
+			This can be more efficient, but sometimes you need to separate the steps
+
+
+
+Fun Tip: You can see all the options that the Rails app builder accepts with $ rails new -h
+
+
+RailsGuides Active Record
+	ActiveRecord is the 'M' in MVC
+	Representing business data/logic
+	Modeled after the active record pattern
+
+
+	ORM maps the objects of an application to the tables in a RDMS
+
+
+	ActiveRecord mechanisms:
+		Represent models and their data
+		Represent associations between these models
+		Represent inheritance hierarchies through related models
+		Validate models before they get persisted to the database
+		Perform database operations in an object-oriented fashion
+
+	Naming Conventions
+		Database tables are pluralized (books) and snake_case
+		Models are singular form (Book) and CamelCase
+
+		Foreign Keys
+			singularized_table_name_id
+				examples:
+					item_id to the items table
+					order_id to the orders table
+
+		Primary Keys
+			integer column named id, automatically created when using ActiveRecord migrations
+
+		Reserved and Special and Optional Column Names
+			created_at
+			updated_at
+			lock_version
+			type
+			(association_name)
+			(table_name)_count
+
+
+	Creating ActiveRecord Models
+
+		example:
+			class Name < ApplicationRecord
+			end
+
+			creates a Product model mapped to a products table at the database
+
+
+	SQL to ActiveRecord
+
+		CREATE TABLE products (
+			id int(11) NOT NULL auto_increment,
+			name varchar(255)
+			PRIMARY KEY (id)
+			);
+
+		A table created like above would allow
+			p = Product.new
+			p.name = "Some Book"
+			puts p.name 
+
+
+	CRUD (Create/Read/Update/Delete)
+		Create
+			The #new method will return a new object
+			The #create method will return the object and save it to the database
+
+			Active Record objects can be created from:
+				a hash
+				a block
+				or have attributes manually set after creation
+
+			The #save method can save a #new object to the database
+
+			Using a Block
+				#create and #new will yield the new object to that block for initialization
+
+				user = User.new do |u|
+					u.name = "jonathan"
+					u.occupation = "dragon"
+				end
+
+		Read
+			users = User.all
+				gets all the users
+
+			user = User.first
+				gets the first user
+
+			jonathan = User.find_by(name: "Jonathan")
+				finds the first user named Jonathan
+
+			special_users = User.where(name: "Jonathan", occupation: "Dragon").order(created_at: :desc)
+
+			There are plenty more at the Active Record Query interface guide: http://guides.rubyonrails.org/active_record_querying.html
+
+		Update
+			Once an Active Record object has been retrieved, its attributes can be modified and saved to the database
+
+				example:
+					user = User.find_by(name: "Jonathan")
+					user.name = "Jonathan Yiv"
+					user.save
+
+				OR
+
+				example 2:
+					user = User.find_by(name: "Jonathan")
+					user.update(name: "Jonathan Yiv")
+
+				OR
+
+				example 3:
+					User.update_all "max_login_attempts = 3, must_change_password = 'true'"
+
+		Delete
+			user = User.find_by(name: "Jonathan")
+			user.destroy
+
+	Validations
+		ActiveRecord lets you verify the state of a model before it gets written into the database
+
+		#save and #update return false when validation fails and no operation is performed on the database (they have a bang counterpart that raises an exception)
+
+		You can validate non-empty, uniqueness, nonexistent in database, follows specific format, etc
+
+		Learn more at http://guides.rubyonrails.org/active_record_validations.html
+
+	Callbacks
+		Callbacks let you attach code to certain events in the life-cycle of your models
+		Basically if something happens, you can have code get triggered
+
+	Migrations
+		a DSL for managing a database schema
+		migrations are stored in files which are executed against any database that ActiveRecord supports using rake
+
+		Rails keeps track of all files committed to the database and provides rollback features
+
+		$ rails db:migrate
+			applies the migration
+
+		$ rails db:rollback
+			rollsback a migration
+
+
+MIGRATIONS
+	First thing to when creating rails app: figure out the data models for the first iteration of the site, and set them up
+
+	1) Create the database
+	$ rails db:create
+
+	2) Create a model file in app/models
+
+	3) Create an appropriately named database with the appropriate columns, using a migration file and then running a migration
+
+
+	The way to get this all done is:
+	$ rails generate model YourModelNameHere
+		this creates the model file
+		the migration file
+			the migration file will be named with a timestamp and will automatically include the created_at and updated_at columns for you as standard practice
+
+
+	$ rails generate migration YourMigrationName
+		to only create the migration
+
+		this will be used once you've got things up and running
+			because your data table will probably already exist
+
+	There are ways to specify additional parameters for both of these generators
+
+
+	Protip: Generator options http://guides.rubyonrails.org/command_line.html#rails-generate
+
+
+	What is a migration?
+		a script that tells Rails how you want to set up or change a database
+		magic that lets you not write SQL code in SQL, but using Ruby methods
+
+		$ rails db:migrate 
+			tells rails to run the script to perform the actions
+
+			rails knows which migrations have/haven't been run using timestamps
+
+
+		migrations can be rolled back
+		for each method in your migration, you want to specify how to reverse it if need be
+
+		NEVER rollback migrations unless you've screwed something up
+		you can do things like remove a column by another migration
+
+
+RailsGuides Active Record Migrations
+	a feature to evolve your database schema over time
+	a Ruby DSL to make changes to your table
+
+	- generators to create migrations
+	- methods Active Record provides to manipulate your database
+	- bin/rails tasks that manipulate migrations and your schema
+	- how migrations relate to schema.rb
+
+	the db/schema.rb file is updated with migrations
+	you can move forward/backward along your migration timeline
+
+	example:
+
+		class CreateProducts < ActiveRecord::Migration[5.0]
+		  def change
+		    create_table :products do |t|
+		      t.string :name
+		      t.text :description
+		 
+		      t.timestamps
+		    end
+		  end
+		end
+
+
+			adds a table called products
+			has a string column called name
+			has a text column called description
+			automatically adds an id primary key column
+			the timestamps macro adds created_at and updated_at columns
+
+			before this migration is run, there is no products table
+
+
+	Creating Migrations
+		migrations are stored in the db/migrate directory, one for each migration class
+
+		they are named YYYYMMDDHHMMSS_x_y.rb
+		the name of the migration class (CamelCase) should match the latter x,y part of the file name
+
+		example:
+			19951028053344_create_products.rb
+			will define a class CreateProducts
+
+		Generator
+			$ bin/rails generate migration <migration name>
+				creates an empty but appropriately named migration
+
+			$ bin/rails generate migration AddPartNumberToProducts part_number:string
+				will generate
+
+					class AddPartNumberToProducts < ActiveRecord::Migration[5.0]
+						def change
+							add_column :products, :part_number, :string
+						end
+					end
+
+			to add an index
+				$ bin/rails generate migration AddPartNumberToProducts < ActiveRecord::Migration[5.0]
+
+				and produce
+
+				class AddPartNumberToProducts < ActiveRecord::Migration[5.0]
+				  def change
+				    add_column :products, :part_number, :string
+				    add_index :products, :part_number
+				  end
+				end
+
+			$ bin rails generate migration RemovePartNumberFromProducts part_number:string
+
+				generates 
+
+					class RemovePartNumberFromProducts < ActiveRecord::Migration[5.0]
+					  def change
+					    remove_column :products, :part_number, :string
+					  end
+					end
+
+			You can even add more than one column at once
+
+
+			Name a migration CreateXXX and is followed by a list of column names and types then a migration creating the Table XXX with the columns listed will be generated
+
+	Migration Names
+		AddXXXToYYY column:value
+			XXX is the column name or a generic description if adding multiple columns
+		RemoveXXXFromYYY column:value
+			XXX is the column name or a generic description if removing multiple columns
+		CreateXXX column:value
+			XXX is the table name
+			it produces as many column/value pairs as necessary
+
+		AddXXXRefToYYY XXX:references
+			adds a reference inside table YYY to table XXX
+
+
+	$ bin/rails generate model Name column:type column:type...
+		this will generate the appropriate migrations and you can also pass in columns
+
+
+WRITING A MIGRATION
+	create_table :name do |table|
+		table.string :column
+	end
+		creates a table called "names" with a "column" of type string
+
+
+	create_join_table :products, :categories
+		creates an HABTM (has and belongs to many) join table
+		creates a categories_products table with two columns called category_id and product_id
+
+
+	change_table :table do |table|
+		table.remove :description, :name
+		table.string :another_column
+		table.index :another_column
+		table.rename :acolumn, :newname
+	end
+		removes the description and name columns
+		creates a another_column with type string
+		adds an index on another_column
+		renames acolumn to newname
+
+	change_column :products, :part_number, :text
+		changes the column part_number on products table to be a text field
+		this is an irreversible command
+
+
+COLUMN MODIFIERS
+	can be applied when creating or changing a column
+
+	limit - sets the maximium size of the string/text/binary/integer fields
+	precision - defines the precision for the decimal fields representing total number of digits in the number
+	scale - defines the scale for the decimal fields, representing total number of digits after the decimal point
+	polymoprhic - adds a type column for belongs_to associations
+	null - allows or disallows NULL values in the colum,n
+	default - allows to set a default value on the column
+	index - adds an index for the column
+	comment - adds a comment for the column
+
+
+What do reversible and up and down do?
+
+	reversible specifies what to do when running a migration and what else to do when reverting it
+
+	example:
+			class ExampleMigration < ActiveRecord::Migration[5.0]
+			  def change
+			    create_table :distributors do |t|
+			      t.string :zipcode
+			    end
+			 
+			    reversible do |dir|
+			      dir.up do
+			        # add a CHECK constraint
+			        execute <<-SQL
+			          ALTER TABLE distributors
+			            ADD CONSTRAINT zipchk
+			              CHECK (char_length(zipcode) = 5) NO INHERIT;
+			        SQL
+			      end
+			      dir.down do
+			        execute <<-SQL
+			          ALTER TABLE distributors
+			            DROP CONSTRAINT zipchk
+			        SQL
+			      end
+			    end
+			 
+			    add_column :users, :home_page_url, :string
+			    rename_column :users, :email, :email_address
+			  end
+			end
+
+
+	The #up method describes the transfomration you would like to make to your schema
+	The #down method reverts the transformations done by the #up method
+
+	AKA the database schema should be unchanged if you do an up thena  down
+
+	this example is equivalent to the last example
+
+
+				class ExampleMigration < ActiveRecord::Migration[5.0]
+				  def up
+				    create_table :distributors do |t|
+				      t.string :zipcode
+				    end
+				 
+				    # add a CHECK constraint
+				    execute <<-SQL
+				      ALTER TABLE distributors
+				        ADD CONSTRAINT zipchk
+				        CHECK (char_length(zipcode) = 5);
+				    SQL
+				 
+				    add_column :users, :home_page_url, :string
+				    rename_column :users, :email, :email_address
+				  end
+				 
+				  def down
+				    rename_column :users, :email_address, :email
+				    remove_column :users, :home_page_url
+				 
+				    execute <<-SQL
+				      ALTER TABLE distributors
+				        DROP CONSTRAINT zipchk
+				    SQL
+				 
+				    drop_table :distributors
+				  end
+				end
+
+
+	RUNNING MIGRATIONS
+		$ rails db:migrate
+			runs the #change or #up method for all migrations that have not been run
+			if there are no such migrations, it exits
+			if there are, it runs the migrations in order based on the date of the migration
+
+			this also invokes the db:schema:dump task which updates the schema
+
+		If you specify a target version, it will run the required migrations until it has reached the specified version (numerical prefix on the migration's filename)
+
+
+		$ bin/rails db:rollback
+		this rolls back the latest migration by reverting the change method or running the down method
+
+		$ bin/rails db:rollback STEP=3
+		reverts the last 3 migrations
+
+	SET UP DATABASE
+		$ rails db:setup
+			creates the database, loads the schema, and initialize it with the seed data
+
+	RESET
+		$ rails db:reset
+			drops the database and sets it up again
+
+
+	Note: by default, bin/rails db:migrate runs in the dev environment.
+	To run it in another env specify using the RAILS_ENV variable
+
+
+
+	SCHEMA FILES
+		db/schema.rb has the current state of the database
+			you shouldn't edit them
+
+		config/application.rb by the config.active_record.schema_format will either be :sql or :ruby
+
+
+	SEEDS
+		fill up db/seeds.rb with ruby code
+		run $ rails db:seed
+		this will add initial data to the database
+
+
+
+VALIDATIONS
+	3 Levels of Validation (from least to most secure)
+		1) Javascript to detect if forms are filled out properly and prompt them to finish it before moving on
+		   offers great user experience (javascript is easy to circumvent)
+		2) Server-Level
+		   Writing code in your rails app (specifically in the pertinent model) that examines user inputs, checks them versus your set-up constraints, and returns any error
+		   costs a full round-trip HTTP request
+		   generally pretty effective
+		3) Database-Level
+			in some cases, multiple servers talk to a central databases
+			to avoid repeated requests, the database needs to enforce
+
+
+	RailsGuide on ActiveRecord Validations
+		- how to use built-in validation helpers
+		- how to create custom validation methods
+		- how to work with error messages generated by the validation process
+
+
+		example:
+			class Person < ApplicationRecord
+			  validates :name, presence: true
+			end
+			 
+			Person.create(name: "John Doe").valid? # => true
+			Person.create(name: nil).valid? # => false
+
+				Person needs to have a name attribute. 
+
+		Note on Different Validations:
+			database constraints make the validation mechanisms database-dependent
+			generally good practice if your database is used by other applications
+
+			client-side validations are unreliable if used alone
+			but they offer a great UI
+
+			controller-level validations are unwieldy, difficult to test/maintain
+			keep your controllers skinny
+
+		Two Types of Active Record Objects
+			1) Those that correspond to a row inside your database
+			2) Those that don't
+
+			Objects created with #new are of the latter
+			Once it is saved, it is the former
+
+			the #new_record? instance method verifies whether an object is already in the database or not
+
+			Validations are run before the object is submitted to the server
+			You can have them run when an object is created, saved, and/or updated
+
+				These methods trigger validations
+					create
+					create!
+					save
+					save!
+					update
+					update!
+
+					the bang versions raise an exception if the record is invalid, non-bangs just return false (create returns the object)
+
+				These methods skip validations:
+					decrement!
+					decrement_counter
+					increment!
+					increment_counter
+					toggle!
+					touch
+					update_all
+					update_attribute
+					update_column
+					update_columns
+					update_counters
+					save(validate: false)
+
+		valid? returns true/false dependent on errors in the object
+		any errors found can be accessed through the errors.messages instance method which returns a collection of errors
+
+		note: an object created with #new will not report any errors, because validations are only run when the object is saved
+		note 2: there is also #invalid?
+
+
+		To verify whether or not an attribute is valid
+			use errors[:attribute], whichg returns a list of all errors for :attribute
+
+		Validation Helpers
+			all validation helpers can accept an arbitrary number of attribute names, so a single line of code can check multiple attributes
+			all validation helpers accept the :on and :message options which define when the validation should be run and what message should be added to the errors collection if it fails
+			:on takes the values of :create or :update
+			there are default error messages
+
+		Common Validation Options
+			:allow_nil
+				skips the validation when the value being validated is nil
+
+			:allow_blank
+				lets validation pass if attribute's value is blank?
+
+			:message
+				lets you specify the message to be added to the errors collection when validation fails
+				there is a default error for each validation helper
+
+			:on 
+				specifies when the validation should happen
+				default is to be run on save
+				you can change it to :create or :update
+				or define a custom context
+
+		Strict Validations
+			you can specify validations to be strict and raise an error
+
+		Conditional Validation
+			:if and :unless 
+				accept symbol, string, Proc, or array
+				use :if to specify when validation should happen
+				use :unless top specify when a validation should not happen
+
+
+		Working with Validation Errors
+			errors returns an instance of the class ActiveModel::Errors containing all errors
+			each key is the attribute name
+			and the value is an array of strings with all errors
+			you use it on the object in question
+
+
+			errors[] is used to check the error messages for a specific attribute
+
+
+			errors.add adds an error message related to a aprticular attribute
+			takes arguments the attribute and the error message
+
+
+			errors[:base]
+			add error messages related to the object's state as a whole instead of a specific attribute
+
+			errors.clear
+			clears all the message in the errors collection
+
+			NOTE: errors fills up when you call valid? or any method that tries to save the object to the database
+
+			errors.size
+			returns the total errors for the object
+
+
+BASIC ASSOCIATIONS
+	primary key/foreign key relationships are modeled by rails as associations
+
+	Common Types of Relationships
+		has_many/belongs_to
+			a Child can have many Marbles, and Marbles belong to the Child
+			McDonalds has many FranchiseLocations, and each FranchiseLocation belongs to McDonalds but also might belong to the City San Francisco
+
+		many-to-many AKA has_and_belongs_to_many
+			a Human can have many favorite Dog objects, and each Dog object can have many favorite Dog objects
+
+	RailsGuide ActiveRecord Associations
+		- how to declare associations between ActiveRecord models
+		- how to understand the various types of ActiveRecord associations
+		- how to use methods added to your models by creating associations
+
+		association: connection between two ActiveRecord models
+		associations make common operations easier
+
+		There are 6 Types of Associations
+			1) belongs_to
+			2) has_one
+			3) has_many
+			4) has_many :through
+			5) has_one :through
+			6) has_and_belongs_to_many
+
+			BELONGS_TO
+				one-to-one connection with another model
+				one instance of a model "belongs to" an instance of the other model
+				example: a book belongs to an author
+
+			HAS_ONE
+				one-to-one connection with another model (slightly different from above)
+				each instance of a model contains or possesses one instance of another model
+				example: supplier in your application has one account
+
+			HAS_MANY
+				a one-to-many connection with another model
+				will be on the other side of a belongs_to association pretty often
+				a model has zero or more instances of another model
+				example: an author has many books
+
+			HAS_MANY :THROUGH
+				many-to-many connection with another model
+				the declaring model can be matched with 0 or more instances of another model by proceeding through a third model
+				example: a medical practice where PATIENTS make APPOINTMENTS to see PHYSICIANS
+
+				example: (kind of reminds me of a triple table join)
+
+					class Physician < ApplicationRecord
+					  has_many :appointments
+					  has_many :patients, through: :appointments
+					end
+					 
+					class Appointment < ApplicationRecord
+					  belongs_to :physician
+					  belongs_to :patient
+					end
+					 
+					class Patient < ApplicationRecord
+					  has_many :appointments
+					  has_many :physicians, through: :appointments
+					end
+
+				this allows rails to use the relationship from physicians to patients
+
+			HAS_ONE :THROUGH
+				one-to-one connection with another model
+				the declaring model can be matched with one instance of another model by proceeding through a third model
+				example: a supplier has one account and each account has an account history
+
+
+				example:
+					class Supplier < ApplicationRecord
+					  has_one :account
+					  has_one :account_history, through: :account
+					end
+					 
+					class Account < ApplicationRecord
+					  belongs_to :supplier
+					  has_one :account_history
+					end
+					 
+					class AccountHistory < ApplicationRecord
+					  belongs_to :account
+					end
+
+			HAS_AND_BELONGS_TO_MANY
+				direct many-to-many connection with another model
+				example: each assembly has many parts and each part appears in many assemblies
+
+
+		Deciding between belongs_to and has_one
+			if you are trying to set up a one-to-one relationship between two models, which one gets belongs_to and which one gets has_one?
+
+			The foreign key will be on the table for class declaring the belongs_to association
+
+			has_one means that one of something is yours (that it points back to you)
+
+
+
+
+PROTIP: Think about your models and how you will model your data first to do your best!
+
+
+Three Core Relationships
+	One-to-One
+	One-to-Many
+	Many-to-Many
+
+		One-to-One
+			has_one and belongs_to
+			the side that holds a foreign key is the the one that belongs_to
+			oftentimes the has_one will also have a `dependent: :destroy`
+
+		One-to-Many
+			most common
+			has_many and belongs_to
+			the side that holds a foreign key is the one that belongs_to
+			oftentimes the has_many will also have a `dependent: :destroy`
+
+		Many-to-Many
+			has_and_belongs_to_many and has_and_belongs_to_many
+			creates three tables, Table1, Table2, and Table1_Table2
+			Table1_Table2 has the foreign keys
+			Table1 and Table2 don't have any foreign keys
+
+			HAS MANY THROUGH is better
+
+				example:
+					class Magazine < ActiveRecord::Base
+					  has_many :subscriptions
+					  has_many :customers, through: :subscriptions
+					end
+
+					class Customer < ActiveRecord::Base
+					  has_many :subscriptions
+					  has_many :magazines, through: :subscriptions
+					end
+
+
+
+
+Note: #new and #build are the same

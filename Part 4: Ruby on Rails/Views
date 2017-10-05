@@ -1,0 +1,150 @@
+Views = View Templates
+Views take the instance variables from the Controller and injects them into its HTML boilerplate
+
+Views are in the directory /app/views/controller_name/action_name.html.erb
+	controller_name is the name of the controller the view is linked to
+	action_name.html.erb is the corresponding method inside the controller that was run prior to rendering the view
+
+
+POINTS TO PONDER
+What is a layout?
+	the HTML boilerplate and loading of assets that the view has initially
+
+What's the difference between a 'view template' and a 'layout?'
+	the layout is used for all or many pages
+	the view template is injected into the layout
+
+What is a 'Preprocessor?'
+	something that runs code before files are sent to the browser
+
+Why are preprocessors useful?
+	allows the usage of erb, scss, coffeescript, etc
+
+How do you make sure a preprocessor runs on your file?
+	title it correctly, i.e. file.html.erb
+
+What's the outputted filetype of a preprocessed *.html.erb file? What about a *.css.scss file?
+html
+css
+
+What is the difference between the <%= and <% tags?
+	shows return vs doesn't show return
+
+What is a view partial?
+	a partial view injected into a view template
+
+How do you insert a partial into your view?
+	<%= render 'name_of_partial' %>
+
+How can you tell that a view file is a partial?
+	it starts with an underscore
+
+How do you pass a local variable to a partial?
+	for the second parameter, include the :locals key and pass in local variables
+
+What's the magical Rails shortcut for rendering a User? A bunch of Users?
+	render user
+	render @users
+
+What are asset tags and why are they used?
+	preprocessor methods that turn into html tags, for convenience and legibility
+
+
+LAYOUTS
+	layouts live in the directory /app/views/layouts
+
+	the application.html.erb layout is the initial layout
+	It has the HTML boilerplate and some snippets that load the js/css files your webpage will need
+
+	Anything that is needed across all webpages should be put into a layout
+		i.e.
+			navbars
+			footers
+			snippets of code for displaying flash messages
+
+	Layout = Shell around the individual page
+		#yield method lets the rest of the view (the view template) get inserted
+
+
+PREPROCESSORS
+	ERB = Embedded Ruby
+		allows execution of ruby inside HTML
+
+	<%= displays the return
+	<% executes the code but does not display the return
+
+	Most tags will be <%=
+	<% will be used mostly for if statements, each loops, etc
+
+	Close statements and loops with <% end %>
+
+
+	Preprocessing is done on the server BEFORE the HTML is shipped to the browser (part of the asset pipeline)
+
+	Rails starts by processing the file as ERB, then treats it as regular HTML
+
+	Other Preprocessors:
+		.css.scss use the SASS preprocessor
+		.js.coffee use the Coffeescript preprocessor
+
+
+VIEW PARTIALS
+	You can break your views into partials (allowing for DRY code)
+
+	Example:
+		form for editing/creating users
+		_user_form_.html.erb called in both the new.html.erb and edit.html.erb view templates
+
+	Partials = HTML files that aren't complete but can be shared by other files
+
+	Example 2:
+		<%= render "example_partial" %>
+
+	View Partials are named with an underscore beginning, but are called without the initial underscore
+
+	If no directory is specified in a partial's name, Rails will only look in the same folder as whichever view called it
+
+	You would share view partials across multiple view templates by putting them in /app/views/shared (<%= render "shared/some_partial" %>)
+
+	Partials have access to all the instance variables a view template has
+		however, be careful, the view partial might be used by many controllers with different instance variable structures
+		explicitly pass the partial whatever variables you want it to have access to
+
+		example:
+			<%= render 'shared/your_partial', :locals => { :key => value } %>
+			The locals key will contain the variables you want to pass in the form of key/value pairs
+
+			To use the variable, call it like a normal variable (not an @instance)
+
+
+IMPLICIT PARTIALS
+	For things done multitudes of times, you can extract it into a partial
+
+	In fact, there is a shortcut
+		<%= render example %>
+		Rails will look for the _example.html.erb in the current directory and pass it the example variable automatically
+
+		or
+
+		<%= render examples %>
+		for all of them
+
+
+HELPER METHODS
+	#link_to 
+		creates an anchor tag URL
+
+		<a href="<%= users_path %>">See all Users</a>
+		is better as
+		<%= link_to "See All Users", users_path %>
+
+
+ASSET TAGS
+	stylesheet_link_tag
+	javascript_include_tag
+	image_tag
+	auto_discovery_link_tag
+	video_tag
+	audio_tag
+
+	turn into the appropriate html tags

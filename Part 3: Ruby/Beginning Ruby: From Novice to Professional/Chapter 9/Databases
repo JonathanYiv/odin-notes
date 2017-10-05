@@ -1,0 +1,78 @@
+CSV
+.csv = comma-separated values
+text file where each item of data is on a line, and has attributes separated by commas
+
+
+require 'csv'
+
+
+
+PSTORE
+Object Persistence: the ability to store objects/data structures in a file and reload them from the file
+requires
+Marshalling: standard data structures turned into flat data
+
+require 'pstore'
+store = PStore.new("storagefile")
+store.transaction do
+	store[:people] ||= Array.new
+	store[:people] << fred
+	store[:people] << laura
+end
+
+PStore is essentially a disk-based hash
+
+
+YAML
+YAML Ain't Markup Language
+
+require 'yaml'
+
+YAML::dump(data)
+
+Ideal intermediary format for storing data such as configuration files since it is readable
+
+
+RELATIONAL DATABASES AND SQL
+All of the above are extremely simplistic databases using text files and object persistence, but it has limitations
+
+Relational Database: database comprised of data grouped into one or more tables that can be linked together via IDs
+
+
+The Top 5: Oracle, MySQL, Microsoft SQL Server, PostgreSQL, MongoDB (August 2017)
+MySQL is the default used by Ruby on Rails
+Oracle is an enterprise-level database used by a lot of larger companies
+
+
+
+SQL: Structured Query Language
+Create, Retrieve, Update, and Delete Data (CRUD) and their Structures
+
+CREATE TABLE table_name (
+column_name data_type options,
+...
+)
+
+INSERT INTO table_name (column_name, column_name, ...) VALUES (value, value, ...)
+
+SELECT * FROM table_name = retrieve all data from table_name
+* = wildcard 
+
+SELECT column_name FROM table_name = retrieves all data from the column_name column
+
+SELECT * FROM table_name WHERE id = # 
+selects a unique ID's row from all the data in table_name
+
+SELECT (selection) FROM (table) WHERE (condition) AND/OR (another condition) ORDER BY (ordering value) ASC/DESC LIMIT (#)
+
+DELETE FROM (table) WHERE (condition) LIMIT (#)
+
+UPDATE (table) SET variable = value, variable = value WHERE (condition)
+
+
+ACTIVERECORD
+ActiveRecord was produced as a result of Ruby on Rails, and allows you to use relational databases in an object-oriented fashion
+
+
+
+DBI: DataBase Interface, a database-agnostic library that makes it easy to communicate between Ruby and database systems

@@ -1,0 +1,551 @@
+POINTS TO PONDER
+How do you amend a commit message that you just messed up?
+git commit --amend
+
+How do you view the history of your most recent commits?
+git log
+
+What are two different uses for $ git checkout?
+checkout files, commits, or branches
+
+How do you undo a recent commit?
+git reset
+
+What are branches?
+forks in your own repository that diverge from an ancestor commit
+
+How do you create a new branch to work on?
+git branch <name>
+
+How do you push that (non-master) branch up to Github?
+git push <remote name> <branch name>
+
+How do you merge the changes from your new branch into the master branch again?
+git checkout <new branch>
+git merge master
+
+Why is working with feature branches useful?
+to isolate different work
+
+What is the difference between using $ git merge and $ git rebase? (hint: history)
+git merge produces a merge commit that connects two commits
+git rebase produces a fast-forward commit with a linear history
+
+What is the difference between a "remote" and your local repo?
+the 'remote' is hosted on a server somewhere
+your local repo is on your personal computer
+
+How do you add your Github repo as the remote?
+git remote add <name> <url>
+
+
+FUN FACTS
+Fun Fact: Subversion (SVN) was the widely used VCS (Version Control System) prior to Git
+Fun Fact 2: Before Subversion (SVN) was Concurrents Version System (CVS)
+
+
+DEFINITIONS
+Git Repository: a virtual storage of your project
+
+
+COMMANDS
+$ git init
+	a one-time command used during the initial set-up of a repo
+	it will create a new .git subdirectory in your current working directory
+	also will create a new master branch
+
+$ git clone <repo url>
+	a one-time operation
+	creates a copy/clone of remote repositories
+	latest version of the remote repo files on the master branch pulled down and added to a new folder named after REPONAME
+		folder will contain full history and a newly created master branch
+
+	Git SSH Protocol
+		git@HOSTNAME:USERNAME/REPONAME.git
+			example: git@github.com:JonathanYiv/project_name.git
+
+$ git add <filename>
+$ git add <directory>
+	adds a change in the working directory to the staging area
+$ git add -p
+	interactive staging session: choose portions of a file to add to the next commit
+	presents a chunk of changes and prompt you for 'y' to stage, 'n' to ignore, 's' to split it into smaller chunks, 'e' to manually edit, 'q' to exit
+
+$ git commit -m "Commit Message"
+	uses commit message in CLI as commit message
+$ git commit
+	launches a text editor prompting you for a commit message
+	convention: summarize the entire commit on the first line < 50 characters, blank line, then detailed explanation of what's been changed (present tense)
+
+	these snapshots are committed to the local repository, meaning you can accumulate some before you push to the central repository
+	-a option automatically adds all cahnged files to the commit
+	-v option passes in diff into the comments to help you remember
+$ git commit --amend
+	this command takes your staging area and uses it to redo your previous commit
+	no previous changes = new commit message
+	anything added to the staging area is now put into that amended commit
+
+$ git config
+	lets you configure your git installation through CLI
+
+	scope options:
+		local: repository specific settings
+		global: user-specific settings
+		system: system-wide settings
+
+		local settings override global settings which override system settings
+
+	example:
+		git config --global user.name <name>
+		git config --local user.email <email>
+		git config --global alias.<alias-name> <git-command>
+			creates an <alias-name> command that you can execute as a shortcut to <git-command>
+		git config --system core.editor <editor>
+			defines the text editor used by commands like $ git commit 
+			<editor> should be the command to open the text editor, in my case 'subl'
+		git config --global --edit
+			open the global config file in a text editor for manual editing
+
+$ git status
+	view the state of the working directory and the staging area (staged, unstaged, untracked)
+	-s/--short option gives you a simplified output
+		?? new untracked files
+		A new files that are staged
+		M modified files
+		Left-Hand Column is the status of the staging area
+		Right-Hand Column is the status of the working directory
+
+$ git log
+	shows the committed snapshots
+	list project history, filter it, and search for specific changes
+$ git log -n <limit>
+	shows up to <limit> commits
+$ git log --oneline
+	condense each commit to a single line
+$ git log --stat
+	include altered files and relative number of lines added/deleted
+$ git log -p
+	displays the patch representing each commit
+	shows the full difference of each commit
+$ git log --author="<pattern>"
+	<pattern> can be a regex or a plain string
+$ git log --grep="<pattern>"
+	searches for commits with a commit message matching <pattern> (can be regex or string)
+$ git log <since>..<until>
+	show commits between <since> and <until> (can be commit IDs, branch names, HEAD, or any kind of revision reference)
+		revision references
+			checksums
+			branch names
+			HEAD keyword (current commit)
+$ git log <file>
+	show commits including the specified file
+$ git log --graph --decorate --online
+	--graph draws a text based graph of the commits on the left hand side of the commit messages
+	--decorate adds the name of branches or tags of the commits that are shown
+	--online shows the commit info on a single line
+$ git log --pretty:format: "...""
+	you can design your own log output format
+		%H = commit hash
+		%h = abbreviated commit hash
+		%T = tree hash
+		%t = abbreviated tree hash
+		%P = Parent hashes
+		%p = abbreviated parent hashes
+		%an = author name
+		%ae = author email
+		%ad = author date
+		%ar = relative author date
+		%cn = committer name
+		%ce = committer email
+		%cd = commiter date
+		%cr = relative committer date
+		%s = subject
+$ git log --since=<time>
+		  --after
+		  --until
+		  --before
+		  --committer
+		  --author <author>
+		  --grep <keyword>
+		  --all-match <option search 1> <option search 2>
+		  -S <string> 
+		  		only shows commits that introduced a change to the code that added/removed that string
+
+$ git branch <feature-name>
+	creates a branch <feature-name>
+	-D / --delete : deletes a branch
+
+$ git diff
+	see what is changed but not staged
+$ git diff --staged (or --cached)
+	compares your staged changes to your last commit
+
+$ git rm <file>
+	stages the removal of a file (the file will be gone and no longer tracked)
+
+
+BARE vs CLONED
+$ git init
+	produces a bare repository, you have to create a new repo and use the Git URL to map your local repo
+
+$ git clone
+	automatically configures the repository for remote collaboration
+
+
+ADDING REMOTE
+$ git remote add <remote_name> <remote_repo_url>
+	example:
+		git remote add origin https://github.com/JonathanYiv/project_name.git
+
+Once a remote is added, you can push local branches to it
+
+$ git push <remote_name> <local_branch_name>
+	example:
+		git push origin master
+
+
+THE STAGING AREA
+it is wise to group related changes into highly focused snapshots
+it is important to create atomic commits so it is easy to track bugs and revert changes with minimal impact on the rest of the project
+
+
+GITIGNORE
+You can completely ignore files placing paths in a special file called .gitignore
+all files on separate lines
+
+Blank lines or lines starting with # are ignored
+Standard glob patterns work (simplified regex for CLI)
+	* matches zero or more characters
+	[abc] matches any character inside its brackets
+	? matches a single character
+	[0-9] matches any characters inclusively between them
+	a/**/z matches nested directories
+You can start patterns with a forward slash / to avoid recursivity (current directory)
+You can end patterns with a forward slash / to specify a directory
+You can negate a pattern by starting it withan excalamation point
+
+
+
+COMMANDS: UNDOING CHANGES
+note: read-only operation. It is impossible to harm your repository while viewing an old revision
+HEAD usually points to the master or some local branch, however, when checking out, HEAD points to a commit 
+this is known as a "detached HEAD state"
+
+however, checking out an old file DOES affect the current state of your repository
+you can re-commit the old version in a new snapshot as you would any other file
+(way to revert file to older version of file)
+
+$ git checkout
+	three functions:
+		checking out files
+		checking out commits
+		checking out branches
+	checking out a commit makes the entire working directory match that commit
+
+$ git checkout master
+	returns to the master branch (get back to the 'current state' of the project)
+
+$ git checkout <commit> <file>
+	checkout a previous version of a file
+	turns the <file> in the working directory into an exact copy of the one from <commit> 
+
+	DOES affect the state of your current repository
+		to restore the recent version:
+			$ git checkout HEAD <file>
+
+$ git checkout <commit>
+	update all files in the working directory to match the specified <commit>
+		<commit> can be a commit hash or a tag
+	does NOT affect the state of your current repository
+
+$ git revert <commit>
+	the 'safe' way
+	generate a new commit that undoes all the changes introduced in <commit> then applies to the current branch
+	'undoes' a committed snapshot <commit>
+	appends a NEW commit with the reverted content
+	this prevents git from losing history
+	does NOT change project history
+
+$ git reset
+	the 'dangerous' way
+	whatever is undone is no longer retrievable -- a permanent undo
+	should only be used to undo local changes
+$ git reset <file>
+	removes specified file from the staging area, leaves the working directory unchanged
+$ git reset
+	resets the staging area to match the most recent commit
+	leaves the working directory unchanged
+	unstages all files without overwriting any changes
+$ git reset --hard
+	resets the staging area and working directory to match the most recent commit
+	obliterates all uncommitted changes
+$ git reset <commit>
+	move the current branch tip backward to <commit>, reset the staging area to match
+	leave the working directory alone
+$ git reset --hard <commit>
+	obliterates all changes after <commit>
+	sets both staging area and working directory to match commit
+note: the --hard flag makes git reset dangerous
+
+$ git clean
+	removes untracked files from your working directory
+	this is NOT undoable
+	often used in conjunction with $ git reset --hard
+$ git clean -n
+	shows you which files are going to be removed without actually doing it
+$ git clean -f
+	remove untracked files from current directory
+	will NOT remove untracked folders/files specified by .gitignore
+$ git clean -f <path>
+	removes untracked files in the specified path
+$ git clean -df
+	removes untracked files and untracked directories
+$ git clean -xf
+	remove untracked files from the current directory as well as any files that Git usually ignores
+
+
+
+FEATURE BRANCH WORKFLOW
+all feature development should take place in a dedicated branch instead of the master branch
+
+this makes it easy for multiple developers to work on a particular feature without disturbing the main codebase
+
+allows leverage of 'pull requests' -- initiate discussions around a branch
+
+feature branches should have descriptive names (clear and highly-focused purpose)
+
+feature branches are stored alongside the special master branch
+
+pull request: a Git GUI request asking to merge a feature branch into master, other developers review
+	once accepted:
+		make sure local master is synchronized with upstream master
+		merge feature branch into master, push updated master back to the central repository
+
+$ git checkout -b <name-of-feature> master
+	checkouts a branch called <name-of-feature> based on master
+	the -b flag tells git to create the branch if it doesn't exist
+
+	this is equivalent to:
+		$ git branch <name>
+		$ git checkout <name>
+
+$ git push -u origin <name-of-feature>
+	pushes the feature to the central repository (origin)
+	-u flag adds it as a remote tracking branch after which:
+		$ git push
+			can be used to push the feature
+
+$ git branch -d <name>
+	deletes a branch
+
+
+GIT FLOW WORKFLOW
+there are two branches to record the history of a project
+the master branch stores the official release history (tagged with a vedrsion number)
+the develop branch serves as an integration branch for features
+
+feature branches uses the develop branch as their parent branch
+features never directly interact with the master branch
+features are merged into the develop branch when complete
+
+once develop has acquired enough features for a release (or a predetermined release date is approaching):
+	fork a release branch off of develop
+		only bug-fixes, doc generation, release-oriented tasks should go in this branch
+			once ready to shop, the release gets merged into master and tagged with a version number (also merged back into develop)
+
+maintenance/hotfix branches are used to quickly patch production releases
+this is the only branch that should fork directly off of master
+once fix is complete, it should be merged into both master/develop
+
+
+FORKING WORKFLOW
+all developers have a server-side repository
+each contributor has two git repositories, a private local one and a public server-side one
+
+this is the ideal workflow for open source projects because:
+	only the maintainer can push to the official repository
+	the maintainer can accept commits from any developer without giving them write access to the official codebase
+
+How it works:
+1) official public repository
+2) new developer forks the official repository
+3) the fork is cloned to their local machine
+4) commits are pushed to their personal public repository
+5) they then file a pull request with the main repository
+6) the maintainer pulls the contributor's changes into their local repository, checks it, merges it into his local master branch
+7) maintainer pushes the master branch to the official repository on the server
+8) all developers pull from the official repository to synchronize their local repositories
+
+the forking workflow requires two remotes:
+	official repository: upstream
+	your forked repository: origin (normally the central repository)
+
+$ git pull upstream master
+	synchronizes the upstream official repository with your local repository
+
+
+GIT REBASE
+solves the same problem as git merge
+both intended to integrate changes from one branch into another branch
+
+$ git merge <to merge> <to merge into>
+	non-destructive operation
+	existing branches unchanged
+	adds an extraneous merge commit to incorporate upstream changes
+
+$ git checkout feature
+$ git rebase master
+	this moves the entire feature branch to begin on the tip of the master branch, effectively incorporating all of the new commits in master
+	instead of a merge commit, rebasing re-writes project history by creating brand new commits for each commit in the original branch
+	cleaner project history
+	cons: safety and traceability
+$ git rebase <basebranch> <topicbranch>
+	equivalent to checking out the <topicbranch>
+	and then rebasing onto the <basebranch>
+
+Golden Rule of Rebasing: never use it on public branches
+
+$ git checkout feature
+$ git rebase -i master
+	interactive rebasing session
+	opens text editor listing all commits about to be moved
+	you can edit and save the close the file and it will rebase accordingly
+
+
+SYNCING
+$ git remote
+	lets you create, view, and delete connections to other repositories
+	lists the remote connections you have to other repositories
+$ git ls-remote
+	shows a full list explicitly of remotes
+$ git remote -v
+	lists and includes the URL of each connection
+$ git remote add <name> <url>
+	create a new connection to a remote repository
+	<name> is a shortcut for <url> now
+$ git remote rm <name>
+	removes the connection
+$ git remote rename <old-name> <new-name>
+	renames a remote connection
+$ git remote show <remote>
+	shows information about the remote repo
+$ git remote rename <old name> <new name>
+
+note: $ git clone
+		automatically creates a remote connection called 'origin' pointing back to the cloned repository
+		most git-based projects call their central repository 'origin'
+
+repository URLs:
+	HTTP
+		http://host/path/to/repo.git
+	SSH
+		ssh://user@host/path/to/repo.git
+
+$ git fetch
+	imports commits from a remote repository into your local repo
+	stores these commits as remote branches
+	you can review changes before integrating
+$ git fetch <remote>
+	fetch all branches from <remote>
+$ git fetch <remote> <branch>
+	fetch <branch> from <remote>
+
+$ git branch -r
+	view your remote branches
+	prefixed by the remote they belong to
+		i.e.
+			origin/master
+			origin/develop
+			origin/some-feature
+$ git branch
+	shows you your current branches
+	the * character will point to the checked out branch (HEAD)
+$ git branch -v
+	see the last commit on each branch
+$ git branch
+	--merged
+		shows branches that are merged into the branch you are currently on
+		branches without the * in this list are generally fine to delete
+	--no-merged
+		shows branches that are not merged into the branch you are currently on
+		can't delete unless forced, because it is not fully merged (-D can force it)
+% git branch -vv
+	lists your local branches including what eahc branch is tracking and if your local branch is ahead/behind/both
+
+$ git pull
+	combines fetch and merge
+$ git pull <remote>
+	fetch the <remote> copy of the current branch and immediately merge it into the local copy
+	equivalent to:
+		$ git fetch <remote>
+		$ git merge origin/<current-branch>
+$ git pull --rebase <remote>
+	uses rebase instead of merge
+
+$ git push
+	counterpart to git fetch
+	exports commits to remote branches
+$ git push <remote> <branch>
+	pushes the <branch> to <remote>
+$ git push <remote> --all
+	pushes all branches to the remote
+$ git push <remote> --force
+	forces the push even if it results in a non-fast-forward-merge
+	will delete upstream changes
+$ git push <remote> --tags
+	tags sends all of your local tags to the remote repository
+	tags are not automatically pushed otherwise
+$ git push --delete <branch>
+	this will delete the pointer to the <branch>
+	it will keep the data there for a while
+
+
+
+TAGS
+$ git tag
+	list the available tags (alphabetically)
+$ git tag -l "pattern"
+	searches for tags with the particular pattern
+
+Types of Tags
+	Lightweight
+		a pointer to a specific commit
+	Annotated
+		stored as full objects
+		checksummed
+		have tagger name, email, and date
+		have tagging message
+		can be signed and verified with GNU Privacy Guard (GPG)
+
+Annotated Tag
+$ git tag -a <tag name> -m "tag message"
+	-a flag specifies an annotated tag
+	-m flag specifies a tagging message
+
+$ git show
+	shows the tag data along with the commit
+
+Lightweight Tags
+$ git tag <tag name>
+	stores the commit checksum with the tag
+
+$ git show
+	just shows the commit
+
+Tagging Later
+$ git tag <tag name> <commit checksum or part of it>
+
+Sharing Tags
+$ git push origin <tagname>
+	pushes <tagname> to the server
+$ git push origin --tags
+	pushes all your tags to the remote server that are not already there
+
+You can checkout tags to go into detached HEAD state
+$ git checkout <tagname>
+
+
+GIT ALIASES
+$ git config --global alias.<shortcut> <command>
+allows
+$ git <shortcut> instead of $ git <command>

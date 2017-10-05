@@ -1,0 +1,60 @@
+URL = Uniform Resource Locator
+Example: http :// google.com :99 /X/Y ?item=something
+		 http is the protocol language/scheme (others include ftp, mailto, git)
+		 	google.com is the server/host
+		 		:99 is the port
+		 			X/Y is the path
+		 				?item=book is a query string made of query parameters (to send data to the servers)
+
+
+
+		 				QUERY STRINGS
+		 				? variable = value & variable2 = value2
+		 				? begins the query string
+		 					& is a query string separator
+		 						ENCODED CHARACTERS
+		 							Space = %20
+		 							! = %21
+		 							# = %23
+		 							etc
+
+
+HTTP is 'stateless'
+	session ids help as an unique token to make stateful
+
+HTTP Cookie: data sent from a server and stored in a client during a request/response cycle
+
+AJAX: Asynchronous Javascript and XML
+	  allows browsers to issue requests and process responses without a full refresh
+
+HTTPS: secure HTTP, all requests/responses are encrypted
+	uses TLS: Transport Layer Security
+	deprecated is SSL: Secure Sockets Layer
+
+CORS: Cross-Origin Resource Sharing, allows resources across domainds to circumvent same-origin policy (a security measure)
+
+XSS: Cross-Site Scripting
+
+Status Codes
+	200 OK
+	302 Found
+	404 Not Found
+	500 Internal Service Error
+
+TCP: Transmission Control Protocol
+ICP: Internet Protocol
+TCP and IP define how data should travel
+
+
+PORT NUMBERS
+192.168.0.1:1234
+			1234 is the port number'
+The default Port is 80
+
+
+
+Bash: Bourne-Again Shell
+
+
+SHORTCUT: ALT+TAB switches between programs
+

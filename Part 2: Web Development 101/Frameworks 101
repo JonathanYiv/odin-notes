@@ -1,0 +1,19 @@
+What is a framework?
+When developers write solutions in a particular language, then continue to write the same solutions -- they abstract the solutions into a compilation of them so they don't have to redundantly solve the same
+problems (you don't have to reinvent the wheel!)
+They organize and abstract, and this resource is known as a framework
+
+What's the difference between a programming language and a framework?
+A programming language is syntax, grammar, semantics and a core library perhaps -- a framework is a cohesive set of library code that simplifies programming in any given language (a set of tools)
+
+What languages have frameworks?
+All of them
+
+
+
+Frameworks help solve one of the core tenants of good programming -- "Don't Repeat Yourself" by reducing the amount you have to solve the same problems over and over again
+Some famous frameworks include Ruby on Rails, CakePHP, and Django
+
+All frameworks have their own strengths and weaknesses, and you need to evaluate each to see which is the best fit for your needs
+
+To play with a framework, try their tutorials -- you only become proficient with tools after having practiced a lot

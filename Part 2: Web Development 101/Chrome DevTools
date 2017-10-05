@@ -1,0 +1,40 @@
+$_ returns the value of the most recently evaluated expression
+
+$(0-4) are a historical reference to the last five DOM elements inspected within the Elements panel
+$0 is most recent
+$1 is second most recent 
+etc
+
+$(selector) returns the reference to the first DOM element with the specified CSS selector
+It is an alias for the document.querySelector() function
+
+$$(selector) returns an array of elements that match the given CSS selector
+equivalent to document.querySelectorAll()
+
+$x(path) returns an array of DOM elements that match the given XPath expression
+$x('//p') returns all the p elements
+$x('//p[a]') returns all p elements that contain a elements
+
+dir(object) shows all of the specified object's properties
+
+inspect(object/function) oepsn and selects the specified element or object in the appropriate panel
+
+getEventListeners(object); gets all event listeners associated with the object
+
+keys(object) returns an array containing the names of the properties belonging to the specific object
+values(object) returns the values of the same properties
+
+
+
+monitor() and monitorEvents() are useful tools to watch objects/functions and what happens with them
+
+
+
+There are multiple types of breakpoints:
+line-of-code
+conditional line-of-code
+DOM (subtree modifications, attribute modifications, node removal)
+XHR
+Event listener
+Exception
+Function

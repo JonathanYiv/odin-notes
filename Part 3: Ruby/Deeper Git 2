@@ -1,0 +1,128 @@
+Commits should fully describe, in present tense, what the commit includes.
+If you use a comma or the word "and", you've got too much stuff in your commit
+
+How often should you commit?
+Early and often
+
+How large should your commits be?
+One line summary (up to 50 characters)
+Empty line
+bullet points of changes
+
+should be a wrapper for related changes
+
+What should your commit messages say?
+Present tense description
+
+Can you commit unfinished features?
+No - split the feature's implementation into logical chunks
+
+Which workflow should you use? (e.g. Merge? Topic Branches? Git-Flow? Rebase?) Hint: There's no right answer.
+Whatever works best
+
+
+
+
+WHEN TO BRANCH (branch early and often)
+1) You are about to make an implementation of major/disruptive change
+2) You will make some changes that might not be used
+3) You want to experiment on something
+4) You are told to branch out
+Commit often, merge often
+
+
+LOST COMMITS
+reflog:
+	$ git log -g
+	shows you each commit
+lost and found:
+	commits/git data unreachable through any reference name are called "dangling"
+	they can be found using 
+	$ git fsck --unreachable
+		Dangling Commit
+			most likely candidates for lost data
+			git show <SHA-1>
+		Dangling Blob
+			file not attached to a commit
+			git show <SHA-1>
+		Dangling Tree
+			dictionary tree of files not attached to a commit
+			often caused by merge conflicts
+			usually uninteresting
+			git ls-tree -r <SHA-1>
+stashes:
+	git stash list
+
+
+$ gitk opens up a visual git tool
+
+$ git gc 
+	garbage collection
+	starting from every branch and every tag, Git walks backward through the graph
+	if a commit can't be reached, it is deleted
+
+$ git cherry-pick
+	given 1 or more existing commits, apply the change each one introduces, recording a new commit for each
+
+$ git add --patch
+	shows you changes in your code, asks if they should be committed or not
+	's' command allows you to split the diff into smaller chunks if necessary
+
+
+
+HEADS and branches are pretty much the same
+	for every branch, there is a head pointing to the most recent commit of the branch
+	switching heads using checkout just moves you to where that branch's head pointer is
+
+
+WHEN MERGING HAPPENS
+	1) identify ancestor commit
+	2) if ancester commit == to be merged, do nothing
+	3) if ancestor commit == current branch, do a fast-forward merge
+	4) otherwise, determine the changes between ancestor commit and to be merged
+	5) attempt to merge the to be merged into the current branch
+	6) if no conflicts, create a new commit with two parents, to be merged and current branch (and move to be merged head to the new merge commit)
+	7) if there was a conflict, insert conflict markers and inform the user
+
+
+RELATIVE REFERENCES
+^ = move up one commit (can be stacked)
+	you can add a parameter to change which parent it moves up (since a commit can have two parents)
+~<num> = move up number of commits
+relative references can be chained together
+
+
+Tags are used as permanent anchors to specific commits!
+You can check them out, but not modify them (going into detached HEAD state)
+$ git tag <name> <commit>
+
+
+$ git describe <ref>
+	shows you where you are relative at <ref> to the closest tag
+	<ref> is optional, it is by default HEAD
+	returns <tag>_<numCommits>_g<hash>
+		<tag> is the closest ancestor tag
+		<numCommits> is the commits away the tag is
+		<hash> is the hash of the <ref> commit
+
+$ git bisect (a debugging search)
+
+
+$ git checkout -b <branchname> <remote branch>
+	this checkouts a new branch by using the remote branch as the remote reference
+$ git branch -u <remote branch> <branch name>
+	sets <branch name> to track <remote branch>
+
+$ git push <remote> <place>
+	Go to the branch named <place> in my repository
+	grab all the commits
+	then go to the branch named <place> on the remote named <remote>
+	place whatever commits are missing on that branch
+
+
+COLON REFSPEC
+git push <remote> <source>:<destination>
+	push branch <source> to <remote> branch <destination>
+
+git fetch <remote> <branch>
+	goes to <branch> on <remote>, grabs all commits not present locally, then drops them on the <remote>/<branch> branch locally

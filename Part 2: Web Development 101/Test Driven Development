@@ -1,0 +1,46 @@
+What exactly does testing mean for web applications?
+It means writing tests that determine whether functionality of the web app is maintained despite changes
+
+Why is testing important?
+It automates QA processes and reduces bugs/breaking, helps you learn legacy code, and write better code
+
+What is legacy code?
+Old, shitty code
+
+Why is writing tests particularly powerful for legacy code?
+It helps make it manageable and lets the code evolve and be refactored
+
+What is RSpec?
+A popular ruby testing framework
+DSL (Domain Specific Language): added additional language features on top to make the language optimal for testing code
+
+
+How do you run a RSpec test suite?
+How do you write a basic RSpec test?
+
+
+
+TDD Steps
+1) Write an automated test for new functionality that fails
+2) Change the code so the test will pass
+3) Verify all tests passes
+4) Refactor when needed
+
+Test Driven Development means writing a failing test first, then making the test pass, then refactoring the code
+Red -> Green -> Refactor
+Never write new functionality without a failing test
+
+
+
+Unit Tests: small independent tests that verify a small amount of functionality
+
+Test-First Development helps accomplish both specification and validation (meaning it can validate that you pass the tests and since you wrote the test first, helps you specify your requirements)
+
+Test = Specification aka Spec
+
+
+
+rspec:
+expectations == assertions
+
+TDD = Refactoring + TFD

@@ -1,0 +1,85 @@
+1) Authenticating Users
+2) Creating Secure Connections
+3) Securing Databases
+
+HTTPS is an altered version of HTTP which encrypts the data to those who don't have the SSL certificate
+
+
+
+Why is security for an application important?
+Important data can be stolen
+
+What are the major areas where a web application is vulnerable?
+Denial of service attacks, user data in your database, unauthorized access to restricted parts of the site
+Cross-Site Scripting (XSS)
+Cross-Site Request Forgery (CSRF)
+Click-Jacking 
+Phishing
+Shell Injection
+SQL Injection
+
+How is HTTPS different from HTTP?
+It is 'secure', it encrypts data
+
+What does SSL stand for?
+Secure Sockets Layer
+
+What is an SSL certificate?
+a bunch of information verifying a user or server's identity that is signed by a trusted third party that allows a user and server to communicate via HTTPS securely
+A digital signature that binds a machine's public key with an identity (domain names with public key)
+
+
+How long has it been since you saw a news headline of a tech company who got "hacked" and exposed millions of user accounts?
+Yesterday
+
+
+
+TLS: Transport Layer Security, the successor to SSL
+uses Public Key Crytography for shared secret generation and authentication
+uses Symmetric Key Crytography using shared secrets for encrypting requests and responses
+
+
+PUBLIC KEY ENCRYPTION
+There are two keys, a private and a public, both are mathematically linked to each other
+The public key converts plaintext to ciphertext
+The private key decrypts ciphertext into plaintext
+The public key can be published freely without compromising the security of the system
+
+Diffie-Hellman allows the two to mix their private and public keys, then exchange, then mix in their secret key with the exchanged mixture to produce a common secret
+https://blog.hartleybrody.com/wp-content/uploads/2013/07/Diffie-Hellman_Key_Exchange.png
+
+
+Public Key Infrastructure: solves the authentication problem
+Infrastructures create, manage, distribute, and revoke signed certificates
+CA (Certificate Authorities) perform manual inspection and review to ensure the applying entity is a real person/business that exists and is in control of the domain they're applying
+for a signed certificate for 
+Browsers come preloaded with a list of trusted CAs
+
+
+HTTPS is also known as HTTP over TLS or HTTP over SSL or HTTP Secure
+
+
+
+What is FTP?
+File Transfer Protocol
+a way of transferring files to and from servers
+
+When is FTP used?
+Back then
+
+How is FTP used?
+For file transfer
+
+
+TCP = Transmission Control Protocol
+IP = Internet Protocol
+
+
+
+FTP protocol is handled by ports 20 and 21 by default
+HTTP requests are handled by port 80
+
+FTP can be over ASCII or binary
+Text, HTML, CGI is ASCII
+Images, applications, .zip/.tar/.sit, .doc/.xls/.fla/.swf files are all binary file types
+Both ASCII and binary can be sent in binary

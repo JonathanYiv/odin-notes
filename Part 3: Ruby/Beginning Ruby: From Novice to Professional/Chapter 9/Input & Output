@@ -1,0 +1,143 @@
+I/O = Input/Output
+I/O Streams are the basis for all input/output in Ruby
+
+I/O Stream: a conduit/channel for input and output operations between one resource and another
+(usually between Ruby program and keyboard OR Ruby program and a file)
+Some streams are one-way (i.e. can't send data to keyboard)
+
+
+#readlines goes through lines of input until a terminator
+EOF = End of File
+
+You can create EOF by pressing Ctrl+D
+
+
+
+
+OPENING FILE AND READING
+File.open("name.txt").each { |line| puts line }
+#open opens the text file
+#each, for a File object, returns each line one by one (technically by newline)
+
+File.open("name.txt", "r").each { |line| puts line }
+the "r" indicates you are opening the file for reading
+
+above closes the file after execution
+below you have to close file manually
+
+ALTERNATIVELY
+f = File.new("~/full/path/here/name.txt", "r")
+puts f.gets
+f.close
+
+
+
+
+OTHER READING
+File.open(...).each(delimeter) { |line| puts line }
+you can change the delimeter to change what File iterates through
+
+File.open(...) { |x| puts x.gets }
+
+You can also pull binary data with #read(number) and #each_byte and #getc
+
+
+SHORT-HAND
+data = File.read(filename)
+array_of_lines = File.readlines(filename)
+
+
+POSITION WITHIN FILE
+#pos returns the position of the file pointer in the number of bytes from the start of the file
+#pos= can set the position of the file pointer
+
+#seek lets you offset the pointer in a direction from current position or EOF
+
+IO::SEEK_CUR seeks a certain # of bytes ahead of current position
+IO::SEEK_END seeks to a position based on EOF
+IO::SEEK_SET seeks to an absolute position, identical to #pos=
+
+
+
+OPENING FILE AND WRITING
+File.open(..., "w") { |f| f.puts "text" }
+"w" indicates you are opening the file for writing
+this will overwrite what is currently in the file
+
+
+
+FILE MODES
+r : read-only
+r+ : both reading and writing, writing pushes other lines further
+w : write-only, new file created or overwrites an old as new
+w+ : both reading and writing, but it creates a new file from scratch or overwrites an old one as if new
+a : write in append mode, file pointer placed at EOF
+a+ : both reading/writing allowed in append mode, file pointer placed at EOF
+b : binary file mode (only windows)
+
+
+WRITING
+#putc
+#write
+The above two methods overwrite existing content
+
+
+
+METHODS
+#rename(oldname, newname)
+#delete(file1, file2, file3) or #unlink is the same
+#identical?(file1, file2)
+
+
+WINDOWS VS UNIX
+Windows c:\directory\filename.ext
+Unix /directory/filename.ext
+
+To make filenames platform-agnostic uses File.join
+File.join('full', 'path', 'here', 'filename.txt')
+and it will produce the correct back/forward slash notation
+
+
+FILE MODIFICATION TIME
+#mtime(filename) will show a file's last modification time
+
+
+METHODS
+#exist?(filename)
+#size returns the file size in bytes
+
+CATCH/THROW
+catch(:end_of_file) do
+	loop do
+		throw :end_of_file if f.eof?
+	end
+end
+
+
+
+DIRECTORIES
+Dir is a class
+Dir.chdir(directorypath) changes directory
+Dir.pwd for current directory
+Dir.entries("path").join(' ') for list of files and directories within .
+Dir.entries returns an array
+Dir["usr/bin/*"] or platform-agnostic with Dir[File.join(File::SEPARATOR, 'usr', 'bin', '*')]
+Dir.mkdir(directoryname) to create new directory
+Dir.delete("directoryname")
+
+
+
+TEMPORARY
+require 'tmpdir'
+Dir.tmpdir is a path to the temporary directory on the curren system
+You can create and delete files in tmpdir
+
+require 'tempfile'
+temporary_file = Tempfile.new('tempfile_name')
+temporary_file.puts "Hello"
+puts temporary_file.path
+temporary_file.close
+
+=> /tmp/tempfile_name.0
+
+tempfiles automatically delete themselves are usage

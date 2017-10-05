@@ -1,0 +1,316 @@
+Forms are extremely important, and often one form can interact with multiple models
+
+POINTS TO PONDER
+How can you view what was submitted by a form?
+	look through the output printed to your console when running $ rails server
+	do often to help build forms
+
+What is a CSRF token and why is it necessary?
+	A CSRF token is a Cross-Site Request Forgery Token, because it is intended to protect you against Cross-Site Request Forgery (CSRF)
+	Rails doesn't allow plain vanilla forms
+	It creates an authenticity token to verify that the session and the application match the form
+
+How do you generate the token in Rails?
+	using the `form_authenticity_token` method or one of the Rails form helpers (which automatically generate it)
+
+Why is the `name` attribute of a form input element so important?
+	the name attribute is the name of the key that params stores the value in
+
+How can you nest attributes under a single hash in params?
+	In raw HTML, you specify the name attribute as a hash_name[key_name]
+	With form_with, you do the same thing, but pass it to the rails helper _tag 
+	With form_for, it will automatically nest the attributes using Rails magic
+
+Why is this useful?
+	it reduces creation of a model instance to one line that is much cleaner
+	it also groups like things together in the case where you are handling multiple Models with a form
+
+What do you have to add/modify in your controller to handle nested params?
+	You generally add a private method that handles the params of any specific hash that requires the hash and permits certain keys 
+
+What special tags does Rails' #form_tag helper give you?
+	 There are tag helpers for all the major tags
+	 	text_field_tag
+	 	label_tag
+	 	submit_tag
+	 are among many
+
+What is the difference between #form_tag and #form_for helpers?
+	form_for is for a specific model
+	form_tag is to create a basic form
+
+How do you access errors on a failed-to-save model object?
+	object.errors
+	object.errors.full_messages
+
+Which form helper automatically adds markup around errors?
+	form_for
+
+How do you access your Update or Delete actions with a form?
+	If you pass form_for an instance of a Model that has been persisted, it will know that this is an update action, and will send the form action appropriately.
+	Otherwise, you must specify explicitly by passing form_for an argument for the `:html` hash in the form of `:html => { :method => :delete }
+
+
+HTML
+    <form action="/somepath" method="post">
+      <input type="text">
+      ...
+      <!-- other inputs here -->
+      ...
+      <input type="submit" value="Submit This Form">
+    </form>
+
+    There are plenty of input tags to choose from, including button, checkbox, date, hidden, password, radio
+    	color, datetime-local, email, file, image, month, number, range, reset, search, submit, tel, text, time, url, week
+
+
+Authentication
+	To protect you from CSRF (Cross-Site Request Forgery), Rails doesn't allow plain vanilla forms
+
+	It creates an authenticity token to verify that the session and the application match the form
+
+	Rails gives you a `form_authenticity_token` method to create one
+
+
+Params Name
+	The name attribute is extremely important
+
+	The name attribute you give an input tag determines what Rails will call the input when it creates the params hash
+
+		<input type="text" name="description">
+		will create a params hash containing a key called :description
+
+	Nesting Params
+		<input type="text" name="user[first_name]">
+    	<input type="text" name="user[last_name]">
+ 		<input type="text" name="user[email]">
+
+ 	   will create a params hash where the :user key will access a hash of { "first_name" => "value", "last_name" => "value2", "email" => "something" }
+
+ 	   so you can access params[:user][:email]
+
+ 	NOTE: You still have to whitelist the nested params given to your controller using `require` and `permit`
+
+
+ Rails Form Helpers
+ 	form_tag
+ 		form_tag helper takes a block representing all inputs to the form and automatically creates the CSRF token
+ 		you pass in arguments: which path to submit to (default is current page), which HTTP method to use
+
+ 		there are tag helpers
+ 			text_field_tag
+ 			label_tag
+ 			submit_tag
+
+ 			There are tag helpers for all of the major tags
+ 			all of the options they accept are a little bit different
+
+ 			example:
+
+			    <%= form_tag("/search", method: "get") do %>
+			      <%= label_tag(:q, "Search for:") %>
+			      <%= text_field_tag(:q) %>
+			      <%= submit_tag("Search") %>
+			    <% end %>
+
+			    creates
+
+			    <form accept-charset="UTF-8" action="/search" method="get">
+				    <label for="q">Search for:</label>
+				    <input id="q" name="q" type="text" />	      
+				    <input name="commit" type="submit" value="Search" />
+			    </form>
+
+	form_for
+		Pass form_for a model object and it will make the form submit to the URL for that object (@user will submit to the correct URL for creating a user)
+
+		The #new action ually creates a new unsaved instance of the object and passes it to the view for this reason
+
+		Where form_tag accepted a block, form_for passes the block a form object and then you create the form fields based off that object
+
+		(call the argument `f`)
+
+		it even nests the attributes
+
+		form_for checks if the object you have passed it. If the object is new and unsaved, it will send the form to your #create action.
+		If the object has been saved before, it will send it to your #update action.
+
+
+		example:
+			# app/controllers/articles_controller.rb
+			def new
+		      @article = Article.new
+		    end
+
+		    # app/views/articles/new.html.erb
+		    <%= form_for @article do |f| %>
+		      <%= f.text_field :title %>
+		      <%= f.text_area :body, size: "60x12" %>
+		      <%= f.submit "Create" %>
+		    <% end %>
+
+		    turns into
+
+			<form accept-charset="UTF-8" action="/articles/create" method="post">
+		      <input id="article_title" name="article[title]" type="text" />
+		      <textarea id="article_body" name="article[body]" cols="60" rows="12"></textarea>
+		      <input name="commit" type="submit" value="Create" />
+		    </form>
+
+	Note: form_for is used for model instances, form_tag is used for custom URLs
+	Note: both are soft deprecated and replaced by form_with which can generate form tags based on URLs, scopes, or models
+
+	form_tag without a model
+		<%= form_tag users_path do %>
+		  <%= text_field_tag :email %>
+		  <%= submit_tag %>
+		<% end %>
+
+	form_for with a model
+		<%= form_for @user do |form| %>
+		  <%= form.text_field :email %>
+		  <%= form.submit %>
+		<% end %>
+
+	form_with
+		form_with without a model
+			<%= form_with url: users_path do |form| %>
+			  <%= form.text_field :email %>
+			  <%= form.submit %>
+			<% end %>
+
+		form_with with a model
+			<%= form_with model: @user do |form| %>
+			  <%= form.text_field :email %>
+			  <%= form.submit %>
+			<% end %>
+
+		Note that url, users_path, model, and @user are all things you change for the input
+		The model form_with automatically derives the scope and url
+
+		form_with doesn't specify ids and classes automatically, you have to define them manually
+
+
+Forms and Validations
+	Generally, javascript validations should be the first line of defense against invalid form data
+
+	The controller should be set up to re-render the current form
+
+	Remember:
+		when an object fails to validate
+		it gets a new sert of fields attached called `errors`
+		object.errors
+		object.errors.count provides a count
+		object.erorrs.full_messages provides an array of all messages
+
+
+	common implementation to display
+		<% if @post.errors.any? %>
+	      <div id="error_explanation">
+	        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+	        <ul>
+	        <% @post.errors.full_messages.each do |msg| %>
+	          <li><%= msg %></li>
+	        <% end %>
+	        </ul>
+	      </div>
+	    <% end %>
+
+	Rails form helpers also handle errors automatically too. If a form is rendered for a specific model object, rails will check for errors,
+	and if any, it will wrap a special div element around that field with the class `field_with_errors` so you can write CSS to make it stand out
+
+PATCH and DELETE
+	since forms can not delete objects natively (browsers only support GET and POST requests)
+	Rails gets around that my sticking a hidden field named "_method" in your form
+	This tells Rails you actually want to do either a PATCH or DELETE
+
+	it will look like `<input name="\_method" type="hidden" value="patch">
+
+	form_tag and form_for can get an option for `method: "patch"` or `method: "delete"` 
+
+
+RailsGuides on Form Helpers
+	- how to create search forms and similar kinds of generic forms not representing any specific model
+	- how to make model-centric forms for creating and editing specific database records
+	- how to generate select boxes from multiple types of data
+	- what date and time helpers Rails provides
+	- what makes a file upload form different
+	- how to post forms to external resources and specify setting an authenticity token
+	- how to build complex forms
+
+	No Model
+		Basic Form
+			<%= form_tag do %>
+				...
+			<% end %>
+
+		Search Forms
+			<%= form_tag("/search", method: "get") do %>
+				<%= label_tag(:q, "Search for:") %>
+				<%= text_field_tag(:q) %>
+				<%= submit_tag("Search") %>
+			<% end %>
+
+			Always use GET as the method for search forms (allows users to bookmark a specific search)
+
+		form_tag argumnets
+			form_tag accepts 2 arguments, the path for the action and an options hash (includes specifying the method of form submission and other HTML options)
+
+		helpers
+			there are many helpers that end in _tag
+			they generate a single <input> element
+			the first parameter to the helper method is the name of the input, and can be accessed in params as a symbol
+
+			check boxes can be selected at will 
+			check_box_tag(:input_name)
+			label_tag(:input_name, "Label next to checkbox")
+
+			radio buttons are mutually exclusive selection
+			radio_button_tag(:input_name, "value")
+			label_tag(:input_name, "seen text")
+
+
+			There are many other helpers
+				<%= text_area_tag(:input_name, "default text", size: "24x6") %> # creates a sized text area with default text
+				<%= password_field_tag(:password) %> # creates a password field
+				<%= hidden_field_tag(:parent_id, "5") %>  # creates a hidden (invisible) field
+				<%= search_field(:user, :name) %> # creates a search field
+				<%= telephone_field(:user, :phone) %> 
+				<%= date_field(:user, :born_on) %>
+				<%= datetime_local_field(:user, :graduation_day) %>
+				<%= month_field(:user, :birthday_month) %>
+				<%= week_field(:user, :birthday_week) %>
+				<%= url_field(:user, :homepage) %>
+				<%= email_field(:user, :address) %>
+				<%= color_field(:user, :favorite_color) %>
+				<%= time_field(:task, :started_at) %>
+				<%= range_field(:product, :dscount, in: 1..100) %>
+	With Model
+		form_for provides a form builder object in the form of `f`
+		methods to create form controls are called on `f`
+		there is a single hash of options
+			routing options in the :url hash
+			HTML options in the :html hash
+
+		all inputs have the names of the form `model_name[attribute_name]`
+
+		form_for has a lot of magic called 'record identification' which knows if you are patching or posting and finding the scope/url
+
+	Select Boxes 
+		select_tag(:name, options_for_select(...))
+
+			options_for_select([['Option 1', 1], ['Option 2', 2], 2])
+			creates two select boxes with the names Option 1 and Option 2 with values of 1 and 2 respectively
+			2 is by default preselected
+
+			You can also add arbitrary attributes to the options using hashes
+
+		When dealing with models
+			you just use select(:name, [subarrays of selection options])
+
+
+	Basic Structures
+		params can have hashes and arrays
+		it can have nested hashes and arrays
+		however, only one level of 'arrayness' is allowed

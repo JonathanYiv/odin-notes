@@ -1,0 +1,411 @@
+Classes and Methods:
+What is an implicit return?
+a return that is not declared but implicit because it is the last line of a method
+
+What is a class?
+a collection of methods and variables that can be attached to an instance/object of a class
+
+When should you use a class?
+when you need multiple objects with the same functionality
+
+How do you create a class in your script file?
+class Name
+end
+
+What is an instance of a class?
+an object
+
+What is the difference between the CamelCase and snake_case styles of naming?
+ThisIsCamelCase
+this_is_snake_case
+
+How do you instantiate a class?
+instance = Class.new
+
+How do you set the state of your new instance?
+use a initialize method
+
+What should be done in the #initialize method?
+assign instance variables and other initial properties
+
+What is a class method?
+a method that is accessible to the class itself
+
+How is a class method different from an instance method?
+only the class can call it, not instances/objects
+
+How are methods you already know like #count or #sort etc instance methods?
+they are instance methods of the enumerable module
+
+What's the difference between how you declare a class method vs an instance method?
+def self.method or ClassName.method 
+VS
+def method
+
+What's the difference between how you call a class method vs an instance method?
+ClassName.method
+vs
+object.method
+
+What is an instance variable?
+a variable denoted like so: @variable that is only available to each instance of a class
+
+What's the difference between an instance variable and a 'regular' variable?
+their scope 
+
+What are "getter" and "setter" methods used for?
+to get and set instance variables
+
+What is the difference between a "getter" and a "setter" method?
+the getter returns the variable
+the setter lets you set it
+
+How do you make instance variables readable outside your class? Writeable? Both at the same time?
+attr_reader, attr_writer, attr_accessor respectively
+
+Can a class call its own class methods?
+yes
+
+What's the difference between when you would use a class variable and when you would use a constant?
+Constants never change
+Class Variables can change and usually do
+
+What's the difference between a class and a module?
+classes can have instances
+modules can not
+
+When would you use a class but not a module?
+when you need objects/instances
+
+How does inheritance work?
+you get all the methods and variables from the parent
+
+Why is inheritance really useful?
+DRY
+
+How do you extend a class? What does that mean?
+using include ModuleName or extend ModuleName
+it adds the functionality of the module into the class
+
+What does #super do? Why use it?
+accesses the method from the superclass
+sometimes you override a method and need access to the superclass' version
+
+Scope:
+What is scope?
+accessibility levels
+
+When can you start using a variable?
+after defined
+
+When is a new scope defined?
+when a variable is defined
+
+When are methods in scope?
+where they are created and everything downstream
+
+What is a private method?
+a method that can only be accessed in-class
+
+What is a protected method?
+a method that can be accessed only by instances of a class
+
+How are private and protected methods different?
+protected methods can be accessed by other instances, privates can not
+
+What does "encapsulation" mean?
+"black box", encapsulating things into private, public, or protected
+
+
+
+
+FUNDAMENTAL CONCEPTS
+Don't repeat yourself
+Modularize
+Classes/methods only do one thing
+Black box interfaces
+Don't make method/classes heavily dependent on each other
+Be lazy
+
+
+
+
+class Name
+	def initialize(value=default) #note: you don't have to put in a parameter in this case since their is a default value
+		@instancevariable = value
+	end
+end
+
+nameobject = Name.new("value")
+
+
+SCOPE: the context in which something (variables/methods) is visible to the program
+global: accessible everywhere, can be declared outside to make global or inside with $
+$global
+local: only inside methods
+class: only available to members of a certain class
+@@class
+instance: only available to instances of a class
+@instance
+
+when you create a variable, it is accessible by anything "downstream" of it, until the current scope is exited
+you create a new scope any time you indent that code and when a new variable is defined
+
+best practice: "everything should be hidden, what do I absolutely need to make externally available?"
+
+
+
+
+Class Methods
+class Name
+	def Name.method
+	end
+
+	def self.method #this is the same as the above
+	end
+end
+
+Name.method #this calls the class method
+Name.new.method #this calls the object/instance method
+
+methods are by default instance methods
+
+Factory Method: when you have known/preset features and need a class method to help set them
+
+
+
+
+Inheritance expresses an is-a relationship
+inherits methods and attributes
+
+class DerivedClass < BaseClass
+	...
+end
+
+< = inherits from
+
+OVERRIDE: you can redfine a method from BaseClass in DerivedClass
+but you can still access the overridden method/attribute using the "super" keyword
+
+Some languages allow classes to have multiple parents, called multiple inheritance, NOT RUBY
+However, Ruby has "mixins" that can do something similar
+
+
+You can use semicolons ; in Ruby to end lines in one line!
+def method; puts "ok"; end
+
+
+
+You can make methods "public" and "private" in classes
+Methods are public by default
+
+
+
+
+
+
+class Name
+	def Name.classmethod #belongs to the class itself
+		...
+	end
+end
+
+
+private methods can not be called with an explicit receiver (object.method -- object is the receiver of the method)
+
+
+attr_reader :variable #allows you to access a variable
+it is equivalent to
+def variable
+	@variable
+end
+
+attr_writer :variable #allows you to change a variable
+def change(parameter)
+	@variable = parameter
+end
+
+
+attr_accessor :variable #makes a variable both accessible and changable 
+
+
+
+
+
+MODULES
+module: a toolbox that contains a set of methods and constants (kinda like classes that can't have instances)
+
+module ModuleName
+	...
+end
+
+modules don't have variables
+modules have constants
+
+CONSTANT_VARIABLE = written in caps and separated words with underscores
+
+
+classes/modules are written in CapitalizedCamelCase
+
+
+namespacing is separating methods/constants into named spaces like modules
+for example
+Math::PI
+vs
+Circle::PI
+
+the double colon is the scope resolution operator (tells ruby where we are looking for specific bit of code)
+so Math::PI means look inside the Math module for the PI code
+
+this helps prevent naming conflicts and promote separation of concerns
+
+
+
+
+Some modules are already present, like "Math", "Kernel", "Enumerable", "Comparable"
+
+others can be brought in using 
+require 'module'
+
+you can add a module to a class at the instance level
+include module
+to make everything in it accessible in the scope
+
+mixin: mixing a module into a class
+
+you can mix a module into a class at the class level using
+extend module
+
+
+
+#methods gets all available methods for the receiver
+there is also:
+#private_methods
+#protected_methods
+#public_methods
+
+#instance_variables returns the names of any instance variables in a string array
+
+
+An alternative way of making methods private is passing in symbols representing symbols you want private
+like
+private :method_name, :another_method_name
+but this statement has to come after the methods are defined
+
+
+The three methods are enscapsulation:
+1) public
+2) private
+3) protected (so an object can call another object's method)
+
+PROTECTED
+makes a method private but within the scope of a class rather than within a single object
+
+
+application framework: a set of conventions, structures, and systems that provide underlying structure to make app development easier
+
+
+NESTING CLASSES
+you can place classes within other classes
+
+class Name
+	class NestedClass
+	end
+end
+
+You can access NestedClass from within the Name class
+however, outside of it, you can only access them via
+Name::NestedClass
+
+
+CONSTANTS
+constants are defined within the scope of the current class and made available to all child classes, unless overwritten
+
+
+VERSIONS
+alpha: initial release not for general release
+beta: implements most required features but not fully tested or stable
+
+
+
+THE COMPARABLE MODULE
+provies methods that give other classes comparison operators
+<, <=, ==, >=, >, between? (returns true if the value is between the two inclusive parameters supplied)
+Comparable module uses the <=> operator on the class that returns it
+
+a <=> b 
+returns -1 if a < b
+returns 0 if a == b
+returns 1 if a > b
+
+if you redefine <=> for your class, then your class can use the comparable module to use all the included methods
+enumerable is the same. if you redefine each, all the other methods in enumerable module use each so you can use all the included methods
+
+
+
+
+attr_accessor is equivalent to writing a getter and setter method
+
+
+STRUCTS
+structs are quick and easy data classes
+
+ClassName = Struct.new(:variable, :variable2, :variable3)
+instance = ClassName.new("Value", "Value2", 50)
+
+the above struct is roughly equivalent to
+
+class ClassName
+	attr_accessible :variable, :variable2, :variable3
+
+	def initialize(value, value2, value3)
+		@variable = value
+		@variable2 = value2
+		@variable3 = value3
+	end
+end
+
+
+PROTIPS
+#inject(:+) is equivalent to #inject { |a, b| a.send(:+, b) }
+
+Test.assert_equals( method(parameter), expected)
+
+.map(&:method) is equivalent to #map { |item| item.method }
+
+
+MISCELLANEOUS NOTES
+reflection: the ability to change details of a language's operations in their own programs on the fly
+reflection: the process by which a program can inspect, analyze, and modify itself while it's running and being used
+
+
+procedural style: focus on the steps required to complete the task without paying attention to how the data is managed
+
+object orientation: dictates that you define concepts/processes as classes from which you create objects
+
+
+
+metaprogramming: a technique in which computer programs treat their own programs as data
+
+
+encapsulation: ability of objects to hide their constituent data behind an abstracted interface
+make as few methods from class available as possible
+
+polymorphism: concept of writing code that can work with objects of multiple types/classes
+example: #+
+multiple subclasses/classes have same named method that does the same thing
+
+
+
+array = %w{word word word word}
+
+enumerable is used by the array and hash classes
+
+
+
+::new is a Class Method
+ex: Array.new
+
+CamelCase
+
+snake_case

@@ -1,0 +1,74 @@
+SQL = Structured Query Language
+A programming language is used to query databases
+
+
+What is a database?
+A program that allows you to store data and gives you tools to add, modify, and query that data
+There are different types, spatial, non-relational, XML, graph, but the most popular is relational
+
+What are relational databases?
+A database that provides connections between tables to model the relations
+
+How are relational databases different from XML?
+
+What is SQL?
+Structured Query Language
+
+What is SQL used for?
+To query databases
+
+What does CRUD stand for?
+Create, Read, Update, and Delete
+
+Why is the idea of "CRUD" so important for web apps?
+Without these four operations, the web app can not be considered complete
+
+How do you get all the records from a table in SQL?
+Select * FROM tablename
+
+How do you insert a record in SQL?
+INSERT INTO table VALUES (x, y, z, etc)
+
+What is a primary key?
+something that uniquely identifies each record in a database table
+
+What is a foreign key?
+a key used to link two tables together, it refers to the primary key in another table
+
+
+
+Spreadsheet vs Database
+Worksheet vs Table
+Worksheet Column vs Table Column
+Worksheet Row vs Table Row
+
+
+
+
+SQL lets you:
+Select (find)
+Order (organize)
+Delete
+Add (manage)
+
+
+There are different variations in SQL syntax between different commercial relational databases
+i.e. PostgreSQL, SQLite
+
+Types of relational databases:
+SQLite
+Oracle
+Access
+
+
+SQL Statement: a command used to access/use the database or the data within that databases
+SQL Query: subset of statement, a way to search and lookup data within a database
+
+
+A relational database will contain column(s) that other tables can key on to gather information from that table
+
+
+
+Parts of SQL
+Data Definition Language (DDL): DDL includes commands to create a table, to drop a table, or create and drop other aspects of a database
+Data Manipulation Language (DML) includes commands that are used to query and modify a database

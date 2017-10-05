@@ -1,0 +1,105 @@
+IMPORTANT NOTE: Shift + Insert is paste in the terminal, Ctrl+Shift+C is copy in the terminal
+
+HELPERS
+	if a helper is specific to a particular controller, put it in the corresponding helper file
+
+	example:
+		a helper for the Example controller should go in app/helpers/example_helper.rb
+
+	if the helper will be used on all pages, it should go in /app/helpers/application_helper.rb
+
+
+RAILS ENVIRONMENTS
+	There are three environments defined by Rails
+		Development
+		Test
+		Production
+
+
+STRINGS
+	strings are the most important data structure for web applications
+
+	STRING LITERALS
+	"" = empty string
+	"a" = nonempty string
+
+	You can concatenate or interpolate
+		note: Ruby won't interpolate into single-quoted strings
+
+	'puts' = put string 
+
+	single-quoted strings are useful because they are truly literal
+
+
+METHODS
+	most methods won't change the variable itself
+	to mutate the variable, use a "bang" method ("bang" == !)
+
+
+TIP: %w(this is a string array)
+
+CLOSURES
+	Blocks are closures
+	Closures are one-shot anonymous functions with data attached
+
+
+SHORTHAND: "Symbol to Proc"
+
+	%w[A B C].map { |char| char.downcase }
+	is equivalent to
+	%w[A B C].map(&:downcase)
+		& calls to_proc on the symbol, which is passed as a block to the method
+
+
+Note on Symbols: As opposed to strings, which are compared character by character, symbols are compared all at once. This makes them ideal as hash keys
+
+
+Note on Inspect:
+puts object.inspect
+has a shortcut
+p object
+
+
+Note on Hashes: When hashes are the LAST argument in a function call, the curly braces are optional
+
+stylesheet_link_tag 'application', { media: 'all',
+                                     'data-turbolinks-track': 'reload' }
+
+is equivalent to
+
+stylesheet_link_tag 'application', media: 'all',
+                                   'data-turbolinks-track': 'reload'
+
+
+                                this has two arguments:
+                                	a string indicating a path to the stylesheet
+                                	a hash with two elements indicating the media type and telling rails to use the turbolinks feature added in Rails 4.0
+
+
+
+CONSTRUCTORS
+	literal constructor
+		examples:
+			""
+			{}
+			[]
+	named constructor
+		calls new on the class name
+		examples:
+			String.new
+			Hash.new
+			Array.new
+
+
+	#new is a Class Method
+
+
+
+BLANK?
+	#blank? is a method added to the String class by Rails
+	if the string is only composed of whitespace or nil, it will return true
+
+	this is opposition to #empty? which will return false if a string is only whitespace
+
+
+Note: initializing objects using a hash argument is known as mass assignment and is common in Rails applications

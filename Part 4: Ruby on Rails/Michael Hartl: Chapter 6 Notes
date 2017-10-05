@@ -1,0 +1,117 @@
+A DDL is a Data Definition Language
+	Such as an SQL DDL
+
+
+$ rails generate model Name attribute:data_type attribute:data_type...
+	this also creates fixtures which contain sample data for the test database
+
+
+Migrations consist of a #change method which determines the change to be made to the database.
+	The method #create_table creates a table.
+		This method accepts a block with one block variable (the variable is the table)
+			Inside the block, the table object variable to create columns of certain types
+				example:
+					t.string :name
+					t.string :email
+
+		Note that the table will be pluralized in #create_table but singular in $ rails generate model
+
+	The method #timestamps creates two magic columns called 'created_at' and 'updated_at'
+
+$ rails db:migrate
+	run the migration aka 'migrating up'
+
+$ rails db:rollback
+	"migrate down" to reverse a migration
+
+	In the change method, some actions have inverses (like drop_table being the inverse of create_table)
+	Some do not, so you need to define separate up and down methods in place the single change method
+
+
+$ rails console --sandbox
+	all modifications you make will be rolled back on exit
+
+
+#new only creates an object in memory
+#valid? only checks if an object is considered valid
+#save saves the object to the database, returns true/false if the save succeeds/fails
+#create combines #new and #save, but returns the object itself
+#destroy is the inverse of #create
+#add_index <:table>, <:column>, <options>
+	one of the options is 'unique: true' which enforces uniqueness
+	this adds an index (see below) to the column
+
+
+Note on Timestamps: They are created in Coordinated Universal Time (UTC) which is the same as Greenwich Mean Time (GMT)
+
+
+ModelName.find(id) finds the modelname instance with an id of 1 in your database
+ModelName.find_by(attribute: value) finds the modelname instance with the attribute having said value in the database
+ModelName.first returns the first modelname instance in the database
+ModelName.all returns all the instances of modelname in the database as an object of class ActiveRecord::Relation which functions as an array
+
+
+Updating user objects
+	You can assign individual attributes by calling them as a method of the object, but you must save it to persist the changes
+	You can object.reload.attribute before saving to verify that the attribute has not been persisted to the database
+
+	You can also update multiple attributes using object.update_attributes(attribute: value, attribute: value, ...)
+	This method performs the update and save in one step, and returns true/false if the save went through
+
+	There is also the singular form object.update_attribute(attribute:, value)
+
+
+Validations
+	validations are constraints applied to model attributes
+
+	common validations validate presence, length, format, and uniqueness (and confirmation)
+
+	model validations are great for TDD
+
+
+A Database Index is similar to a Book Index
+	in a book index, you refer to the index to find which pages a word occurs in
+	a database index is the same
+
+
+A Callback
+	is a method that gets invoked at a particular point in the lifecycle of an ActiveRecord object
+
+	an example is #before_save
+		more examples at http://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Callbacks.html
+
+
+To Hash
+	to hash a string to created a hashed version, you apply an irreversible hash function to input data
+
+	There is a Rails method called #has_secure_password
+		which allows one to save a securely hashed 'password_digest' attribute to the database
+
+		creates a pair of virtual attributes (virtual meaning columns are not on database but exist on the model)
+			that are 'password' and 'password_confirmation'
+
+		allows an `authenticate` method that returns the user when the password is correct, and false otherwise
+			determines if a password is valid for a particular user by computing its digest and comparing the result to password_digest in the database
+
+		Requirement: corresponding model has an attribute called password_digest (input data is message, output aka hash value or hash is called the digest or message digest)
+
+
+
+Creating a model with a generator that has a foreign key
+
+	$ rails generate model Name attribute:type <table name>:references
+		if the model has not been created yet
+
+	$ rails generate migration add<table name>IdTo<table name> <table_name>_id:integer
+		if the table has already been created
+
+
+has_secure_password
+	This is included in the Model. It adds:
+		Ability to save a securely hashed password_digest attribute to the database.
+			(The password is hashed using the bcrypt gem)
+		Adds virtual attributes (exist on the Model, but not the Database), `password` and `password_confirmation` which have presence and matching validations
+		Adds an authenticate method -- this rerturns the user when the password is correct and false otherwise
+
+	The only requirement:
+		Have an attribute called password_digest to the Model

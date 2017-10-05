@@ -1,0 +1,69 @@
+You can use the keywords
+load
+AND
+require
+to load external source code files into your program
+
+require only loads the file once
+load loads the file every time it is used
+require is generally used rather than load
+load is only useful if the code in the external file has changed for some reason
+
+both keywords can take local or absolute file names
+require 'a' :
+1) first looks for a.rb in current directory
+2) iterates through multitude of other directories
+note: it stores the directories it searches for in a variable called $:
+you can see what $: has by using $:.each { |d| puts d } in irb
+
+to add extra directories
+$:.push '/your/directory/here'
+
+$: is an array
+
+
+
+Shortcut to load many libraries:
+%w{file1 file2 file3 file4}.each { |x| require x }
+
+
+when you load/require a file, the file can also require/load files, and so on
+
+
+
+Library: a collection of routines that can be called by separate programs, but exist independently of those programs
+
+Ruby comes more than 100 standard libraries called "the Standard Library"
+a list of all standard libraries + documentation is available at ruby-doc.org/stdlib
+
+
+
+the net/http library provides basic support for HTTP
+the ostruct library provides the OpenStruct class which lets you create data objects without specifying attributes, and create them on the fly
+
+RubyGems: a packaging system of Ruby programs/libraries
+It enables devs to package Ruby libraries in a form that's easy for users to maintain/install, manage different versions of the same library, and install easily via the CLI
+
+$ gem list
+>prints Local Gems
+
+$ gem list --remote
+>prints remote Gems hosted by RubyGems at rubygems.org
+
+$ gem install gemname
+
+
+You can include gems by:
+require 'rubygems'
+require 'gemname'
+It will load gemname as if were a normal/local library
+
+$ gem update
+updates all your gems
+
+$ gem uninstall gemname
+uninstalls gemname
+
+
+
+Project: any collection of multiple files and subdirectories that form a single instance of a Ruby application/library

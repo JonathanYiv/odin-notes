@@ -1,0 +1,198 @@
+Ruby uses a utility called RDoc (Ruby Documentation)
+
+
+# Class Description
+class Something
+	
+	# Method Description
+	def method
+	end
+
+end
+
+to document it..
+$ rdoc <name of source file>.rb
+> creates a doc/ directory that has an index.html with documentation
+
+
+
+RDOC Formatting
+
+#= RDoc Example
+#
+#== This is a heading
+#
+#* First item in an outer list
+#  * First item in an inner list
+#  * Second item in an inner list
+#* Second item in an outer list
+#  *Only item in this inner list
+#
+#== This is a second heading
+#
+#Visit www.rubyinside.com
+#
+#== Test of text formatting features
+#
+#Want to see *bold* or _italic_ text? You can even embed
+#+text that looks like code+ by surrounding it with plus symbols. Indented code will be automatically formatted:
+#
+#	class MyClass
+#		def method_name
+#			puts "test"
+#		end
+#	end
+
+
+By default, Rdoc will use just about anything
+You can have RDoc ignore things by using
+
+#:nodoc:
+
+You can turn rdoc processing on
+#++
+or off
+#--
+
+In the CLI, options you can give RDOC are
+--all processes beyond public methods
+--fmt <format name> produces documentation in a certain format
+--help get help with options and formatters
+--inline-source forces code to be shown inline instead of popups
+--main <name> sets the class, module, or file that appears as the main index page for the documentation to <name>
+--one-file places all documentation on one file
+--op <directory name> sets the output directory to <directory name>
+
+
+DEBUGGING AND ERRORS
+Exception: an event that occurs when an error arises within a program
+it can cause program to quit immediately with error message, or be handled by error handling routines
+
+Exceptions are objects of class Exception
+
+Ruby has ~30 main predefined exception classes (like NoMemoryError, RuntimeError, SecurityError, ZeroDivisionError, NoMethodError)
+
+when exception is raised, ruby looks back up the tree of routines that called the current one (the tree aka the sack) and looks for a routine that can handle that particular exception
+if no routine, it quits with the raw error message
+
+
+
+You can create your own exceptions!
+#raise method is one
+
+
+class Person
+	def initialize(name)
+		raise ArgumentError, "No name present" if name.empty?
+	end
+end
+
+if you call #raise with no arguments, a generic RuntimeError exception will be raised
+that is bad practice -- always provide a message and class if possible
+
+
+class BadDataException < RuntimeError
+end
+
+class Person
+	def initialize(name)
+		raise BadDataException, "No name present" if name.empty?
+	end
+end
+
+
+
+HANDLING EXCEPTIONS
+begin
+	puts 10 / 0
+rescue
+	puts "You caused an error!"
+end
+
+begin
+rescue ErrorType
+rescue ErrorType2
+rescue
+end
+
+allows you to handle different exceptions differently with a default fallback
+
+
+You can receive exceptions
+begin
+...
+rescue =>
+	puts e.class
+else
+...
+end
+
+
+
+
+
+CATCH AND THROW (work with symbols)
+catch(:symbol) do
+	block of code
+	throw :symbol if condition
+end
+
+
+
+DEBUGGING
+Ruby has a tool that lets you step through your code line by line
+set breakpoints (places where execution will stop for you check things out)
+
+$ ruby -r debug filename.rb
+will open an irb-like interface that will let you debug
+
+at the debugger prompt:
+list lists the lines of the program currently being worked on
+list 2-4 shows code lines 2-4
+step runs the next line of the program
+step 2 executes 2 lines
+cont runs the program without stepping, execution will continue until the program ends OR reaches a breakpoint OR a watch condition becomes true
+break sets a breakpoint at a particular line number
+break 3 sets a breakpoint at line 3
+watch sets a condition breakpoint
+watch x > 10
+quit exits the debugger
+
+you can type variables to find their values
+
+
+
+
+EXCEPTION FAMILY TREE
+Exception
+    NoMemoryError
+    ScriptError
+        LoadError
+        NotImplementedError
+        SyntaxError
+    SignalException
+        Interrupt
+    StandardError
+        ArgumentError
+        IOError
+            EOFError
+        IndexError
+            StopIteration
+        LocalJumpError
+        NameError
+            NoMethodError
+        RangeError
+            FloatDomainError
+        RegexpError
+        RuntimeError
+        SecurityError
+        SystemCallError  - ENOENT: no such file or directory
+        SystemStackError
+        ThreadError
+        TypeError
+        ZeroDivisionError
+    SystemExit
+    fatal 
+
+Everything is an exception.
+StandError covers pretty much every syntax error

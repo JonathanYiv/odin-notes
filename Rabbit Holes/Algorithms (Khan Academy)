@@ -1,0 +1,241 @@
+GRAPHS
+note: breadth-firsst search finds the shortest path from a given source vertex to all other vertices, in terms of the number of edges in the paths
+
+	graph: a connection of vertices via edges
+		undirected graphs: edges between vertices go both ways
+		directed graphs: edges between vertices don't necessarily go both ways
+		weighted graph: graph whoses edges have weight
+			shortest path: path with edge weights adding up to the smallest sum
+		dag (directed acylclic graph): graph with no cycles
+	vertices (singular: vertex): points of data
+		V = Vertice Set
+		Vertices are typically numbered from 0 to |V| - 1
+		vertices connected by an edge are considered 'adjacent' or 'neighbors'
+		degree: number of edges incident on the vertex
+			out-degree: number of edges leaving a vertex
+			in-degree: number of edges entering a vertex
+		path: edge between two vertices
+			shortest path: path with least edges
+			cycle: when a path goes from a particular vertex back to itself
+	edge: connects two vertices
+		E = Edge Set
+		an undirected edge that connects vertex u and vertex v is denoted by (u,v) = (v,u)
+		incident: undirected edges are 'incident' on vertices when they are between vertices 		
+		directed: edges that go one way
+	  		edges leave one vertex and enter another
+	weight: number you can put on an edge
+
+	RUNNING TIMES
+		linear to number of vertices
+			O(|V|) = O(V)
+				note: |x| denotes set x
+			O(lgE)
+
+
+
+	THREE WAYS TO REPRESENT GRAPHS
+		Three Criteria:
+			1) Memory/Space needed
+			2) Time to determine whether a given edge is in graph
+			3) Time to find neighbors of a given vertex
+
+		1) Edge List
+			An array of |E| edges
+			an array of objects containing the vertex numbers of the vertices that the edges are incident on
+					 or
+					 an array of a subarray of two vertex numbers
+					 and if edges have weights...
+					 then add a third element to the subarray or more information to the object
+			edge lists are hard to find a particular edge
+			memory/space needed is O(E)
+
+			example: [ [0,1], [0,6], [0,8], ...]
+
+			Storage: O(E)
+
+		2) Adjacency Matrices
+			|V| x |V| matrix of 0s and 1s, 
+			the entry in row i and column j is 1 if and only if the edge (i, j) is in the graph
+				to indicate an edge weight:
+					instead of 0s and 1s, use the edge weight for 1s, use a special value (like nil) for 0s
+			we can find a given edge in constant time (by just looking up the corresponding entry)
+			memory/space needed is O(V^2)
+			to find which vertices are adjacent to a given vertex i, you have to look at all |V| entries in row i
+
+			for an undirected graph, the adjacency matrix is symmetric: row i column j entry i = 1 IF AND ONLY IF row j column i entry = 1
+
+			Storage: O(V^2)
+
+			example:
+			[ [0, 1, 0, 0, 0, 0, 1, 0, 1, 0],
+  			  [1, 0, 0, 0, 1, 0, 1, 0, 0, 1],
+  			  [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+  			  [0, 0, 0, 0, 1, 1, 0, 0, 1, 0],
+  			  [0, 1, 1, 1, 0, 1, 0, 0, 0, 1],
+  			  [0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+  			  [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+  			  [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+  			  [1, 0, 0, 1, 0, 0, 0, 1, 0, 0],
+  			  [0, 1, 0, 0, 1, 0, 0, 1, 0, 0] ]
+
+
+  		3) ADJACENCY LISTS
+  			a combination of adjacency matrixes with edge lists
+  			for each vertex i, store an array of the vertices adjacent to it
+  			the array will be of size |V| adjacency lists
+
+  			finding an edge (i, j) involves going to adjacency list i and then looking for j with time O(d) with d = degree
+  			for an undirected graph, adjacency lists are symmetric
+
+  			for weighted graphs, each item in the adjacency listt is either a two-item array or an object
+
+  			Storage: O(V + E)
+
+  			example:
+  			[ [1, 6, 8],
+  			  [0, 4, 6, 9],
+  			  [4, 6],
+  			  [4, 5, 8],
+  			  [1, 2, 3, 5, 9],
+  			  [3, 4],
+  			  [0, 1, 2],
+  			  [8, 9],
+  			  [0, 3, 7],
+  			  [1, 4, 7] ]
+
+  	BREADTH-FIRST SEARCH
+  		assigns two values to each vertex v:
+  			distance: the minimum number of edges in any path from the source vertex to vertex v
+  			predecessor vertex: the vertex along some shortest path from the source vertex 
+  				the source vertex is some special value like null indicating it has no predecessor
+
+  		if(no path from source vertex to vertex v)
+  			v's distance is infinite
+  			v's predecessor has the same special value as the source's predecessor
+
+  		BFS:
+  			initially set the distance and predecessor of each vertex to the special value like nil
+  			start the search at the source and assign it a distance of 0
+  			visit all neighbors and give each neighbor a distance of 1 and set its predecessor to be the sourcec
+  			then visit all neighbors fo the vertices whose distance is 1 AND that have NOT been visited before, giving them a distance of 2 and predecessor
+  				vertices that have not been visited have a distance of nil
+  			continue until all vertices reachable from the source vertex have been visited, always visting all vertices at distant k from the source before visiting any vertex at distance k+1
+
+  		A queue is is used to track vertices
+  			enqueue(obj) inserts an object into the queue
+  			dequeue() removes from the queue the object that has been in it the longest
+  			isEmpty() returns true/false if empty/not empty
+
+  		1) enqueue source vertex
+  		2) dequeue source vertex, enqueue neighboring vertices
+  		3) dequeue the first neighboring vertice, enqueue its neighoring vertices
+  		4) cont...
+
+  		at any moment, the queue either contains
+  			all vertices with the same distance
+  			or
+  			vertices with distance k followed by vertices with distance k + 1
+
+
+
+
+
+
+
+
+
+
+
+
+Binary Search: dividing a sorted list into half continuously until you find what you are searching for
+	it does this by using an average of min/max values
+	if the value is above/below the average, then it reassigns either min/max respectively to reduce the size of the search area by roughly half
+	this is much more efficient than linear search
+
+
+LOGARITHMS
+log(base 2)16 = 4
+2^4 = 16
+
+2^X = 16
+log(base 2)16 = X 
+
+Log(base number)Number = What power do I need to raise the base number to get the number?
+
+Log(base number)Number = The log of base [number] is equal to X
+
+X^0 = 1
+
+Log(base)power = exponent
+
+Log(b)a = c <-> b^c = a
+b > 0
+a > 0
+b != 1
+
+Common Logarithm: Base-10 Algorithm
+log(10)x = log(x)
+
+Natural Logarithm: Base-e Logarithm
+log(e)x = ln(x)
+
+THE BINARY LOGARITHM IS Log(base 2)N AKA lg(n)
+for an array of size N, if it takes M guesses to solve it...
+for an array of size 2N, it will take M + 1 guesses to solve it
+this is modeled by the binary logarithm, which is known as lg n
+
+lg n
+where n=array size
+
+lg(1) = 0
+lg(2) = 1
+lg(4) = 2
+lg(8) = 3
+
+
+logarithms are the INVERSE of exponents which grow RAPIDLY
+meaning logarithms grow SLOWLY
+see ./binarylogarithmgraph.png for a good representation
+it quickly levels off and doesn't grow quickly
+also see compared to linear search in ./lgnvslinearsearch.png
+
+Logarithms grow slower than polynomials
+lgn grows more slowly than n^a for any positive constant 'a'
+lgn grows faster than O(1) though
+
+
+
+ASYMPTOTIC NOTATION
+	dropping the constant coefficients and the less significant terms produces asymptotic
+	asymptotic: approaching a value or curve arbitrarily closely
+
+	There are three forms:
+		big THETA notation 
+		big O notation
+		big OMEGA notation
+
+		note: replace THETA and OMEGA with their greek symbols respectively
+
+
+		O is the asymptotic upper bound
+			for O( f(n) )
+				it will take at most f(n) time
+		THETA is a " asymptotically tight bound" within constant factors above and belowthat requires both Big O and Omega (the "asymptotically" because it matters only for large values of n)
+			for THETA( f(n) )
+				it will take at least f(n) time but no more than f(n) time
+		OMEGA is the lower bound
+			for OMEGA( f(n) )
+				it will take at least f(n) time but there is no upper bound
+
+
+SLOWEST TO FASTEST GROWING
+O(1)
+O(lgn)
+O(n)
+O(nlgn)
+O(n^2)
+O(n^2lgn)
+O(n^3)
+O(2^n)
+
+an exponential function a^n where a > 1 grows faster than any polynomial function n^b where b is any constant

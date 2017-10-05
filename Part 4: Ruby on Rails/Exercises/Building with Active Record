@@ -1,0 +1,198 @@
+Example: You are building a blog for your startup which will have multiple authors and each author can write multiple posts.
+
+Authors
+	username:string [unique, 4-12 chars, present]
+	email:string [unique, present]
+	password:string [6-16 chars, present]
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	has_many posts
+
+Posts
+	title:string [unique, present]
+	body:text [present]
+	author_id:integer [present]
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	belongs_to author
+
+
+Exercise 1: You are building an online learning platform (much like this!). You've got many different courses, each with a title and description, and each course has multiple lessons. Lesson content consists of a title and body text.
+
+Courses
+	title:string [unique, present]
+	description:string [present]
+
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	has_many lessons
+
+Lesson
+	title:string [unique, present]
+	body:string [present]
+
+	course_id:integer
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	belongs_to course
+
+
+Exercise 2: You are building the profile tab for a new user on your site. You are already storing your user's username and email, but now you want to collect demographic information like city, state, country, age and gender. Think -- how many profiles should a user have? How would you relate this to the User model?
+
+Profiles
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	belongs_to user
+
+Users
+	username:string [unique, present, 4-12 characters]
+	email:string [unique, present]
+	password:string [6-16 characters, present]
+
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	has_one profile
+	has_one demographic
+
+Demographics
+	city_id:integer [no swear words]
+	age:integer [between 13 and 130]
+	gender:string [no swear words]
+
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	belongs_to user
+	belongs_to city
+
+Cities
+	state_id:integer
+	name:string [no swear words]
+
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	has_many demographic
+	belongs_to state
+
+States
+	country_id:integer
+	name:string [no swear words]
+
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	has_many cities
+	belongs_to country
+
+Country
+	name:string  [no swear words]
+
+	id:integer
+	created_at:datetime
+	updated_at:datetime
+
+	has_many countries
+
+Exercise 3: You want to build a virtual pinboard, so you'll have users on your platform who can create "pins". Each pin will contain the URL to an image on the web. Users can comment on pins (but can't comment on comments).
+
+	All of the listed have:
+		id: integer
+		created_at: datetime
+		updated_at: datetime
+
+Pinboards
+	name:string [12-25 characters, unique, present]
+	description:string [50-100 characters]
+
+	has_many pins
+
+Pins
+	user_id:integer
+	pinboard_id:integer
+	url:string [present, unique]
+	title:string [unique, present]
+	description:string [50-100 characters, optional]
+
+	belongs_to user 
+	belongs_to pinboard
+	has_many comments
+
+Users
+	username:string [4-12 characters, present, unique]
+	email:string [present, unique]
+	password:string [6-16 characters, present]
+
+	has_many pins
+	has_many comments
+
+Comments
+	user_id:integer
+	pin_id:integer
+	comment:string [maximum 300 characters, present, unique]
+
+	belongs_to pin
+	belongs_to user
+
+Exercise 4: You want to build a message board like Hacker News. Users can post links. Other users can comment on these submissions or comment on the comments. How would you make sure a comment knows where in the hierarchy it lives?
+
+	All of the listed have:
+		id: integer
+		created_at: datetime
+		updated_at: datetime
+
+Users
+	has_many links
+	has_many comments
+	has_many votes
+
+	username: string [4-12 characters, present, unique]
+	email: string [present, unique]
+	password: string [6-16 characters, present]
+
+Links
+	user_id: integer
+
+	has_many votes
+	has_many comments
+	belongs_to user
+
+	title: string [present, unique]
+	url: string [present, unique]
+
+Comments
+	user_id: integer
+	link_id: integer
+	comment_id: integer (optional)
+
+	belongs_to user
+	belongs_to link
+	belongs_to comment
+	has_many votes
+
+	comment: string [maximum 300 characters, present]
+
+
+Votes
+	link_id: integer
+	user_id: integer
+	comment_id: integer (optional)
+
+	belongs_to link
+	belongs_to user
+	belongs_to comment
