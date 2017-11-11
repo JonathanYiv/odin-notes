@@ -1,0 +1,52 @@
+It is convenient to model sessions as a RESTful resource
+	visiting the login page will render a form for NEW sessions
+	logging in will CREATE a new session
+	logging out will DESTROY it
+
+$ rails test <path to test file>
+	runs only the test file
+
+||= is "or equals"
+	+= is A = A + B
+	-= is A = A - B
+	*= is A = A * B
+	||= is A = A || B
+
+	This is known as short-circuit evaluation - evaluating || expressions from left to right and stopping on the first true value
+	also applies to && statements, except they stop on the first false value
+
+
+Fixtures are used to organize data to be loaded into the test database
+
+
+BCrypt::Password.create(string, cost: cost)
+	string is the string to be hashed
+	cost is the cost parameter that determines the computational cost to calculate the hash
+		higher costs make it computationally intractable to use the hash to determine the original password
+
+
+Helpers are automatically created alongside Controllers
+	Helpers are accessible in the Views
+	You can use `include` in the applications controller to include a helper in all controllers as well
+
+
+Tests have a test database which has data loaded from 'fixtures'
+Fixtures are yml files that understand erb
+
+
+Integration Tests
+	follow_redirect! follows any redirects
+	assert_template 'controller#view' ensures you are viewing the controller/view template
+	assert_not flash.empty? ensures the flash has something in it
+	post <path>, params: ... 
+		posts a params hash to the path
+	get <path>
+		goes to the path in question
+	assert_no_difference
+		is a block where you pass it a variable, and it asserts that the values of the variable are the same before and after running the block
+	assert_difference
+		does the opposite of the above, can also pass it another argument that specifies the size of difference if it is an integer
+
+	assert_select
+		checks that there is a specific HTML on the page
+		can also check for links, and number of links

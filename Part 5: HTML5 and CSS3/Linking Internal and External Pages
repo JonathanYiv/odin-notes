@@ -1,0 +1,60 @@
+Learning Outcomes
+	What is the difference between internal links (/somepage) and external links (http://www.somesite.com/somepage)?
+		one is relative to the current location
+		one is a full set of directions to the resource
+
+	When on a webpage should you use the full URI and when should you use the relative path?
+		relative path if the resource is in the same server
+		full URI if it is not
+
+	How do you navigate the document tree with links (../../someotherpage)?
+		just like the command line
+
+	How do you open links in external windows?
+		add `target="_blank" attribute to the <a> element
+
+	What are all the possible pseudo-states (like :hover) of a link and when are they actually activated? How do you change styles based on them?
+		Use CSS to change styles
+		:link, :visited, :hover, :active, :focus
+
+
+Relative vs Absolute Paths
+	An absolute path is a full set of instructions to the resource
+	A relative path is a path relative to the current location as the page being viewed
+
+Link Psuedo-Classes
+	:link 		- unvisited links
+	:visited	- visited links
+	:hover		- mouse pointer on top of link
+	:active 	- when the user clicks on the link
+	:focus		- when the user tabs to a link or after you click on a link
+
+	Selecting in CSS
+		example:
+			a:link{
+				...
+			}
+
+	:link and :visited are actually link psuedo-classes
+	:hover, :active, :focus are dynamic psuedo-classes and can be used on other HTML elements
+
+	Selecting Multiple in CSS
+		example:
+			a:link:hover {
+				...
+			}
+
+	Suggested Order - to ensure all styling occurs
+		a
+		a:link
+		a:visited
+		a:hover
+		a:focus
+		a:active
+
+		otherwise some might override the others
+
+	Restrictions of Modern Browsers
+		:link and :visited cannot differ except for their color properties
+
+		this is because it can be abused in a way that someone can get data about its visitor's briowsing history

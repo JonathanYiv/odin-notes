@@ -1,0 +1,34 @@
+Introduction to Kubernetes
+	Containers are baby computers inside another computer (server)
+	Benefits: resource isolation and efficient server use, abstracts away your infrastructure
+
+	Kubernetes is an organization of the containers
+	Pods consist of one or more containers on one node/server and are always coupled together
+	One pod is reached through an IP address
+
+	A deployment is multiple pods
+	Services join together to route to deployments
+
+	Ingress controller handles external internet traffic and sends it to different services
+
+	YAML files define the attributes of everything at every layer
+
+Note to Self: If I ever do a presentation, it must have value beyond just reading about it in an article online
+
+WebAssembly
+	efficient, low-level bytecode for the web
+	extremely small file-size
+	code is compiled into bytecode before sent to the browser
+	safe and portable
+
+	because browsers use JIT (Just in Time) compilers to optimize Javascript, it is not recommended to compile JS into WASM
+
+	Other languages don't have JIT advantage, so they should be compiled into WASM
+
+	It is best for heavily CPU bound computations (video encoding, games, etc)
+
+REST vs GraphQL
+	All graphQL requests are POST requests
+	queries are structured like JSON
+
+	

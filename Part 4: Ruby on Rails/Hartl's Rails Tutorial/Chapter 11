@@ -1,0 +1,67 @@
+Email Verification
+1) Associate an activation token and digest with a user
+2) Send the user an email with a link containing the token
+3) Activate the user upon clicking the link
+
+
+Full Details:
+1) Start users in an 'unactivated' state
+2) When a user signs up, generate an activation token and corresponding activation digest
+3) Save the activation digest to the database, and then send an email to the user with a link containing the activation token and user's email address
+4) When user clicks the link, find the user by email address, and then authenticate the token by comparing with the activation digest
+5) If the user is authenticated, change the status from 'unactivated' to 'activated'
+
+
+
+ANALOGY BETWEEN LOGIN/REMEMBERING/ACCOUNT ACTIVATION/PASSWORD RESET
+find by			string				digest				authentication
+email			password			password_digest		authenticate(password)
+id				remember_token		remember_digest		authenticated?(:remember, token)
+email			activation_token	activation_digest	authenticated?(:activation, token)
+email			reset_token			reset_digest		authenticated?(:reset, token)
+
+
+
+
+$ rails generate mailer <name> 
+	email templates are defined as views
+	mailers are structured similarly to controller actions
+
+
+GENERATED MAILER
+class UserMailer < ApplicationMailer
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   en.user_mailer.account_activation.subject
+  #
+  def account_activation
+    @greeting = "Hi"
+
+    mail to: "to@example.org", subject: "This is the subject"
+  end
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   en.user_mailer.password_reset.subject
+  #
+  def password_reset
+    @greeting = "Hi"
+
+    mail to: "to@example.org"
+  end
+end
+
+
+APPLICATION MAILER
+class ApplicationMailer < ActionMailer::Base
+  default from: "from@example.com"
+  layout 'mailer'
+end
+
+
+Metaprogramming: a program that writes a program (Ruby's strongest suits)
+
+&& has a higher precedence than `and`

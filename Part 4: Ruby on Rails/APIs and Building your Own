@@ -1,0 +1,218 @@
+API = Application Programming Interface
+	the means with which computers and web apps share information with each other
+	most of working with APIs is learning to read their documentation and figure out what they want
+
+Learning Outcomes
+	How does Rails know which type of file you are expecting back when you make an HTTP request?
+		Rails, by default, assumes you want an HTML response unless specified otherwise in your request
+		(for example: visting users.json)
+
+	What is the purpose of the #respond_to method?
+		the #respond_to method defines different formats that are acceptable requests and what the controller renders accordingly for each type of format
+
+	How do you return a User object but specify that you don't want to include certain attributes (i.e. you can't justreturn User.first)?
+		you would override the #as_json method, which is a method called my #to_json, whose responsibilities fall in identifying the attributes of the data
+		the override would involve passing in :only or :except
+
+	What are the two steps performed behind the scenes by the #to_json method?
+		#as_json gets back a hash of attributes which need to be rendered as JSON
+		ActiveSupport::json.encode performs the rendering
+
+	How do you tell a controller action to render nothing but an error message?
+		render nothing: true, status: 404
+
+	How do you build your own custom error messages?
+		you modify a config setting to set error routing to your own in config/routes.rb
+		then you define the routes, the controller, and the views for each error
+
+	Why can't you use session-based controller authentication methods if you want people to access your API programmatically?
+		there are no browser cookies because they are in the command line
+		most APIs issue custom tokens to each authorized user which must be sent along with the request as part of the authentication process
+
+	What is "Service Oriented Architecture?"
+		the idea that instead of an app providing a bunch of 'services', you scope each of those services into their own area
+		and have services communicate with eachother by an internally facing API
+
+
+API Basics
+	Rails application is already an API
+		Web Browser is a program that makes an API request to Rails app when requesting a new page
+		It just happens that rendering HTML payloads is so common that we consider it the default response type
+
+	To get raw data instead of a whole HTTP response, you can submit a request asking for a JSON or XML response instead
+		if the controller is set up correctly, you will get back the appropriate response type
+
+Building APIs
+	The Basics
+		When checking your server log, you can check which file type Rails thinks you want
+
+			example:
+				Started GET "/posts/new" for 127.0.0.1 at 2013-12-02 15:21:08 -0800
+	  			Processing by PostsController#new as HTML
+
+	  			Started GET "/posts.json" for 127.0.0.1 at 2013-12-04 12:02:01 -0800
+	  			Processing by PostsController#index as JSON
+
+	Rendering JSON or XML
+		The #respond to method tells your controller to render the appropriate filetype
+
+			example:
+				  class UsersController < ApplicationController
+
+				    def index
+				      @users = User.all
+
+				      respond_to do |format|
+				        format.html # index.html.erb
+				        format.xml  { render :xml => @users }
+				        format.json { render :json => @users }
+				      end
+				    end
+
+				  end
+
+				#respond_to passes the block a format object, to which you attach the appropriate rendering call
+				if you do nothing, HTML will render as the default Rails template as normal
+				The #render function knows how to render a wide range of formats
+					:json will call #to_json on the value
+
+	Specifying Attributes to Return
+		In the old days, you would overwrite #to_json
+
+		Nowadays, you overwrite #as_json
+			#as_json is used by #to_json
+
+		#to_json
+			first runs #as_json and gets back a hash of attributes which need to be rendered as JSON
+			then it performs the rendering using ActiveSupport::json.encode
+
+			example:
+		  		# app/models/user.rb
+				  class User < ActiveRecord::Base
+
+				    # Option 1: Purely overriding the #as_json method
+				    def as_json(options={})
+				      { :name => self.name }  # NOT including the email field
+				    end
+
+				      # Option 2: Working with the default #as_json method
+				    def as_json(options={})
+				      super(:only => [:name])
+				    end
+				  end
+
+		#as_json documentation
+			https://apidock.com/rails/ActiveModel/Serializers/JSON/as_json
+
+	Rendering Nothing or Errors
+		sometimes one wants to send out an HTTP error code without any response body
+
+		example:
+			# app/controller/users_controller.rb
+			class UsersController < ApplicationController
+
+				def index
+					render :nothing => true, status: 404
+				end
+			end
+
+	Creating Dynamic Error Pages
+		You can create dynamic error pages.
+
+			# config/application.rb
+			config.exceptions_app = self.routes
+
+		This changes the config so that you handle the routes for errors.
+
+			# config/routes.rb
+			get '/404', to: 'errors#not_found'
+
+		This routes it to the ErrorsController
+
+			class ErrorsController < ApplicationController
+
+				def not_found
+					render status: 404
+				end
+			end
+
+		Then you create the appropriate view related to each action.
+
+		With heroku, there may be more setup needed to do so: https://devcenter.heroku.com/articles/error-pages
+
+	External Facing Security
+		most APIs issue custom tokens to each authorized user which must be sent along with any API request as part of the authentication process
+			which also involves a #before_action
+
+	Best Practices
+		1) namespace your API
+
+		example:
+			# config/routes.rb
+			namespace :api do
+				resources :people
+			end
+
+		this gives us the standard routes for people but namespaced as /api/people
+		it will look for a PeopleController is app/controllers/api/people_controller.rb
+
+			class Api::PeopleController < ApplicationController
+			end
+
+			to fix the capitalization
+
+			# config/initializers/inflections.rb
+			ActiveSupport::Inflector.inflections(:en) do |inflect|
+				inflect.acronym 'API'
+			end
+
+			lets it be named API::PeopleController
+
+		2) Versioning
+
+		namespace :api
+			namespace :v1 do
+				resources :people
+			end
+		end
+
+		class API::V1::PeopleController < ApplicationController
+		end
+
+		/api/v1/
+
+		3) Subdomain
+
+		put API on a separate domain as it lets you load balance at the DNS level
+
+		namespace :api, path: "", constraints: {subdomain: 'api' } do 
+			namespace :v1 do
+				resources :people
+			end
+		end
+
+		the path option makes it hide the whole path
+
+		4) Default to JSON
+
+		namespace :api, defaults: { format: :json } do
+			namespace :v1 do
+				resources :people
+			end
+		end
+
+	Service Oriented Architecture (SOA)
+		your application will have many different services in it
+		instead of having them all in the same master application, you break them out into fully independent pieces and have them talk to each other using internally facing APIs
+
+		this is good because it isolates code within a service and swap things in and out since they always have the same communication interface
+
+		it also helps with logical debugging processes
+
+
+
+Overriding #as_json
+	only - only show the attributes as specified in this list
+	except - only show the attributes except the ones specified in this list
+	methods - include these method nodes as nodes in the output
+	include - add child nodes based on associations within the object

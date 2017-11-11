@@ -1,0 +1,75 @@
+Images can ruin page load times
+	Optimize your image sizes and filetypes
+		Each of the filetypes have different usecases
+			gif
+			jpg
+			bmp
+			png
+			svg
+
+Learning Outcomes
+	What are common attributes of image tags?
+	How do you load a smaller version of an image?
+	How do you get an image to fill up an element?
+	How do you save load times by using appropriately sized images?
+	When should you store images externally vs on your server?
+	What are the main types of image files and how are they different?
+	Which file types let you use animation?
+	Which file types let you use transparent color?
+	Which file types are best for photos? Graphics?
+	Which file type lets you scale an image as big as you want without affecting file size (and why)?
+	What's the difference between raster and vetor images?
+	How do you add video to your page?
+	How do you add audio to your page?
+
+
+Adding Media
+	Adding Images
+		<img> element
+			self-contained/empty element -- doesn't wrap around any other content
+			must specify 'src' (source) attribute
+			'alt' (alternative text) is picked up by search engines and assistive technologies
+
+			most commonly supported are gif, jpg, and png
+			most widely used are jpg and png
+
+			jpg = quality images with high color counts with decent file size, ideal for faster load times
+			png = images with transparencies or low color counts
+
+			therefore, commonly
+				jpg for photographs
+				png for icons/background patterns
+
+		Sizing Images
+			can specify the 'width' and 'height' attributes in either HTML or CSS
+			CSS takes precedence if both are used
+
+			specify only one will cause the other dimension to adjust automatically
+			specifying both make break the aspect ratio, causing distortion
+
+			using CSS is best practice
+
+		Positioning Images
+			images are, by default, inline-level elements
+				will be positioned within the same line as the content that surrounds it
+				the height of the line will change to match the height of the image (can cause vertical gaps)
+
+			can use float, display, and box model properties (padding, border, margin) in CSS to modify position
+
+			images are commonly displayed as block-level elements or floated flush to a side
+
+			Block Positioning
+				img {
+					display: block;
+				}
+
+				image will appear on its own line
+
+				Note on Block vs Inline vs Inline-Block
+
+					inline: can display things before or after it, on the same line. 
+					block: demands its own line, with whitespace around it. 
+					inline-block: can have elements before or after it, but there is whitespace around it.
+
+			Positioning Images Flush Left or Right
+				

@@ -1,0 +1,296 @@
+Sometimes forms need to handle multiple model objects at once
+
+POINTS TO PONDER
+	How do you prepopulate a dropdown menu with data?
+		by using the #select or #select_tag (with #options_for_select) and passing in a collection of objects in the form of an array of arrays with the form [name, value]
+
+	What is the difference between the #select_tag helper and the #select helper?
+		#select combines #select_tag and #options_for_select and is used for forms that build a model instance (form_for)
+		#select_tag needs the #options_for_select and is used in all other cases
+
+	What format does the array you input to #options_for_select need to be in?
+		an array of arrays of the form [Option Name, Value]
+
+	Why would you want to use a nested form?
+		sometimes forms need to handle multiple model objects at once
+
+	What do you need to change in the model to allow nested forms to create new objects properly?
+		you need to add the #accepts_nested_attributes_for :<association>
+		component to your model
+
+	How do you whitelist the nested parameters properly in your controller?
+		by requiring the name of the hash within params, permitting all the attributes including the nested array by
+			nested_array: [:value, :value2, :value3]
+
+	Why can't you just delete something by leaving a form field (e.g. a checkbox) blank (unchecked)?
+		the attribute will not get submitted if there is no value
+		to circumvent that, you use a hidden field that assigns the value of "" to ensure the attribute always gets submitted to the params hash
+		you later write the logic to process that accordingly
+
+
+Prepopulating `select` Tags with Collections
+	#select_tag
+		creates the surrounding tag
+
+	#options_for_select
+		gives #select_tag the array of options it needs
+		expects an array of arrays which provide the text for the dropdown option and value it represents
+
+		example:
+			options_for_select([["Choice 1", 1], ["Choice 2", 2]])
+				creates two options tags, one for each choice
+				the first value in the subarray is the text accompanying the dropdown option
+				the second value in the subarray is the value it represents
+
+				you would need to convert a collection of model instances into a simple array with just name and value in the controller
+
+				example:
+					@user_options = User.all.map { |u| [ u.name, u.id ] }
+					...
+					<%= select_tag(:author_id, options_for_select(@user_options)) %>
+
+	Summary: Pass select_tag the name it should use for your chosen value (first parameter) and the collection with options_for_select
+
+	You can also use #select
+		<%= f.select :author_id, @user_options %>
+			assuming you are using a #form_for
+		or
+		<%= select(:post, :author_id, @user_options) %>
+			note this one passes in the model name to indicate that the form is building a certain type of object
+			so that it gets the `name` right as `post[author_id]` in this case
+
+
+	#select is used in the case that your form is designed to build a model instance, and it does NOT need #options_for_select
+	#select_tag is used in the case that your form is not designed to build a single model instance
+
+
+Nested Forms
+	The form will submit the main object as normal, but then sneak in attributes for the other objects you want to create
+	The model must be ready for this
+
+	1) Prepare user model so it knows to create the nested objects if it receives their attributes
+		Add #accepts_nested_attributes_for :<association>
+
+	2) Allow params to include the nested attributes by including them in the Strong Parameters controller method
+
+	3) Build the form in the view
+		Use the #fields_for method to effectively create a #form_for inside your existing #form_for form
+
+
+Deleting Nested Form Objects
+	If you set the :allow_destroy option to `true` for the #accepts_nested_attributes_for method,
+	you can include the key `_destroy => 1` to destroy a nested form object from the User form
+
+
+Many-to-Many Relationships
+	if you are using a `has_many :through` association, you may need to do more to make nested forms work
+
+	https://robots.thoughtbot.com/accepts-nested-attributes-for-with-has-many-through
+		the inverse_of option indicates that two associations are the inverse of each other
+		it is generally not required, but in some cases, it may matter
+
+		it is needed in the case of a has-many-through with accepts_nested_attributes_for
+
+
+Simple Form
+	simple_form is a gem by Platformatec that can make life easier
+
+
+Miscellania: Blank Submissions that mean Delete
+	in the case of deselecting all options
+	Use a hidden field with the same name as the checkboxes but contains only the value ""
+	now the attribute will show up in your params hash no matter what
+
+
+Rails Guide: Forms
+	A. Option Tags from a Collection of Arbitrary Objects
+
+		<% cities_array = City.all.map { |city| [city.name, city.id] } %>
+		<%= options_for_select(cities_array) %>
+			is a valid way to get the option tag values
+			but Rails has an alternative:
+
+			options_from_collection_for_select
+				this helper expects a collection of arbitrary objects and two additional arguments, the names of the methods to read the option VALUE and TEXT from respectively
+
+					<%= options_from_collection_for_select(City.all, :id, :name) %>
+						this takes the city objects, and creates options with :id as the value, and :name as the name of the option
+
+
+		Similar to how #select combines #select_tag and #options_for_select
+		#collection_select combines #select_tag and #options_from_collection_for_select
+
+		example:
+			<%= collection_select(:<name of model>, :<name of variable>, <Model>.all, :<value>, :<option name>) %>
+
+			and if used with a form_for
+
+			<%= f.collection_select(:<name of variable>, <Model>.all, :<value>, :<option name>)
+
+	B. Building Complex Forms
+		1. Configuring the Model
+			a. accepts_nested_attributes_for :<pluralized associations>
+			b. This creates a `<association>_attributes=` method on the Model that allows you to create, update, and optionally destroy instances of the associated model
+		2. Nested Forms
+
+
+			<%= form_for @person do |f| %>
+			  Addresses:
+			  <ul>
+			    <%= f.fields_for :addresses do |addresses_form| %>
+			      <li>
+			        <%= addresses_form.label :kind %>
+			        <%= addresses_form.text_field :kind %>
+			 
+			        <%= addresses_form.label :street %>
+			        <%= addresses_form.text_field :street %>
+			        ...
+			      </li>
+			    <% end %>
+			  </ul>
+			<% end %>
+
+			when an association accepts nested attributes, fields_for renders a block once for every element of the association
+			if the original model instance has no instances of the associated model, it will NOT render the block and will render NOTHING
+			therefore, a common pattern is for the controller to build one or more empty children so that at least one set of fields is shown to the user
+
+
+			example for 2 address fields rendered:
+
+				def new
+				  @person = Person.new
+				  2.times { @person.addresses.build}
+				end
+
+			fields_for yields a form builder
+
+			example of submitted parameters:
+
+				{
+				  'person' => {
+				    'name' => 'John Doe',
+				    'addresses_attributes' => {
+				      '0' => {
+				        'kind' => 'Home',
+				        'street' => '221b Baker Street'
+				      },
+				      '1' => {
+				        'kind' => 'Office',
+				        'street' => '31 Spooner Street'
+				      }
+				    }
+				  }
+				}
+
+					note: the keys of the :addresses_attributes are insignificant
+
+		3. The Controller
+			Whitelisting nested parameters:
+
+				def create
+				  @person = Person.new(person_params)
+				  # ...
+				end
+				 
+				private
+				  def person_params
+				    params.require(:person).permit(:name, addresses_attributes: [:id, :kind, :street])
+				  end
+
+		4. Removing Objects
+			You can allow the destruction of associated objects by passing the 
+				`allow_destroy: true` option to `accepts_nested_attributes_for`
+
+			if the has of attributes for an object contains the key `_destroy` with a value of `1` or `true` then the object will be destroyed
+
+			example:
+				<%= form_for @person do |f| %>
+				  Addresses:
+				  <ul>
+				    <%= f.fields_for :addresses do |addresses_form| %>
+				      <li>
+				        <%= addresses_form.check_box :_destroy%>
+				        <%= addresses_form.label :kind %>
+				        <%= addresses_form.text_field :kind %>
+				        ...
+				      </li>
+				    <% end %>
+				  </ul>
+				<% end %>
+
+		5. Preventing Empty Records
+			sometimes users don't fill in fields, so you want to ignore those sets of fields
+
+			example:
+				class Person < ApplicationRecord
+				  has_many :addresses
+				  accepts_nested_attributes_for :addresses, reject_if: lambda {|attributes| attributes['kind'].blank?}
+				end
+
+			this passes a reject_if: option that is passed a lambda that checks every time a hash of attributes is submitted
+			if the lambda returns false, then the associated object will not be built
+
+		6. Adding Fields on the Fly
+			Rails does not have any built-in support for adding new fields when a user clicks on a "Add new field" option
+			However, you must ensure the key of the associated array for the new field is unique
+
+
+	C. Understanding Parameter Naming Conventions
+
+		1. Basic Structures
+
+			The two basic structures are ARRAYS and HASHES
+
+			Hashes mirror the syntax used for accessing the value in params
+
+			Hashes can be nested as many levels as required
+
+			If the parameter name contains an empty set of square brackets [], it will be accumulated in an array
+
+			example:
+
+				<input name="person[phone_number][]" type="text"/>
+				<input name="person[phone_number][]" type="text"/>
+				<input name="person[phone_number][]" type="text"/>
+
+				will have params[:person][:phone_number] be an array of the inputted phone numbers
+
+		2. Combining Them
+
+			Only one level of "arrayness" is allowed
+
+			Array parameters don't play well with the check_box helper
+
+		3. Using Form Helpers
+
+			form_for / fields_for
+				provide higher level support to help generate parameter names
+
+			both can receive an option called :index
+				you can specify the index as a number, string, or even nil which will insert the index surrounded by [] between the outer and inner attribute name
+
+				i.e.
+					<%= form_for @person do |person_form| %>
+					  <%= person_form.text_field :name %>
+					  <% @person.addresses.each do |address| %>
+					    <%= person_form.fields_for address, index: address.id do |address_form|%>
+					      <%= address_form.text_field :city %>
+					    <% end %>
+					  <% end %>
+					<% end %>
+
+					renders this HTML
+
+					<form accept-charset="UTF-8" action="/people/1" class="edit_person" id="edit_person_1" method="post">
+					  <input id="person_name" name="person[name]" type="text" />
+					  <input id="person_address_23_city" name="person[address][23][city]" type="text" />
+					  <input id="person_address_45_city" name="person[address][45][city]" type="text" />
+					</form>
+
+					will return a params hash like:
+
+					{'person' => {'name' => 'Bob', 'address' => {'23' => {'city' => 'Paris'}, '45' => {'city' => 'London'}}}}
+
+			General Rule: the final input `name` attribute is the concatenation of the name given to fields_for/form_for, the index value, and the name of the attribute
+
+			note: you can pass the :index option directly to helpers, although it is generally better to do this at the form builder level

@@ -1,0 +1,88 @@
+Assignment: Associations for Users to follow each other
+
+	Users
+		has_many :followers, through: :follows, source: 'follower_id'
+		has_many :followed, through: :follows, source: :user
+
+	Follows
+		belongs_to :follower, class_name: 'User', foreign_key: 'follower_id'
+		belongs_to :user
+
+
+Version 2: Rails Casts
+
+	Users
+		has_many :follows
+		has_many :followers, through: :follows
+
+		has_many :inverse_follows, class_name: 'Follow', foreign_key: 'follower_id'
+		has_many :followed, through: :inverse_follows, source: :user
+
+	Follows
+		belongs_to :user
+		belongs_to :follower, class_name: 'User', foreign_key: 'follower_id'
+		
+	The first has_many Users associations find the followers through the follows table
+	The second has_many Users associations finds the followed by going through a renamed follows table by finding all records with the foreign key equal to its user_id
+		and then identifying the followed through this renamed follows table and going to the source of user_id
+
+
+Version 3: Rails Tutorial (Hartl)
+	1. When a user follows another user, they are creating a relationship
+	2. When a user unfollows another user, they are destroying a relationship
+	3. These relationships can be asymmetric, meaning a user can follow a user who is not following them
+	4. Therefore, we can have active and passive relationships
+		a. Active: following but not vice versa
+		b. Passive: followed but not vice versa
+
+			class User < ApplicationRecord
+			  has_many :microposts, dependent: :destroy
+
+			  has_many :active_relationships, class_name:  "Relationship",
+			                                  foreign_key: "follower_id",
+			                                  dependent:   :destroy
+			  has_many :following, through: :active_relationships, source: :followed
+
+			  has_many :passive_relationships, class_name: 'Relationship',
+                                   foreign_key: 'followed_id',
+                                   dependent: :destroy
+  			  has_many :followers, through: :passive_relationships, source: :follower
+			  .
+			  .
+			  .
+			end
+
+			class Relationship < ApplicationRecord
+			  belongs_to :follower, class_name: "User"
+			  belongs_to :followed, class_name: "User"
+			end
+
+Notes
+	has_many :<model name>
+		works through Rails because Rails looks for a model corresponding to the provided name
+		if convention is not used, then you have to provide the model class name to look for
+
+	belongs_to :<model name>
+		works because this model has an attribute column that is of the form `<model_name>_id`
+		if convention is not used, then you have to specify the name of the foreign key
+
+	has_many :through	
+		by default, Rails looks for a foreign key corresponding to the singular version of the association
+		overriding the default can be done using the :source parameter
+
+	Ajax: allows web pages to send requests asynchronously to the server without leaving the page
+		asynchronous Javascript and XML
+		change
+			form_for
+				to
+					form_for ..., remote: true
+						to automagically use ajax
+
+
+		controllers need to be able to respond to Ajax requests
+			respond_to do |format|
+				format.html { redirect_to user }
+				format.js
+			end
+
+	using associations, you can append _ids to the association name corresponding to the collection from the association

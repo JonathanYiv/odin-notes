@@ -1,0 +1,228 @@
+Learning Outcomes
+	What is a mailer?
+		a mailer is a 'controller'-like component of Rails that handles the sending of emails
+
+	How do you set up a new mailer from the command line?
+		$ rails g mailer <Name>
+
+	How are mailers similar to controllers? To models?
+		they have actions, filters, and views
+
+	How do you pass instance variables from the mailer to the mailer view?
+		same as for controllers
+
+	Why do you need both a text and HTML version of your mails?
+		some emails don't accept HTTP versions
+		so this is for accessibility
+
+	How do you send an email directly from the Rails console?
+		using something like `UserMailer.welcome_email(@user).deliver_now
+
+	How can you take advantage of add-ons and third-party programs to send email?
+		by using them
+
+	What is the letter_opener gem good for?
+		for taking your emails and displaying them in the web browser when they would otherwise be sent
+
+	Why can't you use *_path link helpers in mailer views?
+		they are opened at an external source, so paths are missing the first part of the path
+		you need to use *_url link helpers
+
+	How do you style up a pretty looking HTML email?
+		inline or using the <style> tags
+
+Brief Overview
+	One of the 7 Rails gems is ActionMailer
+
+	A Mailer is like a Model/Controller in one
+
+	$ rails g mailer <Name>
+
+	You set up methods for each email you want it to send, parallel to controller actions
+		Each method identifies the key fields and any variables
+
+	The email itself is inside app/views
+		in a subfolder named after the mailer
+
+	Two formats: HTML and text
+		Some people have HTML disabled
+			Helps bypass SPAM filters by having two versions
+
+	You can use preprocessors in your email views
+
+	Process
+		1) Mailers build the email itself
+		2) Call #deliver_now or #deliver_now! to send it
+
+		example:
+			UserMailer.welcome_email(@user).deliver_now
+
+Callbacks
+	Mailers have callbacks just like a normal controller
+
+	They are in relation to the email generation, not sending
+
+Email Add-Ons
+	there are many leading players that handle email sending
+
+	SendGrid is a Heroku add-on
+	MailGun is another
+	there are plenty
+
+Letter Opener
+	The Letter Opener gem, put in the development environment of the Gemfile, takes your emails and displays them in the web browser when they would otherwise be sent
+
+Email Wisdom
+	can take 1-2 seconds per email to send
+		main application shouldn't do it
+
+	use full URLs, since the email will be opened at an external source
+		specify website host name using 
+			config/environments/productions.rb
+				config.action_mailer.default_url_options = { host: 'yourapp.com' }
+
+	#deliver! throws an error on delivery failure
+		#deliver returns false on failure
+
+	Styling must be inline or using <style> tags
+
+	Attaching images can be a pain
+
+Rails Guide: ActionMailer
+	- how to send/receive email within a Rails app
+	- how to generate and edit an Action Mailer class and mailer view
+	- how to configure Action Mailer for your env
+	- how to test your Action Mailer classes
+
+	I. Introduction
+
+		A. Work very similarly to controllers.
+		B. Inherit from ActionMailer::Base
+		C. Live in app/mailers
+		D. Have associated views in app/views
+
+	II. Sending Emails
+
+		A. Walkthrough to Generating a Mailer
+
+			1. Creation of Mailer
+				a. $ rails g mailer <Name>
+				b. Produces mailer, view directory, and tests
+
+			2. Editing the Mailer
+
+				class UserMailer < ApplicationMailer
+				  default from: 'notifications@example.com'
+				 
+				  def welcome_email(user)
+				    @user = user
+				    @url  = 'http://example.com/login'
+				    mail(to: @user.email, subject: 'Welcome to My Awesome Site')
+				  end
+				end
+
+				a. The `default` hash is a hash of default values for any emails sent from this mailer
+				b. The `mail` is the email message, which we pass the `:to` and `:subject` headers to
+				c. Instance variables defined in this method are available in the views
+
+			3. Creating Mailer View
+
+				<!DOCTYPE html>
+				<html>
+				  <head>
+				    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+				  </head>
+				  <body>
+				    <h1>Welcome to example.com, <%= @user.name %></h1>
+				    <p>
+				      You have successfully signed up to example.com,
+				      your username is: <%= @user.login %>.<br>
+				    </p>
+				    <p>
+				      To login to the site, just follow this link: <%= @url %>.
+				    </p>
+				    <p>Thanks for joining and have a great day!</p>
+				  </body>
+				</html>
+
+
+				Welcome to example.com, <%= @user.name %>
+				===============================================
+				 
+				You have successfully signed up to example.com,
+				your username is: <%= @user.login %>.
+				 
+				To login to the site, just follow this link: <%= @url %>.
+				 
+				Thanks for joining and have a great day!
+
+			4. Calling the Mailer
+
+				a. In a controller, you can call the mailer, mailer action, pass in the parameters, and have it #deliver_now or #deliver_later
+
+		B. Action Mailer Methods
+
+			1. Attachments
+
+				a. attachments['filename.jpg'] = File.read('/path/to/filename.jpg')
+				b. There are also inline attachments
+				c. There are also emails that can be sent to an array of emails
+
+		C. Mailer Views
+
+			1. Inside app/views/name_of_mailer_class directory
+
+		D. Action Mailer Layouts
+
+			1. Just like controller views, you can have mailer layouts
+			2. Layout name needs to be the same as your mailer
+			3. Call `layout` in your mailer
+			4. Use yield to render the view inside the layout
+
+		E. Previewing Emails
+
+			1. Inside of test/mailers/previews/<name of mailer>_preview.rb, there is a method that wraps your mailer action. At the top will be a URL that has the preview.
+			2. This allows you to have an immediate feedback loop just like updating your view and refreshing your browser.
+
+		F. Generating URLs in Action Mailer Views
+
+			1. You need to provide the :host parameter yourself since the mailer instance doesn't have any context about the incoming request.
+			2. config/application.rb: config.action_mailer.default_url_options = { host: 'example.com' }
+			3. You must *_url helpers in the email.
+			4. If adding images, you would also need to specify the :asset_host
+
+	III. Action Mailer Helpers
+
+		A. Action Mailer inherits from AbstractCOntroller, so the same generic helpers are available as in Action Controller.
+
+	IV. Action Mailer Callbacks
+
+		A. There are these filters: before_action, after_action, and around_action
+		B. They are called in the same way as in controllers
+
+	V. Action Mailer Configuration
+
+		config/environments/$RAILS_ENV.rb file:
+			config.action_mailer.<configuration>
+				<configuration> possibilities include:
+					logger - generates info on the mailing run
+					smtp_settings - allows detailed config for smtp delivery method
+					sendmail_settings - override options for the :sendmail delivery method
+					raise_delivery_errors - whether or not errors are raised if email is failed to deliver
+					delivery_method - defines a delivery method
+					perform_deliveries - decides if deliveries are actually carried out
+					deliveries - keep an array of all emails sent out
+					default_options - set default values for the mail method options
+
+
+
+		The settings for GMail
+			config.action_mailer.delivery_method = :smtp
+			config.action_mailer.smtp_settings = {
+			  address:              'smtp.gmail.com',
+			  port:                 587,
+			  domain:               'example.com',
+			  user_name:            '<username>',
+			  password:             '<password>',
+			  authentication:       'plain',
+			  enable_starttls_auto: true  }

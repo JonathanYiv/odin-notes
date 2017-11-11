@@ -1,0 +1,204 @@
+Learning Outcomes
+	What's the best way to locate an API's docs?
+		just google it
+
+	What are the steps you'll almost always have to go through when setting up your app to use an API?
+		registering yourself/application with the API provider, getting an API key and secret key
+
+	What is an API key?
+		a key that uniquely identifies your application so they can track/monitor your usage
+
+	How is API use typically controlled?
+		they generally offer different pricing tiers for different usage levels based on things like total MB, number of requests, number of transactions, etc
+
+	How do you avoid including an API's secret token in your GitHub repo? (e.g. hard coding it)
+		use environment variables or the `figaro` gem
+
+	Why is it important to know which API version you are using?
+		so you format your requests appropriately
+
+	What is a RESTful API and why does that make your life easier?
+		it follows the conventions of REST and makes things more predictable since you are familiar with REST
+
+	What (basically) is OAuth?
+		OAuth is the 'valet key for the web,' it allows your application to act on a user's behalf to access their owned resources on another server
+		typically used for account creation, like "Login with Google"
+
+	Why would a user prefer to sign into your site using Facebook instead of giving you a new password?
+		less passwords
+		more trust for Facebook over your site since it is such a big name
+
+	How (basically) does this process work from the user's perspective?
+		they click "Log In", see an option to "Log In with ____", select that option, are redirected to that site which lists the permissions and an option to authorize or say no
+		if they authorize, they are redirected back to the application with the account created and logged in generally
+
+	How (basically) does this process work from your (application developer) perspective?
+		Resource Owner uses Client Application
+			Client Application authenticates and authorizes the client at the authorization server
+				The authorization endpoint will get:
+					a response_type paramater as code
+					a client identifier (obtained during client registration)
+					a redirection URL
+					an optional requested scope
+					an optional local state
+			Authorization Server sents Authorization Code to Client Application
+				redirected using previous redirection URL
+			Client Application exchanges Code for tokens
+			Authorization Server sends Access and Refresh tokens
+			Client Application requests restricted resources using Access Token from Resource Server
+			Resource Server sends the resources to the Client Application
+			If the access token expires, client application sends the refresh token to the authorization server
+			Authorization Server sends a new access token to the client application
+
+	What are the basic rules of thumb for not abusing APIs?
+		no harvesting data, hurting user experience, no spam
+
+	What is OmniAuth and why does it save you tons of time/pain?
+		a Ruby gem that works with OAuth and has a lot of best practices for getting OAuth to work with a variety of authorization servers
+
+	What is an SDK and why are they useful for working with APIs?
+		"Software Development Kits" are created by the API creator and are JS libraries with code that can access their APIs
+		they allow you to access the API with JS methods but you have to learn their system
+
+Definition
+	Endpoint: the URL pattern used to communicate with an API
+	Rack Middleware: a Rails gem that acts as an implementation of the `pipeline pattern` that helps process requests in a structural manner
+
+First Steps
+	You register yourself and your application with the API provider
+		this way they track/monitor your usage
+			there is generally a free tier of usage and they charge you if you want to go over their limits
+				could be limited based on total MB, number of requests, number of transactions, etc
+
+	You get an API key which uniquely identifies your application
+	You also get a "secret key"
+		The API key is public
+		The secret key is private and is required for more secure APIs
+			it is used to generate a crypographic token to authenticate any requests
+
+	The `figaro` gem or environment variables are great to put they key on the server instead of hard coding it
+
+
+API Rates and Security Tokens
+	APIs offer different types of security clearance for different requests
+
+	The first layer is open access, requests are honored
+	however, they are usually rate limited
+
+	The next layer means including your API key
+	and is limited by the API's pricing tiers
+
+	The next layer has more sensitive data and require you to use a secret token for the authentication process
+
+
+	You can also make requests on behalf of a user, but you need permission from the user
+		you send the user to the API provider's site to sign in
+		then the API provider gives you a user-specific token to use when making requests on t heir behalf in the future
+		rates for this are usually more advantageous
+		OAuth protocol is very popular
+
+Versions
+	Generally go for the latest API version
+	but make sure you are looking at the right docs
+
+RESTful APIs
+	many APIs are set up RESTful
+	making things easier to work with
+
+OAuth and Login via API
+	Usecase: user shouldn't have to give your application their Facebook password in order for your app to access the Facebook API on their behalf
+			so:
+				logging in the user with an external site
+				making requests for or submissions of data on the User's behalf
+
+	Log In:
+		1) User is redirected to Facebook to sign in
+		2) Once they sign in, you are authorized to use some data
+		3) Facebook sends a request to a URL that you choose with the appropriate data and the special access token
+		4) You use that data to create a new user in your database
+
+	Once you have the user token, you can make requests/submissions based on whatever permissions Facebook and the user authorized you to
+
+Restrictions
+	sites have terms of use for their API, examples:
+		like no harvesting data
+		no spam
+		no hurting their user experience
+
+	note if you use their API and get successful, they can cut you off and demand exorbitant fees, so be cognizant
+
+OAuth 2.0 Basics
+	Facebook Example:
+		1) User tries to access a page on your app and you ask the user to login
+		2) User chooses the "Login with Facebook" option
+		3) User is redirected to a Facebook page asking them to review the permissions you are asking for and telling them to sign in. The URI contains parameters that tell Facebook who your application is and possibly the URI they should submit their response to (or maybe you specified this as part of your API registration process with them)
+		4) User decides to authorize and signs in, facebook creates an authorization code and sends it back to your application's callback URI
+		5) The user waits while your application takes that authorization code and ask Facebook for data, Facebook authorizes you, then POSTs back to you a unique authentication token for the user (which often expires in 90 days), and any data you asked for
+		6) You store the unique token in your database and use it, along with your application key, to make any subsequent requests on the user's behalf
+
+
+OAuth 2.0
+	"The Valet Key for the Web"
+
+	In a tradiional client-server authentication model, the client uses its credentials to access its resources hosted by the server.
+	OAuth introduces a third role: the resource model.
+	In the OAuth model, the client (not the resource owner, but acting on its behalf) requests access to resources controlled by the resource owner, but hosted by the server
+	The client must first obtain permission from the resource owner in the form of a token and matching shared-secret
+	Tokens can be issued with a restricted scope and limited lifetime, and revoked independently
+
+
+	Vocabulary
+		Resource Owner: an entity capable of granting access to a protected resource, mostly end-users
+		Client: an application making protected resource requests on behalf of the resource owner and with its authorization. It can be a server-based, mobile (native) or desktop application
+		Resource Server: the server hosting the protected resources, capable of accepting and responding to protected resource requests
+		Authorization Server: the server issuing access grants/tokens to the client after successfully authenticating the resource owner and obtaining authorization
+		Access Token: credentials presented by the client to the resource server to access protected resources
+					  normally a string consisting of a specific scope, lifetime, and other access attributes
+		Refresh Token: once an access token is expired, the client can request the authorization server to access a new access token using the refresh token issued by the authorization server
+
+
+	Flows
+		Client Registration
+			Client registers with authorization server by providing its client type, redirection URL, any other information required
+			and receives a client id and client secret
+			then it does either:
+
+			1) User-Agent Flow
+			2) Web Server Flow
+			3) Username and Password Flow
+			4) Assertion Flow
+			5) Client Credentials Flow
+
+		The most common is the Web Server Flow:
+			Resource Owner uses Client Application
+			Client Application authenticates and authorizes the client at the authorization server
+				The authorization endpoint will get:
+					a response_type paramater as code
+					a client identifier (obtained during client registration)
+					a redirection URL
+					an optional requested scope
+					an optional local state
+			Authorization Server sents Authorization Code to Client Application
+				redirected using previous redirection URL
+			Client Application exchanges Code for tokens
+			Authorization Server sends Access and Refresh tokens
+			Client Application requests restricted resources using Access Token from Resource Server
+			Resource Server sends the resources to the Client Application
+			If the access token expires, client application sends the refresh token to the authorization server
+			Authorization Server sends a new access token to the client application
+
+
+Rails OAuth 2.0 - Ominauth
+	There is a gem to use OAuth 2.0
+	and a list of strategies for every major API: https://github.com/omniauth/omniauth/wiki/List-of-Strategies
+
+SDKs (Software Development Kits)
+	many companies provide SDKs that are JS libraries with code necessary to access their API
+	pros: can access API with JS methods
+	cons: expands your codebase and follows their conventions
+
+
+Odin-API (Flickr)
+Key: 15faeb16cb8df9db2b19902907b33bff
+Secret: 04b87c732556274f
+Flickr ID: 153671534@N08

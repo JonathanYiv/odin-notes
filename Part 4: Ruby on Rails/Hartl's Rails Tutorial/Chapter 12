@@ -1,0 +1,24 @@
+Password Reset Sequence:
+1) When user requests a password reset, find the user by the submitted email address
+2) If the email address exists in the database, generate a reset token and corresponding reset digest
+3) Save the reset digest to the database, then send an email to the user with a link containing the reset token and user's email address
+4) When the user clicks the link, find the user by email address, and then authenticate the token by comparing it to the reset digest
+5) If authenticated, present the user with the form for changing the password
+
+In the case of a submitted password reset form, there are four possibitilies:
+	1) An expired password reset
+	2) A failed update due to an invalid password
+	3) A failed update, which initially looks succecssful, due to an empty password and confirmation
+	4) A successful update
+
+
+Remembering a logged in user, account activation, and password resets are all the same structure
+	1) A controller is created without a model instance, with a few actions
+		for remembering logged in users, a sessions controller with new, create, and destroy actions
+		for activating accounts, an account activations controller with an edit action
+		for password resets, a password reset controller with new, create, edit, and update actions
+	2) The User model has a digest attribute added, this digest is generated from a token
+	3) The User model has a virtual attribute for the token added, so it can be compared to the digest
+	4) For remembering logged in users, when you check the 'remember me' box, it will create a token and assign it to your session
+
+	uhh still need to reread for more comprehension

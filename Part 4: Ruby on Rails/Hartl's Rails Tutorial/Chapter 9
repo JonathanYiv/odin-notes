@@ -1,0 +1,72 @@
+There are a few ways to handle user login persistence:
+	sessions which expire after the browser closes
+	permanent cookies which remember you regardless of browser closes
+		some sites remember you automatically (like GitHub)
+		some sites optionally remember you using a "remember me" checkbox (like Facebook)
+
+
+Persistent sessions use 'remember tokens' along with a 'remember digest' to authenticate the tokens
+However, cookies are vulnerable to session hijacking (attacker uses a stolen remember token to login as a particular user):
+	1) Use a packet sniffer to detect cookies being passed over insecure networks
+	2) compromising a database containing remember tokens
+	3) using Cross-Site Scripting (XSS)
+	4) Gaining physical access to a machine with a logged-in user
+
+	Solutions
+		1) Use SSL site-wide to protect network data from packet sniffers
+		2) Store a hash digest of the remember tokens instead of the token itself
+		3) Rails prevents the third problem by escaping any content inserted into view templates
+		4) no ironclad way to prevent, but we can minimize by changing tokens every time a user logs out and by taking care to cryptographically sign any potentially sensitive information we place on the browser
+
+	Creating Persistent Sessions
+		A) Create a random string of digits for use as a remember token
+		B) Place the token in the browser cookies with an expiration date far in the future
+		C) Save the hash digest of the token to that database
+		D) Place an encrypted version of the user's id in the browser cookies
+		E) When presented with a cookie containing a persistent user id, find the user in the database using the given id, and verify that the remember token matches the associated hash digest from the database
+
+
+
+Remember Token
+	SecureRandom.urlsafe_base64 produces a random string of length 22 composed of the characters A-Z, a-z, 0-9, -, _
+
+	This fits the needs of a remember token as well as account activation/password reset links
+
+	The chance of two tokens colliding is roughly 10^-40
+
+
+Note: If a method doesn't need an instance of an object, it should be a class method
+
+
+Cookie
+	consists of two pieces of information
+		value
+		optional expires date
+
+	example:
+		cookies[:remember_token] = { value: 	remember_token,
+									 expires: 	20.years.from_now.utc }
+
+		is equivalent to
+
+		cookies.permanent[:remember_token] = remember_token
+
+	to encrypt the cookie, sign the cookie
+		cookies.signed[:user_id] = user.id
+
+
+Rails helpers
+	Rails adds time helpers to the Fixnum class that allows you to convert them into time and reference time compared to it
+	There are other helpers like #kilobyte and #megabytes
+
+
+Putting a `raise` in a branch is a good way to see if a branch has been tested when running your tests
+	if the code isn't covered, the tests will still pass
+	if the code is covered, the resulting error will identify the relevant test
+
+
+
+$ heroku maintenance:on
+and
+$ heroku maintenance:off
+	turn on/off heroku maintenance that shows a standard error page in between whatever you are doing

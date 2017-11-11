@@ -1,0 +1,11 @@
+#build 
+	returns an object in memory but doesn't modify the database, like #new
+
+The stabby lambda syntax
+	-> { ... }
+		this returns a proc that can be called
+		in between the brackets is a block of code
+		-> is the stabby lambda
+
+time_ago_in_words
+	is a very useful helper method

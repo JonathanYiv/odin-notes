@@ -1,0 +1,25 @@
+test/integration is the directory
+
+$ rails geenrate integration_test <name>
+
+freshly generated integration test
+	require 'test_helper'
+
+	class UserFlowsTest < ActionDispatch::IntegrationTest
+		# do stuff
+	end
+
+
+inherits from ActionDispatch::IntegrationTest -> makes helpers available
+	ActionDispatch::Integration::Runner -- integration test runner
+	ActionDispatch::Integration::RequestHelpers -- performing requests
+	ActionDispatch::Integration::Session -- modifying the session
+
+
+
+
+assert_select
+	queries the resulting HTML to assert the presence of key HTML elements and their content
+
+follow_redirect!
+	should be used if one plans to make subsequent requests after a redirect is made

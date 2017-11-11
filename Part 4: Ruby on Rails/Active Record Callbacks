@@ -1,0 +1,199 @@
+Callbacks: execute code at specific times in the life cycle of an Active Record object
+	before created
+	after saved
+	after destroyed
+
+
+POINTS TO PONDER
+	What is a callback used for?
+		execution of code at a specific time in the life cycle of an ActiveRecord object
+
+	What are the major lifecycle stages of an ActiveRecord object?
+		initialization, validation, saving, creating, updating, finding
+
+	How do you build an "around" callback?
+		the method must yield at some point to the original action
+
+	How do you specify a particular action to run a callback for?
+		using :on and passing it an array of symbols or single symbol representing a controller action(s)
+
+
+The Life Cycle of an Active Record Object
+	1) Initialization:
+		when the object is first built 
+		OR 
+		reloading it from the database and into memory (anytime used in a query)
+
+	2) Validation
+		when Rails checks if the object is valid
+		when you're saving the object
+		OR
+		when trying to run the #valid? method
+
+	3) Saving
+		the actual saving of an object into the database
+		triggered every time the object is saved, not just first time when created
+
+	4) Creating
+		the creation and saving of a new object
+
+	5) Updating
+		the updating of an existing object
+
+	6) Finding
+		when you have searched for the object
+		gets triggered by Rails working with objects behind the scenes (like when)
+
+
+	The are generally three choices for callbacks for each lifecycle steps (with some exceptions)
+
+		before_... 		- runs the method before the stated action
+		after_... 		- runs the method after the stated action
+		around_... 		- a method that yields at some point to the original action (not common)
+
+
+Using Callbacks
+	You pass the callback method a symbol that corresponds to a method name or you can write the callback as a block right there
+
+	example:
+		before_create do |user|
+			...
+		end
+
+	example:
+		before_create :method_name
+
+
+Callback Characteristics
+	:on
+		only runs a callback when a particular controller action calls it
+
+		example:
+			before_create :do_this, :on => [:create, :update]
+
+	:if / :unless
+		can use conditional logic before running a callback
+
+		example:
+			before_create :do_something, :unless => :method_is_true
+
+
+Transaction Callbacks
+	Scenarios:
+		interacting with external application as part of save process
+		save will handle multiple tasks, if one task fails, save needs to roll back
+
+	Transactions are a wrapping of your database save operation where either all the steps work, or they all fail and are rolled back
+
+	Callbacks can access parts of the transaction lifecycle
+		after_commit
+		before_rollback
+
+	However, this is uncommon, although it is an option
+
+
+Rails Guide: Callbacks
+	A. The Object Life Cycle
+		1. Objects may be created, updated, and destroyed. Active Record provides hooks called callbacks into the object life cycle. 
+		2. Callbacks can trigger logic before or after an alteration of an object's state.
+	B. Callbacks Overview
+		1.  Callback Registration	
+			a. Callback methods should be private
+			b. Callbacks can be declared with either a block or passing them a method as a symbol
+	C. Available Callbacks: Order of Operations
+		1. Creating an Object
+			a. before_validation
+			b. after_validation
+			c. before_save
+			d. around_save
+			e. before_create
+			f. around_create
+			g. after_create
+			h. after_save
+			i. after_commit/after_rollback
+		2. Updating an Object
+			a. before_validation
+			b. after_validation
+			c. before_save
+			d. around_save
+			e. before_update
+			f. around_update
+			g. after_update
+			h. after_save
+			i. after_commit/after_rollback
+		3. Destroying an Object
+			a. before_destroy
+			b. around_destroy
+			c. after_destroy
+			d. after_commit/after_rollback
+		4. Others (Out of Order)
+			a. after_initialize - called whenever an Active Record object is instantiated when using #new or loaded from the database
+			b. after_find 		- called whenever a record is loaded from the database (called before after_initialize if both defined)
+			b. after_touch 		- called whenever Active Record object is touched
+	D. Running Callbacks
+		1. The following methods trigger callbacks:
+			a. create/create!
+			b. destroy/destroy!
+			c. destroy_all
+			d. save/save!
+			e. save(validate: false)
+			f. toggle!
+			g. update_attribute
+			h. update/update!
+			i. valid?
+		2. Additionally, the after_find callback is triggered by:
+			a. all
+			b. first
+			c. find
+			d. find_by
+			e. find_by_...
+			f. find_by_sql
+			g. last
+		3. after_initialize is triggered every time an object is initialized
+	E. Skipping Callbacks
+		1. These methods skip callbacks, but be careful:
+			a. decrement
+			b. decrement_counter
+			c. delete
+			d. delete_all
+			e. increment
+			f. increment_counter
+			g. toggle
+			h. touch
+			i. update_column
+			j. update_columns
+			k. update_all
+			l. update_counters
+	F. Halting Execution
+		1. If any callback raises an exception, the whole execution chain is halted and a rollback is issued
+		2. throw :abort
+			a. This intentially stops a chain
+	G. Conditional Callbacks
+		1. :if / :unless can be passed a predicate method that determines if the callback will execute
+		2. :if / :unless can be passed a symbol, Proc, or an Array
+		3. You can use both in one callback declaration
+	H. Callback Classes
+		1. You can create a class that has an encapsulated callback method
+		2. Then you can pass the callback declaration a instance or class name of the class depending if you defined the method as a class or instance method
+		3. These classes can have as many callbacks as you want
+	I. Transaction Callbacks
+		1. after_commit / after_rollback are most useful when your models need to interact with an external system
+		2. There are also after_create_commit / after_update_commit / after_destroy_commit callbacks
+
+
+Guides for Using Callbacks
+	If you are skipping callbacks, the models are too tightly coupled to other objects and other responsibilities
+
+	If your callback stays within its object's area of responsibility, it should never need to be skipped
+
+	generally, an ActiveRecord model has one responsibility: interacting with the database
+		nothing beyond that ideally for ease of maintainenace
+
+	1) Use callbacks only if they can be run every time and in every circumstance they are triggered
+		otherwise, perhaps move the logic to a decorator object
+
+	2) Never create callbacks which exceed the model's responsibility
+		the model interacts with the database
+		if the model needs to send emails, create files, etc, then it is beyond the model's responsibility
+
+	3) If you have to stub callbacks during testing, you are breaking one of the previous rules.

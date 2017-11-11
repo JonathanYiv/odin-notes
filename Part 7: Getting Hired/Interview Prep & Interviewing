@@ -1,0 +1,89 @@
+The best interviews are enthusiastic conversations with technical depth
+
+Always prepare!
+	Know what questions you will be asked
+		and the general responses
+	Research the company
+		Tailor your pitch to their needs
+		Ask intelligent questions about their product/technology when the time comes
+
+
+The Funnel
+	1) Phone Screen
+	2) Technical Interview
+	3) Technical Challenge
+	4) Fit Interviews
+	5) Job Offer
+	6) Offer Negotiation
+	7) Offer Acceptance
+
+
+Phone Screens
+	used as an initial employment screening technique
+
+	Have your resume and cover letter in front of you
+
+	Shower, groom, get dressed, and stand up -- your mindset matters
+
+	Have a cheatsheet with q/a, statements, expectations, etc
+
+	be on time
+
+	find a quiet place
+
+	smile, and focus on listening
+
+	speak clearly
+
+	follow-up
+
+	Five Essential Questions you will Face
+		1) Coding
+			write some simple code
+		2) OO Design
+			know basic OO concepts and come up with classes to model a simple problem
+		3) Scripting and Regexes
+		4) Data Structures
+		5) Bits and Bytes
+
+
+	Coding Examples:
+		Write a function to reverse a string.
+		Write function to compute Nth fibonacci number.
+		Print out the grade-school multiplication table up to 12x12.
+		Write a function that sums up integers from a text file, one int per line.
+		Write function to print the odd numbers from 1 to 99.
+		Find the largest int value in an int array. 
+		Format an RGB value (three 1-byte numbers) as a 6-digit hexadecimal string.
+		FizzBuzz
+
+	Data Structures:
+		Arrays
+		Vectors
+		Linked Lists
+		Hashtables
+		Trees
+		Graphs
+
+		Big-O
+			Constant
+			Logarithmic
+			Linear
+			Polynomial
+			Exponential
+			Factorial
+
+	Bits:
+		2^16 = 65536
+
+
+Tech Interview
+	the best asset you have is honest and intellectual curiosity
+
+	when trying to solve a problem, do so in a clear and logical way, explaining out loud why you are doing each step
+
+	If you would plan to google for a particular function, then say so
+
+	use brute force initially
+
+	If you don't know something, say so, and work with your interviewer to figure it out

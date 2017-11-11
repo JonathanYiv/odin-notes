@@ -1,0 +1,311 @@
+POINTS TO PONDER
+	How does Rails normally know which table and foreign key to use when you have an association?
+		They must be named correctly
+		The name of the foreign key column should be <table name>_id, and the table will be specified in the association
+
+	What would you need to specify the :class_name option in an association?
+		when you use a different naming convention than Rails, in order to make sure Rails knows where to look
+		an example would be saying a book has an author, and specify that the author is really just a type of person model
+
+	What about the :foreign_key?
+		again, when using a different naming convention than Rails, sometimes the foreign key will be named differently
+		in the previous example, the person model has_many books, but the book model's foreign key would be named author_id, so you would need to specify in the person model
+
+	What about the :source?
+		:source is used for :has_many through associations
+		when the one model is connected to another model through a has-many-through association, sometimes the intermediate model will have a foreign key that is named ideally
+		if you specify a :source, it will look for that foreign key to establish the has-many-through relationship
+
+	What is a polymorphic association and when would you use one?
+		a polymorphic association is when one model can belong to more than one other model, on a single association
+		this should be used in the case where you could create two models to replicate the same behavior/data functionality to correspond to two other models
+		instead, you would create one model with a polymorphic association to the two other models, allowing you to keep code DRY
+
+	What are two ways to use the assocation to create a new object instead of just calling YourObject.new? Why is this useful? Which method is preferred?
+		#new
+		#create
+		<< (shovel operator)
+		this automatically populates the foreign key
+		The method used is based on the scenario. Create would automatically try to save to the database. New would just instantiate, but not save.
+
+		As an aside, it is idiomatically correct to create a model instance through its association as opposed to manually setting it up
+
+	How do you automatically destroy all a User's Post objects if that user is deleted?
+		by adding :dependent => :destroy
+		to the User model association for posts
+
+	How do you set up a self-association, like with Users following Users?
+		you specify the association with a new name, add a class_name specifying the same Model, and the foreign_key attribute of the current Model that points to the self-association record
+
+
+BASIC STUFF
+	When creating an association, Rails makes two assumptions:
+		1) Your association names correspond directly to the names of your models/tables
+		2) The foreign key in any belongs_to relationship will be called <association name>_id
+
+		You can go away from defaults, but first, you have to let Rails know
+			belongs_to :author, :class_name => "User"
+			belongs_to :editor, :class_name => "User"
+
+			There will be an author_id and editor_id, both will look in the Users table
+
+			You can also specify the foreign key if necessary
+
+		Failing to meet the assumptions and specifying the differences can cause failures in your associations
+
+
+	has_many :through
+
+
+	class Post < ActiveRecord::Base
+      has_many :post_authorings, :foreign_key => :authored_post_id
+      has_many :authors, :through => :post_authorings, :source => :post_author
+      belongs_to :editor, :class_name => "User"
+    end
+
+    class User < ActiveRecord::Base
+      has_many :post_authorings, :foreign_key => :post_author_id
+      has_many :authored_posts, :through => :post_authorings
+      has_many :edited_posts, :foreign_key => :editor_id, :class_name => "Post"
+    end
+
+    class PostAuthoring < ActiveRecord::Base
+      belongs_to :post_author, :class_name => "User"
+      belongs_to :authored_post, :class_name => "Post"
+    end
+
+    Rails uses the name of the association in the through table to determine which foreign key and table name to reach out to
+    	if named anything irregular, the :source option specifies which association actually poinst where we'd like to go
+    	:source is like :class_name but for associations in the "through table"
+
+
+    Summary: If Rails can't tell based on its assumptions which associations, class names, foreign keys to use, then specify them using :source, :foreign_key, :class_name
+
+    ActiveRecord::StatementInvalid: SQLite3::SQLException: no such column
+    	an error that arises commonly from bad associations
+
+
+POLYMORPHISM
+	Use Case: What if you have a single model that can belong to a bunch of different types of models?
+
+	Example: Users can comment on any of the different types of things posted by other users (like text, picture, images)
+
+	The solution is to store not only the foreign key, but a reference to which type of model it corresponds to
+
+	example:
+
+		class CreateComments < ActiveRecord::Migration
+	      def change
+	        create_table :comments do |t|
+	          t.string :title
+	          t.text :content
+	          t.integer :commentable_id
+	          t.string :commentable_type
+	          t.timestamps
+	        end
+	      end
+	    end
+
+	    class Comment < ActiveRecord::Base
+	    	belongs_to :commentable, :polymorphic => true
+	    end
+
+	    class Post < ActiveRecord::Base
+	    	has_many :comments, :as => :commentable
+	    end
+
+SELF JOINS
+	class Employee < ActiveRecord::Base
+      has_many :subordinates, class_name: "Employee",
+                              foreign_key: "manager_id"
+
+      belongs_to :manager, class_name: "Employee"
+    end
+
+
+USEFUL ASSOCIATION METHODS
+	User.first.posts.create
+		lets you create new association objects that automatically populates the foreign key
+
+	User.create(...).posts << Post.new(...)
+		you can use the shovel operator to add a new object to the association
+		associations sometimes act like arrays
+		this will save the post to the database with that User's foreign key
+
+
+DESTROYING DEPENDENTS
+	has_many :posts, :dependent => :destroy
+
+	if a Model is deleted and it has_many of another Model, all the associated items are destroyed if it is dependent
+
+
+Rails Guide: Active Record Associations
+	1. Why Associations?
+
+		Association: connection between two Active Record models
+		Make operations simpler and less redundant
+
+	2. Types of Associations
+
+		belongs_to
+			uses the singular term
+			sets up a foreign key pointing to the owning model
+
+		has_one
+			the model that is owned has a foreign key
+
+		has_many
+			has zero or more instances of another model
+
+		has_many :through
+			matched with zero or more instances of another model by proceeding through a third model
+
+		has_one :through
+
+		has_and_belongs_to_many
+			direct many-to-many connection with no intervening models
+
+
+		Between has_many :through VS has_and_belongs_to_many
+			has_many :through if you need to work with the relationship model as an independent entity
+			if you don't need anything with the relationship model, use the has_and_belongs_to_many
+
+	3. Tips, Tricks, and Warnings
+
+		Controlling Caching
+
+			all the association methods are built on caching
+			the cache is shared across methods
+
+			to reload the cache, use #reload
+
+		Avoiding Name Collisions
+
+			don't override any instance methods of ActiveRecord::Base
+
+		Updating the Schema
+
+			for belongs_to, you need to create foreign keys
+
+			for has_and_belongs_to_many, you need to create the appropriate join table
+
+			generally good practice to add an index on foreign keys to improve query performance
+
+			the join table should be created without a primary key, just foreign keys
+				pass id: false to create_table since the table doesn't represent a model
+
+				def change
+					create_join_table :assemblies, :parts do |t|
+						t.index :assembly_id
+						t.index :part_id
+					end
+				end
+
+		Controlling Association Scope
+
+			associations only look for objects within the current module's scope
+			unless you specify the complete class in your association declaration
+
+		Bi-Directional Associations
+
+			Rails will not automatically identify associations with:
+				:conditions
+				:through
+				:polymorphic
+				:class_name
+				:foreign_key
+
+			unless you use the :inverse_of option
+				doesn't work with :through, :polymorphic, and :as
+
+
+
+$ rails g model <Model Name> <other model>:references
+	<other model>:references creates a column named <other model>_id and adds an index on it
+
+$ rails g model <model name> <other model>_id:integer:index
+	is another way to do it
+
+
+Attempt to Summarize
+	There are a variety of associations
+	Rails has name conventions that you either follow, or don't follow and therefore specify relationships to ensure your Models act accordingly
+
+	The available associations are
+		has_many
+		has_one
+		belongs_to
+		has_many :through
+		has_one :through
+		has_and_belongs_to_many
+
+	Associations accept options, of which these are the most important for differences from naming conventions:
+		:class_name
+		:foreign_key
+		:source
+
+	In some cases, you may want to refer to a model through an association with a different name.
+	In the default case, whatever name you specify will have Rails assume that:
+		the foreign key will be named <model name>_id
+		the associatied model name corresponds with the correct table
+	So to have an association with a different name is different from the second assumption.
+	Therefore, you must specify :class_name pointing to the correct table for Rails to know.
+
+	In the above case, that would also change the name of the foreign key to the association name as opposed to the model name.
+	Therefore, on the other model in the association, you would have to specify the :foreign_key for the association to properly function.
+
+	This is a simple example, but there are more complex situations where you would need to change both of those options.
+
+	:source is only used in the case of has_one :through and has_many :through
+	There is an intermediate table in both of these associations that has a foreign key to each table
+	If the foreign key is named differently from the association, then :source must be specified so it follows the correct foreign key in the intermediate table
+
+
+Associations Warmup
+	Lay out the data architecture for the following scenarios:
+
+	1) Pet-sitting site. People can sit for multiple pets; pets can have multiple petsitters.
+
+		Petsitting
+			belongs_to :pet
+			belongs_to :petsitter
+
+		Petsitter
+			has_many :pets, through :petsitting
+			has_many :petsittings
+
+		Pet
+			has_many :petsitters, through: :petsitting
+			has_many :petsittings
+
+	2) Dinner party invitation site. User can create parties, invite people to a party, and accept an invitation to someone else's party.
+
+		User
+			has_many :hosted_parties, class_name: 'Party'
+			belongs_to :party, through :invitations
+			has_many :invitations
+
+		Party
+			belongs_to :creator, class_name: 'User', foreign_key: "creator_id"
+			has_many :invitations
+			has_many :attendees, through: :invitations, source: :user
+
+		Invitation
+			belongs_to :party
+			belongs_to :user
+
+	3) Users can post things. Users can follow each other.
+
+		User
+			has_many :posts
+			has_many :followings
+			has_many :followed_posts, through: :followings, source: :post
+
+		Post
+			belongs_to :user
+			has_many :followings
+			has_many :followers, through: :followings, source: :user
+
+		Following
+			belongs_to :user
+			belongs_to :post

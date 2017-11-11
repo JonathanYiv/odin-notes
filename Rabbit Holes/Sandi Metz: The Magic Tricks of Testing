@@ -1,0 +1,178 @@
+Integration Tests
+	If your app is a giant bubble, then the integration tests pokes the bubble, and checks to see what comes out
+
+Unit Tests: Goals
+	Thorough - fully ensures object is working correctly
+	Stable - don't want test to break everytime we change code
+	Fast
+	Few
+
+
+Object under Test should know about these messages:
+	Incoming (don't let the outside see in)
+	Sent to Self
+	Outgoing (don't let inside see out)
+
+Messages come in two flavors:
+	Queries: return something/change nothing -- no side effects
+	Commands: return nothing/change something -- has side effects
+
+	if messages are both, then your code becomes more confusing
+	there will be messages that are both
+
+
+	Testing commands vs queries is very different
+
+
+
+			Query		Command
+Incoming	  A 		   B
+Sent to Self  C 		   D
+Outgoing  	  E 		   F
+
+
+There are six possible types of messages.
+Each type of message has a different way to test it.
+
+
+
+Scenario A: Incoming Query
+	class Wheel
+		attr_reader :rim, :tire
+		def initialize
+			...
+		end
+
+		def diameter
+			rim + (tire * 2)
+		end
+
+	#diameter is an incoming query
+
+	class WheelTest < MiniTest::Unit::TestCase
+		def test_calculates_diameter
+			wheel = Wheel.new(26, 1.5)
+
+			assert_in_delta(29, wheel.diameter, 0.01) # asserts that wheel.diameter is within 0.01 of 29
+		end
+	end
+
+
+	RULE: Test incoming query messages by making assertions about what they send back
+	AKA: Assert Result
+
+	note: test the interface NOT the implementation
+			this allows you to change the implementation, and not mess up the interface
+
+
+Scenario B: Incoming Command
+	class Gear
+		attr_reader :chainring, :cog, :wheel
+		def initialize(args)
+			...
+		end
+
+		def set_cog(new_cog)
+			@cog = new_cog
+		end
+	end
+
+	#set_cog is an incoming query-command combo
+
+	to test the command portion
+
+	class GearTest < MiniTest::Unit::TestCase
+		def test_set_cog
+			gear = Gear.new
+			gear.set_cog(27) # send the message
+			assert(27, gear.cog) # assert the side effect
+		end
+	end
+
+	RULE: Test incoming command messages by making assertions about direct public side effects
+	Note: Beyond Scenario A and B, there are NO more assertions about values
+
+
+Scenario C and D: Self Queries/Commands
+	class Gear
+		...
+		def gear_inches
+			ratio * wheel.diameter
+		end
+
+		private
+		def ratio
+			chainring / cog.to_f
+		end
+		...
+	end
+
+	#ratio is a self query
+
+	Do NOT
+		do NOT test for a return value, another method already uses this as a self query, so if the test works for that, this must be right (DRY code)
+		do NOT set expectations for methods to be called (binds you to a specific implementation)
+
+	RULE: Do NOT test private methods. Do NOT make assertions about their result. Do not expect to send them.
+
+	don't let private tests hinder others from improving your code
+
+
+Scenario E: Outgoing Query
+	class Gear
+		attr_reader :chainring, :cog, :wheel
+		def initialize(args)
+			...
+		end
+
+		def gear_inches
+			ratio * wheel.diameter # this sends an outgoing query to @wheel
+		end
+
+		private
+		def ratio
+			chainring / cog.to_f
+		end
+		...
+	end
+
+	#gear_inches sends an outgoing query to @wheel
+
+	Do NOT
+		assert the result of an outgoing query (the receiver of a query is solely responsible for assertions that involve state) -- this duplicates wheel's tests
+		expect to send an outgoing query, binds you to the specific implementation
+
+	RULE: do not test outgoing query messages. do NOT make assertions about their result, do NOT expect to send them
+
+	Note: if a message has no visible side effects, the message is invisible, and if a message is invisible, do not test it
+
+
+Scenario F: Outgoing Command
+	an outgoing command to another object is an incoming command to another object
+
+	this message HAS visible side effects on which others depend -- this message MUST be sent
+
+	do NOT
+		test the side effect -- creates dependencies on multiple objects -- that is an integration test
+
+	RULE: expect to send outgoing command messages; break rule if side effects are stable and cheap
+	use mocks to mock the external object
+	the mock should receive the outgoing command message
+
+
+
+MOCKS
+A mock is a test double that plays a role in your app
+	RULE: honor the contract, ensure that test doubles stay in sync with the API
+
+bogus
+quacky
+rspec-fire
+minitest-firemock
+
+these ensure that the mocks and API stay in sync
+
+
+
+Note: break rules when cost efficient
+rules let you make thorough, stable, few, and fast tests

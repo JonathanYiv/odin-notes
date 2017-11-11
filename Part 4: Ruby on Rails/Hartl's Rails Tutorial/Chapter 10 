@@ -1,0 +1,45 @@
+The pattern for editing user information closely parallels that for creating new users
+
+new action renders view for new users -> create responds to POST request
+edit action renders view for editing users -> update responds to PATCH request
+
+
+When you pass form_for an already persisted instance of a model
+	it will autofill certain fields for you
+	it will also include a hidden input field
+		<input name="_method" type="hidden" value="patch" />
+			since browsers can't natively send PATCH requests, Rails fakes it with a POST request and a hidden input field
+	the reason it knows is that Active Record has the #new_record? boolean method
+
+
+
+HTML Note: A link with the attribute `target="_blank"` will open a new window/tab
+	however this can cause a security issue if you don't include the attribute `rel="noopener"`
+
+
+
+
+Uses of assert_select
+
+assert_select "div"	<div>foobar</div>
+assert_select "div", "foobar"	<div>foobar</div>
+assert_select "div.nav"	<div class="nav">foobar</div>
+assert_select "div#profile"	<div id="profile">foobar</div>
+assert_select "div[name=yo]"	<div name="yo">hey</div>
+assert_select "a[href=?]", ’/’, count: 1	<a href="/">foo</a>
+assert_select "a[href=?]", ’/’, text: "foo"	<a href="/">foo</a>
+
+
+
+redirects don't occur until an explicit return or the end of the method, so any code after a redirect is still executed
+
+
+Pagination: displays results on multiple pages
+
+
+db/seeds.rb
+	$ rails db:seed
+		lets you seed the database with sample data
+
+$ heroku pg:reset DATABASE
+	completely resets your production database

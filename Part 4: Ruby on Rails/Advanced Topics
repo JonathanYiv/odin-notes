@@ -1,0 +1,333 @@
+Learning Outcomes
+	When do you need to use a singular Resource vs a plural Resources in your router?
+		if there is only one resource of it as opposed to many
+
+	What is the "missing" route when using a singular Resource? What else is missing from many of the other routes?
+		#index
+		:id
+
+	Why would you use nested routes?
+		when one thing needs the parent's ID
+
+	What order do you specify their respective IDs? What are they called in params?
+		from the outermost layer towards inwards
+		*_id, then id at the outermost
+
+	Why might you use a "member" route?
+		to add a non-RESTful route to a single member of a resource
+
+	How are "member" and "collection" routes incredibly similar? Slightly different?
+		both are adding another non-RESTful route to a resource
+		one refers to a singular item as opposed to a plural collection
+
+	How do you set up a redirect route that also passes along any parameters?
+		capture the parameter in %{this}
+
+	How do you name a route using an alias?
+		use the :as option
+
+	Why might you want to use nested or multiple layouts?
+		when it keeps code and logic DRY
+
+	How would you (roughly) go about implementing this?
+		just have layouts render layouts like a view renders a partial
+
+	How can you pass variables between your layouts?
+		using #content_for
+
+	How do you #yield to #content_for content?
+		<%= yield :name_of_content_forred %>
+
+	What is metaprogramming?
+		your programming creates functions/methods/classes on the fly
+		and these creations can be dynamically called
+
+	How do you use the #send method to run a method?
+		1.send(:+, 2)
+
+	How do you create a new method on the fly?
+		define_method :hello do |parameter|
+			puts parameter
+		end
+
+	When does Ruby call the #method_missing method?
+		if you call a method that doesn't exist
+
+	How can you use #method_missing to your advantage?
+		it gets passed all the arguments and blocks you tried to send
+		you can use this to do many things
+
+	What are Design Patterns?
+		"best practices" for how to code given a situation
+
+	What are the SOLID principles?
+		Single Responsibility Principle - a class should have only one reason to change
+		Open/Closed Principle - things should be open for extension but closed for modification
+		Liskov Substitution Principle - a subclass can act in place of its parent class
+		Interface Segregation Principle - many client-specific interfaces > one general-purpose interface
+		Dependency Inversion Principle - one should depend upon abstractions, not concretions
+
+Advanced Routing
+	Advanced: redirecting directly from the routes file, nesting routes inside each other, parsing parameters from the incoming request
+
+	Singular Resources
+		example: `resource :dashboard`
+			resource is singular
+			dashboard is singular
+
+		$ rails routes
+			would only have 6 routes
+			without the #index action
+			no more :id portions of the routes, since there is only a singular resource
+
+	Nested Routes
+		example:
+			resources :courses do
+				resources :lessons
+			end
+
+			course_lesson GET /courses/:course_id/lessons/:id(.:format) lessons#show
+
+		You are taken to the controller of the deepest nested resource
+		The :id parameter is the deepest nested
+		Any parent resource parameters will have specific names like :course_id in the example above
+
+		The `course_lesson_path` would need both parameters, i.e. `course_lesson_path(1,3)`
+
+		Protip: Don't nest routes too deeply. A layer or two deep at most
+		Tip 2: You will need nested routes if you need the parent's ID
+
+	Member and Collection Routes
+		adding another non-RESTful route to a resource
+		to add a route to a single member of that resource
+
+		example:
+			resources :courses do
+				member do
+					get "preview"
+				end
+			end
+
+			Would map to the 'courses#preview' action
+
+
+		To add a non-RESTful route to the whole collection of your resource (no :id attribute, like index)
+
+		example:
+			resources :courses do
+				collection do
+					get "upcoming"
+				end
+			end
+
+			would map to the courses#upcoming action, no :id parameter
+
+	Redirect and Wildcard Routes
+		example:
+			get 'courses/:course_name' => redirect('/courses/%{course_name}/lessons'), as: 'course'
+
+			The #redirect method sends one route to another route
+			To send the original parameters, you need to capture the parameter inside %{this}
+			You must use single quotes
+
+			the :as option allows you to rename the route
+				which modifies the #_path and #_url helpers
+
+Advanced Layouts: Nesting Layouts and Passing Information
+	The #content_for method lets you pass info from the first layout to the one it renders
+
+	It is often used to create logic in your main layout that is dependent on what is passed by your individual layout files
+
+	There are many possibilities, like having a navbar only appear for certain controllers
+
+Metaprogramming Rails
+	Metaprogramming: your application/script creates functions/methods/classes on the fly while it is running and can dynamically call them as well
+
+	example: route helpers
+		when application starts up
+			Rails loads the config/routes.rb file
+				Rails then creates several methods for you including the helpers based on your routes
+
+
+	The #send method lets you run a method on an object
+
+	example:
+		1 + 2
+
+		can be
+
+		1.send(:+, 2)
+
+	#send is not normally needed unless you don't know which method you're going to need to call, because you can pass it the symbolized name of the method
+
+
+	The #define_method lets you define a new method on the fly
+		takes the symbol of what you'd like to define and the block representing the method itself
+
+		example:
+			class Rubyist
+
+				define_method :hello do |my_arg|
+					my_arg
+				end
+			end
+
+			obj = Rubyist.new
+			puts(obj.hello('Matz')) # => Matz
+
+	The #method_missing is a method of Ruby's BasicObject class and is called whenever you try to run a method that doesn't actually exist
+	You can override #method_missing, especially since it is passed all the arguments and blocks you tried to send
+
+Design Patterns
+	"best practices" for how to code past a given situation
+
+	Software Design Pattern: a general reusable solution to a commonly occurring problem within a given context in software design
+							 not a finished design that can be transformed directly into source or machine code
+							 rather, it is a description/template for how to solve a problem that can be used in many different situations
+							 formalized best practices
+
+	SOLID (object-oriented design): a mnemonic acronym for five design principles intended to make software designs more understandable, flexible, and maintainable
+		1) Single Responsibility Principle
+			a class should only have a single responsibility
+			a class should only have one reason to change
+		2) Open/Closed Principle
+			software entities should be open for extension but closed for modification
+		3) Liskov Substitution Principle
+			objects in a program should be replaceable with instances of their subtypes without altering the correctness of that program
+		4) Interface Segregation Principle
+			many client-specific interfaces are better than one general-purpose interface
+		5) Dependency Inversion Principle
+			one should depend upon abstractions, not concretions
+			instead of higher level constructs depending on lower levels ones, make them rely on abstractions instead
+
+
+I18n: Internationalization and Localization
+	the process of adapting your application to fit specific geographies and/or languages
+
+
+
+
+Note: when you define a method within self, it is not automatically assigned to `self`, there is a default definee
+The default definee depends on the context
+for a def method_name, the default definee is the class itself
+for a def self.method_name, the default definee is the singleton class of the class itself
+
+Note: Anonymous Class = Singleton Class = Eigenclass = Ghost Class = Metaclass = Uniclass
+
+
+Rails Guide
+	Namespacing
+		You can modify the namespacing, scope, and module of routes to change paths and routing to controller actions
+
+	Nested Resources 
+		Resources should never be nested more than 1 level deep
+
+		Shallow Resources
+
+			You can also speicfy shallow resources by generating the collection actions under the parent, but not nest the member actions
+
+			example:
+				resources :articles do
+					resources :comments, only: [:index, :new, :create]
+				end
+				resources :comments, only: [:show, :edit, :update, :destroy]
+
+				is equivalent to
+
+				resources :articles do
+					resources :comments, shallow: true
+				end
+
+				or
+
+				resources :articles, shallow: true do
+					resources :comments
+				end
+
+				or
+
+				shallow do
+					resources :articles do
+						resources :comments
+					end
+				end
+
+	Routing Concerns
+		declare common routes that can be reused inside other resources and routes
+
+		resources :messages, concerns: :commentable
+		resources :articles, concerns: [:commentable, :image_attachable]
+
+		is equivalent to
+
+		resources :messages do
+			resources :comments
+		end
+
+		resources :articles do
+			resources :comments
+			resources :images, only: :index
+		end
+
+	Creating Paths and URLs from Objects
+		nested paths/urls also get helpers, you just have to pass in the necessary objects
+
+	Adding more RESTful Actions
+		You can use `member` and `collection` to add more actions
+
+
+Rails Guide: Non-Resourceful Routes
+	Rails supports routing arbitrary URLs to actions
+
+	You can include parameters inside the route
+		'photos/:id'
+
+		and the id will be in params[:id]
+
+	These parameters are known as `dynamic segments` and they will be available as part of params in the action
+
+	There are also static segments
+
+	Params will also include any parameters from the query string
+
+	You can define defaults for a route by supplying a hash for the :defaults option
+	example:
+		get 'photos/:id', to: 'photos#show', defaults: { format: 'jpg' }
+
+	you can name the routes using the :as option
+	example:
+		get 'exit', to: 'sessions#destroy', as: :logout
+			this creates logout_path and logout_url as named helpers
+			calling logout_path will return /exit
+
+	:as can be used to override routing methods
+
+
+	You can use the 'match' method with the :via option to match multiple verbs at once
+	example:
+		match 'photos', to: 'photos#show', via: [:get, :post]
+		match 'photos', to: 'photos#show', via: :all
+	however, avoid routing all verbs to an action unless you have a good reason to
+	remember, GET won't check for a CSRF token
+
+
+	You can also use the :constraints option to enforce a regex format for a dynamic segment, as long as you don't use anchors (all routes are anchored at the start)
+
+	There is route globbing, wildcard segments, redirection, routing to Rack applications, unicode routes
+
+
+
+
+Nested layouts
+	so basically nested layouts
+	mean you have normal layout application.html.erb
+	and in that you can YIELD to content from #content_for from another layout
+
+	this layout is a layout specific to a controller
+
+	so let's say you have the firecontroller
+	and access a fire page
+	the fire layout will automatically render
+	and if you provide info in the #content_for
+	then render application.html.erb (treating it as a partial to its view), the #content_for info will
+	get passed to application.html.erb and have whatever effects it is supposed to have

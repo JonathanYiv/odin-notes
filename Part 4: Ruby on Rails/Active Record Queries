@@ -1,0 +1,442 @@
+Active Record gives you a Ruby-ish interface to produce bare-metal SQL statements of any complexity
+
+Anything you do in SQL, you can do in Active Record
+
+
+POINTS TO PONDER
+	What is an ActiveRecord::Relation?
+		a Rails object that is a relation to the database, it doesn't execute the query until actually needed
+		they can be acted upon with finder methods
+
+	What does Lazy Evaluation mean?
+		the query is not evaluated until actually needed
+
+	How do you make a relation evaluate into an array?
+		#to_a
+
+	How do you check whether a database already contains a record?
+		#exists?
+
+	Why is #find_by useful and how is it used?
+		good for finding a record by an attribute value
+		doesn't raise an exception if the record doesn't exist
+		<Model>.find_by(<attribute>: <value)
+
+	What's the difference between what's returned using a #where query and a #find query?
+		a #find query returns the a Ruby object
+		a #where query returns an ActiveRecord::Relation object
+
+	How do you join tables together in Rails?
+		using #joins, #left_outer_joins and having associations or explicitly writing out the relationships
+
+	When can you use symbols/hashes and when do you need to use explicit strings for query parameters?
+		values must be explicit strings
+		symbols/hashes can be used otherwise
+
+	What are scopes are why are they useful?
+		they define a 'scope' of the model that lets you define some sort of condition on which instances fulfill
+		they provide a shortcut to repeating a commonly-used clause
+
+	What needs to happen for a class method to act like a scope?
+		you design it correctly using Active Record finder methods
+
+
+Relations and Lazy Evaluation
+
+	Model.find(1) returns a Ruby object
+		however, most queries don't return a Ruby object, they just fake it
+			they actually return instances of ActiveRecord::Relation
+
+	Active Record queries return relations to be 'lazy,' they don't actually execute the query until it is actually needed
+
+		example:
+			@posts = Post.all
+				doesn't return all the posts, it returns a Relation
+				only when the view code calls a method on @posts, will the query be run and the relation stored as a real Ruby object in memory
+
+
+	You can chain queries together like in normal Ruby
+
+	If you need a Relation to act as an array, you can use #to_a to force it to evaluate the query
+
+	#find, #find_by, #first, and #last do NOT return Relations, they return a model instance
+	
+	#take returns an array of model instances
+
+	the previously mentioned methods run SQL queries immediately
+
+
+Beyond Basic Querying
+
+	#exists? returns true/false depending on whether the object exists
+
+	#any? returns true if ANY records match the specified criteria
+
+	#many? returns true if multiple records match the specified criteria
+
+	examples:
+		Post.where(:published => true).any?
+		Post.where(:published => true).many?
+
+		Post.first.tags.exists?
+
+
+	There are multiple argument formats, all of the below are the same:
+		User.where(:email => "foo@bar.com")
+		User.where("email" => "foo@bar.com")
+		User.where("email = 'foo@bar.com'")
+		User.where("email = ?", "foo@bar.com")
+		User.where("users.email" => "foo@bar.com")
+
+
+	Optimizing Queries
+		#find_each chunks queries into pieces, loading pieces at a time and evaluating it before moving onto the next one 
+
+
+	#where queries let you specify an exact value OR range of values OR several values to find
+		Note: #where returns a Relation
+
+	#find_by lets you find an instance by submitting a column and value
+
+	#select lets you choose which columns to select from the table, just like SQL
+
+	you can also use aliases with Active Record queries
+
+	Aggregations also exist
+
+	Joins: Rails associations do the heavy lifting of setting up the joins, but sometimes you will need to explicitly set up the joins
+
+
+Rails Guides: Active Record Query Interface
+
+	- how to find records using a variety of methods/conditions
+	- how to specify the order, retrieved attributes, grouping, and other properties of the found records
+	- how to check for the existence of particular records
+	- how to perform various calculations on Active Record models
+
+
+	regardless of the database system used, the Active Record method format will always be the same
+
+	1. Retrieving Objects from the Database
+
+		The Finder Methods:
+			find, create_with, distinct, eager_load, extending, from, group, having, includes, joins, left_outer_joins, limit, lock, none, offset, order, preload, readonly, references, reorder, reverse_order, select, where
+
+		Finder methods that return a collection return an instance of ActiveRecord::Relation
+		Finder methods that find a single entity return a single instance of the model
+
+		1.1 Retrieving a Single Object
+
+			#find lets you retrieve an object corresponding to the primary key
+				if not found, it will raise an ActiveRecord::RecordNotFound exception
+
+				if you pass in an array of multiple primary keys, it will return an array containing all the matching records
+					note: will still raise an exception unless matching record is found for all supplied keys
+
+
+			#take just gets a record without any implicit ordering, returns nil if no record is found
+			#take(2) returns 2 records
+			#take! will raise an exception if no record is found
+
+
+			#first finds the first record ordered by primary key
+				returns nil if no record is found
+				no exception
+				if you change the default scope, it will return the first record ordered by the default scope
+			#first(3) returns first three records
+			#first! will raise an exception if no record is found
+
+
+			#last returns the last record ordered by primary key
+				returns nil if no record is found
+				no exception
+				can change default scope
+			#last(3)
+			#last!
+
+
+			#find_by finds the first record matching some conditions
+			#find_by! returns an exception
+
+	2. Conditions
+
+		You can use pure string conditions, however they leave you susceptible to SQL injection exploits
+
+		It is highly preferable to provide array conditions
+			example:
+				Client.where("orders_count = ?", params[:orders])
+
+				the first argument is the conditions string
+				any additional arguments replace the question marks in it (can have multiple question marks)
+
+		Array conditions are much safer due to argument safety
+
+		you can also specify keys in your conditions string along with a corresponding keys/values hash
+
+
+		Hash Conditions can increase readability
+			example:
+				Client.where(locked: true)
+				Client.where('locked' => true)
+
+		You can pass an array to the conditions hash to use the IN expression
+			example:
+				Client.where(orders_count: [1,3,5])
+				is equivalent to
+				SELECT * FROM clients WHERE (client.orders_count IN (1,3,5))
+
+		#where.not lets you create a != query
+
+	3. Ordering
+
+		#order lets you sort the database in a specific order
+			you can also specify :desc or :asc
+			and can sort by multiple fields
+
+		example:
+			Client.order(:created_at: :asc, orders_count: :desc)
+
+	4. Selecting Specific Fields
+
+		By default, using #find selects using 
+			SELECT *
+
+		you can specify a subset using the #select method
+
+		examples:
+			Client.select("viewably_by, locked")
+				selects only those two columns
+
+		you can add the #distinct method to only grab a single record per unique value in  certain column
+
+	5. Limit and Offset
+
+		#limit and #offset methods can be specified on the relation
+
+		examples:
+			Client.limit(5)
+			Cliemt.limit(5).offeset(30)
+
+	20. Existence of Objects
+
+		the #exists? method will return true or false if the record exists
+			accepts multiple values, but note it returns true if any of the records exist
+
+			can be used on an empty table
+
+			doesn't have to be passed an argument
+
+		#any and #many also can check for existence
+
+		examples:
+			Article.any?
+			Article.many?
+
+			Article.where(something: true).any?
+			Article.where(something: false).many?
+
+	6. Group
+
+		the #group method applies a GROUP BY clause
+
+		example:
+			Order.select("date(created_at as ordered_date, sum(price) as total_price").group("date(created_at)")
+
+		To get the total of grouped items on a single query, call #count after the group
+
+		example:
+			Order.group(:status).count
+
+			which is the same as
+
+			SELECT COUNT(*) AS count_all, status AS status FROM "orders" GROUP BY status
+
+	7. Having
+
+		the #having method lets you add a HAVING clause
+
+	21. Calculations
+
+		all calculation methods work directly on a model or relation
+
+		#count
+
+		#average
+
+		#minimum
+
+		#maximum
+
+		#sum
+
+	12. Joining Tables
+
+		There are two types of join methods
+			#joins uses an INNER JOIN
+			#left_outer_joins uses a LEFT OUTER JOIN
+
+		You can use a String SQL fragment if you want
+
+		ActiveRecord lets you use the names of the associations defined on the model as a shortcut for specifying JOIN clauses
+
+		example:
+
+			class Category < ApplicationRecord
+			  has_many :articles
+			end
+			 
+			class Article < ApplicationRecord
+			  belongs_to :category
+			  has_many :comments
+			  has_many :tags
+			end
+			 
+			class Comment < ApplicationRecord
+			  belongs_to :article
+			  has_one :guest
+			end
+			 
+			class Guest < ApplicationRecord
+			  belongs_to :comment
+			end
+			 
+			class Tag < ApplicationRecord
+			  belongs_to :article
+			end
+
+
+			Category.joins(:articles) joins the category and article tables appropriately
+				return a category object for all categories with articles 
+
+			Article.joins(:category, :comments)
+				return all articles that have a category and at least one comment
+
+			Article.joins(comments: :guest)
+				return all articles that have comments made by a guest
+
+			Category.joins(articles: [{comments: :guest}, :tags])
+				return all categories that have articles, where those articles have a comment made by a guest, and where those articles also have a tag
+			
+			Author.left_outer_joins(:posts).distinct.select('authors.*, COUNT(posts.*) AS posts_count').group('authors.id')
+				return all authors with their count of posts, whether or not they have any posts at all
+
+		You can specify conditions on joined tables
+
+	18. Find or Build a New Object
+
+		#find_or_create_by
+			checks whether a record with the specified attribute exists
+			if not, then create is called
+			returns the existing record or the newly created record
+			record not necessarily saved to the database, depending on validations
+
+		#find_or_create_by!
+			raises an exception if the new record is invalid
+
+		#find_or_initialize_by
+			will call new instead of create
+			model instance will be created in memory but not saved to the database
+
+	14. Scopes
+
+		allow you to specify commonly-used queries which can be referenced as method calls on the association objects or models
+
+		example:
+			class Article < ApplicationRecord
+				scope :published, -> { where(published: true) }
+			end
+
+		this is the same as defining a class method, and usage is a matter of personal preference
+
+		scopes are chainable with scopes
+
+		scopes can take arguments, although using a class method is the preferred way to accept arguments for scopes
+
+		scopes can use conditionals, however, a scope always returns a Relation object even if condition is false, whereas a class method will return nil
+
+		applying default scope
+			default_scope { where("removed_at IS NULL") }
+			the default scope is prepended in scope and where conditions
+
+		#unscoped removes all scoping (most useful if a default_scope is specified in the model and should not be applied for this particular query)
+
+	19. Finding by SQL
+
+		#find_by_sql returns an array of objects (even if there is just a single record)
+
+		#select_all retrieves objects from the database using custom SQL but will not instantiate them, returns an array of hashes
+
+		#pluck can be used to query single or multiple columns from the underlying table of a model
+			accepts a list of column names as argument, returns an array of values of the specified columns with the corresponding data type
+			directly converts a database result into a Ruby Array
+			triggers an immeediate query
+
+		#ids can pluck all the IDs for the relation using the table's primary key
+
+
+N + 1 Queries and Eager Loading
+	
+	efficient applications reduce the number of database queries as much as possible
+
+
+	N+1 Query Problem
+		looping through a lot of model instances and calling an association for each instance means N additional queries
+
+		Eager Loading lets you grab another model and then store it in memory until it is called upon
+
+		so that instead of calling an association, it is like calling an attribute
+
+
+		The #includes method takes the name of one or more associations to load at the same time as the original object and brings them into memory
+			can be chained onto other methods like #where or #order clauses
+
+		The #pluck method lets you skip several steps just gives you the array immediately
+
+
+Scopes
+	
+	Scope: a custom chain of ActiveRecord methods you can add to an existing Relation by calling its name like a normal method
+
+
+	EXAMPLE
+	...
+    scope :important, -> { where(:is_important => true) }
+    ...
+
+    # app/controllers/posts_controller.rb
+    ...
+    def index
+      if params[:important] == true
+        @posts = Post.important.all
+      else
+        @posts = Post.all
+      end
+    end
+
+    which is equivalent to
+
+    ...
+    def self.important
+      self.where(:is_important => true)
+    end
+    ...
+
+    both of these use cases have their place
+
+    scopes return relations ALWAYS whereas class methods do not
+
+NOTE: You can use bare metal SQL by using the #find_by_sql method
+	This should be a last resort
+
+
+Optimizing 
+	You ideally want to make as few requests to the database as possible
+
+	You want to get all the data at once using customized Active Record queries
+
+
+	Solving N+1 Problems	
+		#preload loads the whole table with a query and establishes a relationship, can not be given further SQL commands
+		#eager_load left outer joins the appropriate tables and can be given further SQL commands
+
+		#includes decides between #preload and #eager_load

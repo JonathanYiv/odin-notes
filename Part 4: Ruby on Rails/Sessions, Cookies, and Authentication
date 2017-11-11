@@ -1,0 +1,323 @@
+Sessions: the idea that a user's state is preserved when navigating from one page to the next
+	since HTTP is stateless, the browser/application must 'remember' what needs to be remembered
+
+
+POINTS TO PONDER
+What is a session?
+	a special type of cookie that is saved on a user's browser as a key/value pair
+
+How is the session hash different from the cookies hash?
+	sessions disappear after the browser closes
+	cookies can have a specified expiration date
+
+What is the flash hash used for?
+	to display cursory information
+
+When would you need to use flash.now instead of flash?
+	for a render as opposed to a redirect
+
+What are controller filters and why are they useful?
+	they are before, around, or after filters that let you provide a method name for certain actions
+	that method will be run accordingly for the action, allowing you to develop smart logic
+
+How do you run a controller filter for just a specific few actions?
+	specify except: [] or only: []
+
+What's the difference between authentication and authorization?
+	authentication is about logging in and ensuring the password matches the database's password digest
+	authorization is about certain users have different access levels to content or actions
+
+Why is #has_secure_password a handy method?
+	it automatically adds two virtual attributes to the model, password and password_confirmation
+	it automatically produces the #authenticate method that lets you confirm a password meets a password_digest
+
+What is the basic overview of how to authenticate a user with that method?
+	user.authenticate(password) 
+	you provide the user
+	you provide the password, generally from a params hash
+	then it returns true or false
+
+What additional steps (on a high level) are needed to actually "remember" a user after they've closed the browser?
+	provide two permanent cookies, one for the user_id and one for the remember_token
+	when they return to the site, a filter will automatically check for the remember_token, and if it exists, will compare it to the database's remember_digest, and if correct, it will log the user in accordingly
+	if the user signs out, reset the token
+
+What is the Devise gem and why is it useful?
+	the devise gem is an industry standard authentication system meant for intermediate-level Rails users
+
+
+COOKIES, SESSIONS, FLASHES
+	All three are three special Rails objects that behave similarly to hashes
+	Persist data between requests (whether until just the next request, until the browser is closed, or until a specified expiration has been reached)
+	All solve different use cases
+
+
+COOKIES
+	Key-Value Data pairs stored in the user's browser until they reach a specified expiration date
+	Can be used for pretty much anything
+		commonly used to bookmark the user's place in a webpage
+	Should not use to store anything that needs to be secure or persisted across browser sessions
+		too easy to clear cache or steal/manipulate unsecured cookies
+
+	`cookies` is a special Rails hash
+
+		example:
+			cookies[:hair-color] = "blonde"
+				would store a cookie on the browser with a key of 'hair-color' and a value of 'blonde'
+
+			cookies.delete(:hair-color)
+				would delete it
+
+	the browser will send all the cookies with EVERY request to your server
+		and you can access them in your controllers and views like a normal hash
+
+	Setting expiration dates
+		cookies[:name] { value: "Cookies YUM", expires: Time.now + 3600 }
+
+
+SESSIONS
+	Sessions track data regarding the user generally until thje browser window is closed
+		so every page the user visits until the browser is closed will be part of the same session
+
+	To identify a specific session
+		Rails stores a special secure/tamper-proof cookie that contains the user's entire session hash (Developer Tools -> Resources)
+			this expires when the browser is closed
+
+	Every time the browser makes a request to the server, this session cookie is included (along with other cookies)
+	so this cookie is ideal to keep track of the user's logged-in state
+
+	`session` is a special Rails hash
+		example:
+			session[:current_user_id] = user.id
+
+
+
+Cookies and Sessions are like temporary free database tables for you to use that are unique to a given user
+	will last either until manually deleted, expire, or session is ended (depending on selection)
+
+Sessions/Cookies have a size limit of ~4kb
+
+Sessions are encrypted and in one hash, cookies are not encrypted and are stored across multiple cookies
+	session data is stored on the server, cookie data is stored on the user
+
+
+FLASHES
+	flash is a special hash-like Rails object
+
+	only persists from one request to the next
+
+	like a sessions hash that self destructs after it is opened
+
+	commonly used to send messages from the controller to the view so the user can see success/failure messages after submitting forms
+
+	Set flash[:success] to something in the controller, and it will be available to your view on the next new request
+	once accessed, the data is erased
+
+	flash.now produces itself immediately
+
+	HOWEVER, you still have to write code to display the flash messages
+		common to write code that pins any flash messages to the top of the browser
+
+
+CONTROLLER FILTERS
+	Filters run code in your controller at very specific times.
+
+	example:
+		before_action :require_login
+
+		this doesn't let anything run in the controller until the :require_login method has been run and returns true
+
+	example 2:
+		before_action :require_login, only: [:edit, :update]
+
+		this only runs the filter for the edit and update actions
+
+		there is also an :except option
+
+	filter methods should be hidden behind the `private` keyword so they can only be used by that controller
+
+	filters are inherited, so if you place a filter in app/controllers/application_controller.rb, that applies to every controller action
+
+
+AUTHENTICATION
+	A user logs in via sign-in form, then the user is tracked using the session until the user logs out
+
+	Related:
+		Authorization -- while you are logged in, there may be different levels of users
+			a normal user shouldn't access administrative parts of the system while an admin can
+			authorization authorizes that only one of the two can do it
+
+	First, authenticate, then authorize using controller filters to ensure users are doing what they are supposed to be
+
+
+BASIC AND DIGEST AUTHENTICATION
+	using basic unencrypted authentication methods is not secure
+
+
+AUTHENTICATION/AUTHORIZATION SYSTEM
+	1) Do not store passwords in plain text in the database! Store an encrypted "password digest" version of the password.
+	2) To compare a user's submitted password from the login form, INSTEAD of comapring it with a plaintext version of that password, CONVERT the submitted password into digest form, then compare the new digest with the stored database digest [digests are one-way encryption]
+
+	Note: the best way to crack digests is to make a list of possible passwords, turn them into digests, and then compare, so common passwords are less secure
+
+	Rails has a method called #has_secure_password
+		Set up the User model to handle accepting `password` and `password_confirmation` attributes (that aren't persisted to the database)
+		has_secure_password gets those values and converts them into the password digest for you
+
+	Creating a New Sessions
+		Create a new controller, typically sessions_controller.rb with the new, create, and destroy actions
+		If a user passes the right password (authenticate method verifies), then the session variable can store their ID
+
+	To do a "Remember Me"
+		create a column in your Users table for an encrypted remember_token (or whatever)
+		this random string will be used in the future to identify the user
+		the unecrypted token as a permanent cookie into the user's browser
+			best practice to reset the token on each new signin if the user signs out
+
+	Make helper methods
+		sign in a user
+		check if user is signed in
+		compare the signed in user with another user
+
+
+	SUMMARY
+		1) Add a column to Users to contain user's password_digest
+		2) When user signs up, turn password into digest form and store it in the column by adding the #has_secure_password to your User model
+		3) Ensure password validations are present
+		4) Build a sessions controllers with new, create, and destroy routes; use the #authenticate method to sign in the user when the user has submitted proper creds using the signin form
+		5) Create a remember_token column in Users table and save as a permanent cookie, reset on each new signin
+		6) Check the user's remember_token against teh database on each page that requires authentication using before_action, otherwise redirect to signin page
+		7) Make helper methods for DRY code
+
+
+DEVISE (gem)
+	avoid Devise as a beginner for fundamentals
+	as an intermediate user of Rails, then use it
+
+	Devise has covered most of the edge cases and security loopholes
+
+	Devise also lets you interface with more advanced authentication systems like OAuth
+
+	Devise prepackages signin/signuop forms, methods to implement
+
+	Has 10 modules
+
+	Install devise gem, run installer, run database migration
+
+	Configuration depends on your use case, so you use modules as needed
+
+
+
+
+
+In Rails, there isn't much of a difference between a cookie and a session
+Here are the differences why not to use a cookie for some reasons:
+	Cookies only can hold 4kb of data
+	Cookies are sent with every request
+	Cookies can be changed by users
+	Cookies are insecure
+
+You can store your sessions in cookies, cache, or the database
+All of these are increasingly secure but more difficult to implement and maintain
+
+
+
+
+Rails Guide: Sessions
+	sessions are only available in the controller and view
+
+	Storage Mechanisms:
+		ActionDispatch::Session::CookieStore - stores everything on the client
+		ActionDispatch::Session::CacheStore - stores the data in the Rails cache
+		ActionDispatch::Session::ActiveRecordStore - stores the data in a database using Active Record (require activerecord-session_store gem)
+
+	sessions use a cookie to store a unique ID for each session
+	this ID is a reference to the session data, except in the default CookieStore option (all data is in the cookie itself)
+
+	CookieStore
+		Cookies are light-weight, require zero set-up, encrypted, and the cookie is cryptographically signed to make it tamper-proof (no edited cookies are accepted)
+		Only can store 4kB of data
+
+	CacheStore
+		stores session using the cache configured for your application
+		requires no setup/administration
+		sessions become ephemeral and could disappear at any time
+
+	To change storage mechanisms, change it in an initializer
+		Can also change cookie name in the initializer
+		Can also pass a domain key for the cookie
+
+	Can change the secret key for signing the session data in config/secrets.yml (will invalidate all existing sessions)
+
+
+
+https://stackoverflow.com/questions/5691390/when-do-we-use-the-operator-in-rails-what-is-its-significance\
+
+@_current_user ||= session[:current_user_id] &&
+      User.find(session[:current_user_id])
+
+      If @_current_user exists, leave it as is.
+      If it doesn't exist, then evaluate the next statement.
+      If both the current_user_id exists in the session and a user exists in the database for that id, then assign @_current_user to the second part of the conditional (the user)
+      If not, @_current_user is nil
+
+
+    Flashes
+    	You can also assign flashes as part of the redirection
+    		redirect_to root_url, notice: "Text here"
+    		or
+    		redirect_to root_url, alert: "Mwahahaha!"
+
+    	Flashes are generally displayed in the application's layout
+    	like so
+
+    		<% flash.each do |name, msg| -%>
+      			<%= content_tag :div, msg, class: name %>
+    		<% end -%>
+
+    	flash.keep persists the flash value to the next request
+    	flash.now makes the flash available in the same request
+
+
+Rails Guide: Cookies
+	While for sessions, you set the key to nil
+	for cookies you use `cookies.delete(:key)`
+
+	cookies are serialized and encrypts them
+	the default is json
+
+
+Rails Guide: Filters
+	Filters are methods run before, after, or around a controller action
+	Filters are inherited
+
+	before filters halt the request cycle -- a common one is a login requirement
+		if a before filter renders or redirects, the action will not run
+			and if there are additional filters scheduled after the before filter, they are cancelled
+
+	if a filter is inherited, but you want to ignore it in a specific controller
+		use
+			skip_before_action :require_login, only: [:action1, :action2]
+
+
+	after filters have access to the response data about to be sent to the client
+
+	around filters are responsible for running their associated actions by yielding
+
+	Other Methods of using Filters
+	*_action methods accept a block that receives the controller as an argument
+	use a class to handle the filtering
+
+
+Rails Guide: Authentication
+	HTTP Basic Authentication
+		http_basic_authenticate_with name: "Jonathan", password: "12324"
+
+		is hard-coded
+
+	HTTP Digest Authentication
+		superior to the basic authentication -- no encrypted password sent over the network
+
+		authenticate_or_request_with_http_digest do |username|
+			USERS[username]
+		end

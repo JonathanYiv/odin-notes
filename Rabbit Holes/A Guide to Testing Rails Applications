@@ -1,0 +1,37 @@
+A Guide to Testing Rails Applications
+	- Rails testing terminology
+	- How to write unit, functional, integration, and system tests for your application
+	- Other popular testing approaches and plugins
+
+A. Introduction to Testing
+	1. Contents of Test Directory
+		controllers/
+		helpers/
+		models/
+		mailers/
+		system/
+		test_helper.rb
+		fixtures/
+		integration/
+		models/
+		apoplication_system_test_case.rb
+
+			The Helpers/Mailers/Models directories hold tests for each of those things respectively.
+			The Controller directory holds tests for Controllers, Routes, and Views.
+			The Integration directory holds tests for interactions between controllers.
+			The System test directory holds system tests, which are meant for full browser testing of your application.
+				They test it the same way users experience it and test Javascript as well.
+				They inherit from Capybara and perform in-browser tests.
+			Fixtures are a way of organizing test data.
+			The test_helper.rb file holds the default configuration for your tests.
+			The application_system_test_case.rb holds the default configuration for your system tests.
+
+	2. The Test Environment
+		There are three environments by default in Rails: development, test, and production.
+		Each environment's configuration can be modified in the config/environments/*.rb files.
+
+	3. Rails meets Minitest
+
+		test "the truth" do
+			assert true
+		end
