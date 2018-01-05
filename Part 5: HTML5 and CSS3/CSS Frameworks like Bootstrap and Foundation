@@ -1,0 +1,33 @@
+Learning Outcomes
+  What are CSS frameworks?
+    a set of tools/libraries/conventions/best practices that abstract routine CSS tasks into generic reusable modules
+
+  How do frameworks actually work?
+    it's just a library of
+      HTML code to define page structure
+      typography styles
+      CSS to visually change elements
+      javascript for dynamic elements
+      responsive media queries
+      cross-browser compatibility fixes
+
+  How do you interact with the framework to get the look you want?
+    you override their default styles
+
+  What is Twitter Bootstrap?
+    a very popular CSS framework used by Twitter
+
+  What is Zurb Foundation?
+    another CSS framework
+
+  What other frameworks can you find out there?
+    plenty
+
+  What are the disadvantages of using frameworks?
+    learning it by reading documentation, overriding what they've set up, missing a feature, excess code, others have to learn the tool
+
+DRY
+  1) Mass Reset of Default Browser Styles
+  2) Aligning the Type to a consistent baseline
+  3) Basic Form Styles
+  4) Creating standard CSS classes

@@ -1,0 +1,314 @@
+Learning Outcomes
+  What are selectors?
+    a designation of which elements get styled with CSS
+
+  In general, how specific should you be when targeting elements using selectors?
+    two layers of specificity
+
+  What's the difference between using %, em, and rem to specify sizes?
+    all are flexible scalable units that are translated by the browser into pixel values
+
+    `rem` depends on the font size of the root element of the page (the <html> element)
+
+    `em` depends on the font size of the element being styled
+
+    `%` has the font-size as 100%
+
+  How do you select an element inside another element?
+    use nested selectors
+
+  How can you shorten up a long batch of CSS that's doing the same thing to many different elements by putting them all in one line?
+    use commas to separate the elements
+
+  How do you target the immediate child of an element?
+    using the nth-child pseudo-class selectors
+
+  How do you target a class inside a class?
+    .outer-class .inner-class
+
+  How do you target a class inside an ID?
+    #outer-id .inner-class
+
+  How would you target "all the links inside li elements that have the class bunny which are inside the unordered list with the id things-that-hop"?
+    #things-that-hop li a .bunny
+
+  What are the three ways to include CSS in your project?
+    inline, externally, and internal
+
+  How do you import an external stylesheet?
+    <link rel="stylesheet" href="path/to/stylesheet">
+    in the <head> element of your <html> doc
+
+  What is the browser's default stylesheet?
+    the way browsers style html by default
+
+  What is a "CSS Reset" file and why is it helpful?
+    resets all of the browser's default styles
+
+  Which stylesheet has preference if you import multiple ones and there are overlapping styles?
+    whichever one was stated last assuming the same specificity
+
+  What is the order of priority of selectors?
+    [see specificity below]
+
+
+HTML
+  HyperText Markup Language
+  gives content structure and meaning
+
+  Elements
+    designators that define structure/content of objects within a page
+
+  Tags
+    opening tag marks beginning of element
+    in between is content
+    closing tag marks end
+
+  Attributes
+    properties to provide additional info about an element
+    common: id, class, src, href
+
+CSS
+  Cascading Style Sheets
+  presentation language that styles the appearance of content
+
+  Selectors
+    designates which elements get styled
+
+  Properties
+    determined styles applied to selected element
+
+  Values
+    the value of a property
+
+  note: can also select based on attributes using an attribute selector
+        <h2 rel="friend">
+          can be selected with
+        h2[rel="friend"]
+
+        the best use case for this is on INPUTS
+
+
+        there are also *= attribute selectors
+          <h1 rel="xxxexternalxxx">
+            can be selected with
+          h1[rel*="external"]
+
+        there are also ^= attribute selectors
+          requires the attribute to begin with a certain value
+            rel="test-awsjfgsagas"
+              selected with
+            [rel^=test]
+
+        there are also $= which means the attribute ends with a certain value
+
+        ~= means that the attribute is within a space separated list
+        less open than *=, good for some use-cases
+
+        |= means that the attribute is within a dash separated list
+
+        you can even combine multiple attribute selectors
+
+
+You can combine the class selector with other selectors
+  element.class
+  element#id
+
+* is the universal selector
+you can also select everything within something by doing `element *`
+
+
+
+"use more complex CSS selectors, ones that can target specific elements without the need of a class or an id, and by doing that keep our code and our stylesheets flexible."
+
+
+
+ADJACENT SIBLING SELECTOR
+A + B
+This selects all B elements that directly follow A. Elements that follow one another are called siblings. They're on the same level, or depth.
+
+In the HTML markup for this level, elements that have the same indentation are siblings.
+
+
+GENERAL SIBLING SELECTOR
+Select elements that follows another element
+
+A ~ B
+You can select all siblings of an element that follow it. This is like the Adjacent Selector (A + B) except it gets all of the following elements instead of one.
+
+
+CHILD SELECTOR
+Select direct children of an element
+
+A > B
+You can select elements that are direct children of other elements. A child element is any element that is nested directly in another element.
+
+Elements that are nested deeper than that are called descendant elements.
+
+
+FIRST CHILD PSEUDO-SELECTOR
+Select a first child element inside of another element
+
+:first-child
+You can select the first child element. A child element is any element that is directly nested in another element. You can combine this pseudo-selector with other selectors.
+
+
+ONLY CHILD PSEUDO-SELECTOR
+Select an element that are the only element inside of another one.
+
+:only-child
+You can select any element that is the only element inside of another one.
+
+LAST CHILD PSEUDO-SELECTOR
+
+NTH CHILD PSUEDO-SELECTOR
+Select an element by its order in another element
+
+:nth-child(A)
+Selects the nth (Ex: 1st, 3rd, 12th etc.) child element in another element.
+
+
+FIRST OF TYPE SELECTOR
+Select the first element of a specific type
+
+:first-of-type
+Selects the first element of that type within another element.
+
+
+NTH OF TYPE SELECTOR
+:nth-of-type(A)
+Selects a specific element based on its type and order in another element - or even or odd instances of that element.
+
+Examples
+div:nth-of-type(2) selects the second instance of a div.
+.example:nth-of-type(odd) selects all odd instances of a the example class.
+
+
+
+NTH-OF-TYPE SELECTOR WITH FORMULA
+:nth-of-type(An+B)
+The nth-of-type formula selects every nth element, starting the count at a specific instance of that element.
+
+
+ONLY OF TYPE SELECTOR
+Select elements that are the only ones of their type within of their parent element
+
+:only-of-type
+Selects the only element of its type within another element.
+
+
+LAST OF TYPE SELECTOR
+Select the last element of a specific type
+
+:last-of-type
+Selects each last element of that type within another element. Remember type refers the kind of tag, so p and span are different types.
+
+I wonder if this is how the last dinosaur was selected before it went extinct.
+
+EMPTY SELECTOR
+Select elements that don't have children
+
+:empty
+Selects elements that don't have any other elements inside of them.
+
+
+NEGATION PSUEDO-CLASS
+Select all elements that don't match the negation selector
+
+:not(X)
+You can use this to select all elements that do not match selector "X".
+
+
+ATTRIBUTE SELECTOR
+Select all elements that have a specific attribute
+
+[attribute]
+Attributes appear inside the opening tag of an element, like this: span attribute="value". An attribute does not always have a value, it can be blank!
+
+
+
+SPECIFICITY
+Specificity is represented as four numbers separated by commas
+#, #, #, #
+  the first digit is always zero unless there is a style ttribute applied to the element within the markup
+  the second digit is the sum of the number of IDs in the selector
+  the third digit is the sum of other attribute selectors and pseudo-classes and class selectors
+  the fourth digit counts the element selectors and pseudo-elements
+
+  * has a specificity of zero
+
+  then, from left to right, whoever has the highest number first has the higher specifity
+  otherwise whichever one was last wins
+
+
+ATTRIBUTE SELECTORS
+  [att=value]
+    exact value
+  [att~=value]
+    whitespace separated words, one of words is value
+  [att|=value]
+    -separated words, one of which is value
+  [att^=value]
+    starts with value
+  [att$=value]
+    ends with value
+  [att*=value]
+    contains value in any capacity
+
+  BEST FOR INPUT TYPES!
+
+  or identifying file types!
+
+DYNAMIC PSUEDO-CLASSES
+  link
+    :link
+    :visited
+
+  user action
+    :hover
+    :active
+    :focus
+
+
+
+CSS3 Psuedo-Classes
+  :target
+    targets the fragment idenitifier in the URL
+
+  input states
+    :enabled
+    :disabled
+    :checked
+
+
+
+Random
+  nth-child(n+6)
+    selects all but the first five
+
+  nth-child(-n+5)
+    selects only the first five
+
+
+"Let's get back to the "3n+3" from the original example though. How does that work? Why does it select every third element? The trick is understanding the "n" and algebraic expression that represents. Think of "n" as starting at zero and then a set of all positive integers. Then complete the expression. So the 3n is "3xn", and the whole expression together is "(3xn)+3". Now substituting in the zero and positive integers, we get:"
+
+
+Psuedo-Elements
+  ::first-line
+  ::first-letter
+
+  ::before
+  ::after
+    these are used to insert content before or after an element's content
+
+
+      p.description::before {
+        content: "Figure number " counter(image) ": ";
+        counter-increment: image;
+        }
+
+        this starts a counter and adds Figure Number # to each image
+        and increments the counter for every p.description
+
+    used with the content property mostly
+    can be used with counter-reset and counter-increment properties

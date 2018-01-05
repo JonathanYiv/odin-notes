@@ -9,18 +9,49 @@ Images can ruin page load times
 
 Learning Outcomes
 	What are common attributes of image tags?
+		src
+		alt
+
 	How do you load a smaller version of an image?
+		width and/or height attributes in either HTML or CSS
+
 	How do you get an image to fill up an element?
+		width: 100%;
+		will be 100% size of whatever they are in
+
 	How do you save load times by using appropriately sized images?
+		larger images take longer too load
+		so you can use smaller size images
+
 	When should you store images externally vs on your server?
+		whatever is practical and cost-efficient
+
 	What are the main types of image files and how are they different?
+		gif, jpg, bmp, png, svg
+		[See below description]
+
 	Which file types let you use animation?
+		gif and partially png
+
 	Which file types let you use transparent color?
+		gif, png-8, png-24
+
 	Which file types are best for photos? Graphics?
+		jpg for photos
+		svg for graphics
+
 	Which file type lets you scale an image as big as you want without affecting file size (and why)?
-	What's the difference between raster and vetor images?
+		svg because it is a vector type image
+
+	What's the difference between raster and vector images?
+		raster images are made of pixels
+		vector images are made of curves and lines
+
 	How do you add video to your page?
+		using the <video> element
+
 	How do you add audio to your page?
+		using the <audio> element
 
 
 Adding Media
@@ -67,9 +98,171 @@ Adding Media
 
 				Note on Block vs Inline vs Inline-Block
 
-					inline: can display things before or after it, on the same line. 
-					block: demands its own line, with whitespace around it. 
+					inline: can display things before or after it, on the same line.
+					block: demands its own line, with whitespace around it.
 					inline-block: can have elements before or after it, but there is whitespace around it.
 
 			Positioning Images Flush Left or Right
-				
+				the float property positions images to the left or right of a containing element
+				to provide spacing around it, use the margin property
+				use padding, border, and background properties to build a frame
+
+	Adding Audio
+		<audio src="..."></audio>
+
+		other common attribrutes include: autoplay, controls, loop, preload
+		they are all boolean, so just have them present
+
+		by default, the audio element is not displayed on the page
+		add the `controls` attribute to display the browser's default audio controls
+
+		loop has the audio repeat continually
+
+		preload has the audio identify what information to be loaded before the audio is played
+			values:
+				none - won't preload any info
+				auto - preloads all info (default)
+				metadata - preloads any metadata like clip length
+
+		most popular supported audio formats: ogg, mp3, wav
+
+		Audio Fallbacks and Multiple Sources
+			<audio controls>
+			  <source src="jazz.ogg" type="audio/ogg">
+			  <source src="jazz.mp3" type="audio/mpeg">
+			  <source src="jazz.wav" type="audio/wav">
+			  Please <a href="jazz.mp3" download>download</a> the audio file.
+			</audio>
+			this goes from top to bottom and renders the first source that a browser supports
+			and if all else fails, renders the last line
+
+	Adding Video
+		<video>
+
+		attributes: src, autoplay, controls, loop, preload
+		these function the same as the <audio> element
+
+		include the controls boolean attribute as best practice
+
+		specify width and height properties in CSS
+
+		you can use JS to customize a player
+
+		the `poster` attribute lets you specify an image in the form of a URL to be shown before a video is played
+
+		video fallbacks are also necessary
+
+		You can also use a YouTube/Vimeo embedded video
+
+	Adding Inline Frames
+		<iframe> elements embed another HTML page within the current page
+
+		The iframe element accepts the URL of another HTML page within the `src` attribute value
+
+		many pages use the element to embed media onto a page from an external website (such as Google Maps, YouTube, and others)
+
+		you can adjust the styles with
+			HTML: frameborder, width, height attributes
+			CSS: border, width, height properties
+
+		iframe styles play by their own rules
+		links opened within the iframe will open inside that frame
+
+
+Figures and Captions
+	<figure> and <figcaption> were introduced in HTML5
+	they semantically mark up self-contained content or media, usually with a caption
+
+	<figure>
+		block-level
+		identifies and wraps self-contained content (media)
+		can surround images, audio, videos, blocks of code, diagrams, illustrations, etc
+		can surround multiple
+
+	<figcaption>
+		may appear anywhere within figure element ONCE
+		serves as caption for all content within the <figure> element
+		can replace the `alt` attribute of <img>
+
+
+Image Types
+	Two Types of Compression
+		1) Lossless: image is made smaller without quality detriment
+		2) Lossy: image is made even smaller, at detriment to the quality
+
+	Different Colour Depths/Palettes
+		1) Indexed Color: image can only store a limited number of colors
+		2) Direct Color: can store many thousands of colors
+
+	BMP - Lossless / Indexed and Direct
+		little to no compression
+		very large file sizes
+		good for nothing
+
+	GIF - Lossless / Indexed Only
+		much smaller than BMP
+		good compression
+		only has indexed palette
+		can be animated and have transparency
+		good for logos, line drawings, other simple small images
+		used for websites
+
+	JPEG - Lossy / Direct
+		make detailed photographic images as small as possible by removing information that the human eye won't notice
+		saving over and over will result in more data being lost over time
+		has palette of thousands of colors
+		good for photographs and gradients
+
+	PNG-8 - Lossless / Indexed
+		PNG is newer format
+		PNG-8 is the indexed version of PNG
+		Good replacement for GIFs
+		but can't support animation well
+		has support issues with older browsers
+		can only store 256 colors because it is indexed
+		good for Alpha Transparency
+
+	PNG-24 - Lossless / Direct
+		combines lossless with direct color (thousands of colors)
+		similar to BMP except it compresses images
+		will be bigger than JPGs, GIFs, PNG-8s
+		also good at alpha transparency
+
+	SVG - Lossless / Vector
+		vector file format (all above are raster)
+		comprised of lines and curves instead of pixels
+		SVG is perfect for logos/icons that need to retain sharpness at different sizes and high-def screens
+		SVG can also be scaled to larger size
+		they also have low file sizes
+		complexity increases the computing power required
+		SVG files are written in XML and can be edited in a text editor
+		best for logos/graphs
+
+
+JPG = Joint Photographic Experts Group
+GIF = Graphics Interchange Format
+PNG = Portable Network Graphics
+SVG = Scalable Vector Graphics
+
+
+Raster vs Vector
+	Raster graphic (bitmap images) is made from a grid of many tiny squares of color information, pixels/dots
+		jpeg/jpg, psd, png, tiff, bmp, gif
+		has rich detail (dots per inch - dpi)
+		good for precise editing
+		blurry when enlarged
+		large file size
+		adobe photoshop
+
+	Vector graphic uses math to draw shapes using points, lines, and curves
+		fonts and logos
+		adobe illustrator
+		eps, ai, pdf
+		infinitely scalable
+		smaller file size
+		edibility
+		limited details in terms of color
+		limited effects like blurring or drop shadow
+
+	Raster = photographs = great color detail, can't enlarge without getting blurry
+	Vector = fonts/logos = ability to enlarge without losing quality, but limited color detail

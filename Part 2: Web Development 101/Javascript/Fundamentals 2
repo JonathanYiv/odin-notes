@@ -1,0 +1,135 @@
+Learning Outcomes
+  What is the difference between single, double, and backtick quotes for strings?
+  Which type of quote lets you embed variables/expressions into a string?
+  How do you embed variables/expressions into a string?
+  How do you escape characters in a string?
+  What are methods?
+  What are the three logical operators and what do they stand for?
+  What are the comparison operators?
+
+Javascript is 'dynamically typed'
+  there are data types
+  variables are not bound to any of them
+
+7 Data Types
+  Number      - integer & floating point numbers
+              - include `Infinity`, `-Infinity`, `NaN`
+  String      - can use double quotes, single quotes, and backticks
+              - double/single quotes are 'simple' quotes with no difference
+              - backticks let you embed variables/expressions into a string by wrapping them in ${...}
+  Boolean     - true or false
+  "Null"      - nothing, empty, and/or value unknown
+  "Undefined" - value unassigned
+  Object      - all other types are primitive, object can contain collections of data and more complex entities
+  Symbol      - primitive data type used to create unique identifiers for objects
+
+Typeof
+  typeof x    - operator form
+  typeof(x)   - function form
+  returns the type of argument
+  will return 'object' if given 'null' -- this is an error
+
+string literal: an actual string enclosed by single or double quotes
+
+Number(x);
+  converts x into a number, if possible
+
+toString(x);
+  converts x into the equivalent string
+
+exampleString.length;
+  returns the length of the string
+
+exampleString.indexOf("test");
+  returns the index of the first occurrence of the specified text
+  returns -1 if not found
+  can accept second parameter as starting index for search
+
+exampleString.lastIndexOf("test");
+  returns the index of the last occurrence of the specified text
+  returns -1 if not found
+  can accept second parameter as starting index for search
+
+exampleString.search("test");
+  returns the position of the match
+  can accept regex
+  can not accept starting position
+
+String Extraction
+  slice(start, end);
+    slices and returns string from starting to ending index
+    can provide negative parameters
+  substring(start, end);
+    no negative parameters
+  substr(start, length);
+    slices and returns string from starting to specified length
+    accepts negative parameters
+
+exampleString.replace("To Replace", "Replacement");
+  only replaces the first match, unless using a regex with a /g flag (global)
+  case sensitive, unless using a regex with /i flag (insensitive)
+
+exampleString.toUpperCase();
+  converts entire string to uppercase
+
+exampleString.toLowerCase();
+  converts entire string to lowercase
+
+text1.concat(string1, string2);
+  concatenates 2+ strings
+
+str.charAt(position);
+  returns character at specified index
+
+str.charCodeAt(0);
+  returns unicode of character at specified index
+
+don't access strings as arrays in javascript!
+
+str.split("splitter");
+  splits string into array
+
+Logical Operators
+  || returns the first truthy value or the last value if no such value is found
+    allows you to get the first truthy value from a list
+    short-circuit evaluation
+
+  && returns the first falsy value or the last value if no such value is found
+
+  && executes before ||
+
+  Double Not !! converts a value into a boolean type
+
+  Boolean(x) also converts x into a boolean
+
+Truthy
+  all values are truthy except for false, 0, "", null, undefined, NaN
+
+
+String Comparison
+  1) Compare characters sequentially of each string
+  2) If a string is superior lexicographically, return result
+  3) Repeat until end of string
+  4) If equal, length is greater
+
+Comparing values of different types results in them being converted to numbers
+  0 == "0"
+  so use a strict equality comparison operator `===`
+    which checks equality WITHOUT type conversion
+
+Edge Comparisons
+  null == undefined // true
+  null === undefined // false
+  when compared, null becomes 0 and undefined becomes NaN
+
+  null and defined == eachother and no other values
+
+
+Comparisons
+  if (condition) {
+    ...
+  } else if (condition two) {
+    ...
+  } else {
+    ...
+  }

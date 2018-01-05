@@ -1,0 +1,34 @@
+> mobile-first flexbox grid
+> 12-Column system
+> 5 default responsive tiers
+> Uses Sass
+
+Container
+  Row
+    Column
+
+Containers
+  > containers are centered and horizontally padded
+  > .container has a responsive pixel width
+  > .container-fluid has a width of 100%
+
+Rows
+  > Rows are wrappers for columns
+  > each column has horizontal padding (aka gutters) between them
+  > you can remove margin/padding with .no-gutters
+  > you can add .align-items-center .align-items-start .align-items-end .justify-content-center etc
+
+Columns
+  > Content must be placed inside a column
+  > Columns must be direct children of rows
+  > Column Classes can be specified .col-4 uses 4/12 columns in a row
+  > You don't have to specify the number of columns or viewport, and it will produce an auto-layout
+  > .col-(breakpoint)-auto to size based on content width
+  > .w-100 is a column line break
+  > you can specify different column divisions for different breakpoints
+  > columns will wrap
+  > you can offset columns with .offset-md-4 or something
+
+Breakpoints
+  > apply to that one breakpoint and all those above it
+  > i.e. .col-sm-4 applies to small and up devices, but not xs devices

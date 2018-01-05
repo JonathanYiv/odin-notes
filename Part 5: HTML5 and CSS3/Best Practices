@@ -1,0 +1,87 @@
+Learning Outcomes
+  What is a "container <div>"?
+    a div that contains content
+
+  When should you use <span> vs <div>?
+    divs are block display
+    span are inline display
+    use accordingly
+
+  When should you use id vs class?
+    one unique element vs many elements with the same class
+
+  What are good situations for breaking out styles into multiple classes?
+    when the styles apply to multiple elements
+
+  How can you use margins for alignment?
+    to ensure things are .. aligned correctly
+
+
+`display`
+  block|inline|inline-block|none
+  there are more exotic values like: flex|list-item|table, etc
+
+width
+  when you set a width, and the browser becomes narrower than the width, the browser will add a scrollbar
+  so you can use max-width to offer better support for mobile views
+  you can also use min-width
+
+
+* {
+  -webkit-box-sizing: border-box;
+         -box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+
+Responsive Design: the strategy of making a site that "responds" to the browser and devise that it is being shown on by looking excellent no matter what
+  Media Queries are the most powerful tool
+
+example: different stuff for different sizes
+@media screen and (min-width:600px) {
+  nav {
+    float: left;
+    width: 25%;
+  }
+  section {
+    margin-left: 25%;
+  }
+}
+@media screen and (max-width:599px) {
+  nav li {
+    display: inline;
+  }
+}
+
+meta viewport can also be used
+  mobile browsers render pages in a virtual "window" aka the viewport, usually wider then the screen
+  so they don't squeeze every page layout into a tiny window
+  users can pan and zoom to see different areas of the page
+  developers can control the size/scale of the viewport using
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    width controls the size of the viewport
+    there are also height and device-height values
+    initial-scale controls the zoom level
+    there is also maximum-scale, minimum-scale, and user-scalable
+
+
+
+inline-block elements should have the vertical-align property set to top probably
+set the width of each column
+
+
+You can create columns using CSS
+.three-column {
+  padding: 1em;
+  -moz-column-count: 3;
+  -moz-column-gap: 1em;
+  -webkit-column-count: 3;
+  -webkit-column-gap: 1em;
+  column-count: 3;
+  column-gap: 1em;
+}
+
+
+
+flexbox is very powerful

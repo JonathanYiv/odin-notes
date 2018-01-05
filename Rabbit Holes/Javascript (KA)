@@ -1,0 +1,146 @@
+var variable; 
+	declares a variable
+variable = value;
+	sets a variable's value
+var variable = value;
+	declares and sets a variable's value
+
+RULES
+	variable names can begin with letters, $, or _
+	they can only contain the above and numbers
+	they are case sensitive
+	use camelCase
+
+
+OPERATORS
+	++ increment
+	-- decrement
+	+ and +=
+	- and -=
+	* and *=
+	/ and /=
+	% and %=
+
+
+FUNCTION DECLARATION
+	var functionName = function(parameter1, parameter2) {
+		...
+		return result;
+	}
+
+FUNCTION CALL
+	functionName(argument1, argument2);
+
+FUNCTION RETURN
+	Javascript functions only return "undefined" if returning implicitly
+	an explicit "return" statement is needed to return a value
+	the 'return' statement also immediately exits the function
+
+COMMENTS
+	// this is a comment
+	/*
+	This is a multiple line comment
+	*/
+
+SCOPE
+	local variables
+		exist only inside a function
+	global variables
+		exist everywhere
+	Javascript has "function scope": functions can see local variables declared inside of it and global variables declared outside of it
+
+LOGIC
+if (condition) {
+	...
+} else if {
+	...
+} else {
+	...
+}
+
+LOOPS
+while(condition) {
+	...
+}
+
+for(var i = 0; i < 50; i++)
+	...
+}
+	for (A; B; C)
+		A = iterator
+		B = condition
+		C = incrementor
+
+OPERATORS
+	=== strict equality, equal value and type
+	!== strict inequality
+	== lenient equality
+	!= lenient inequality
+	> greater than
+	>= greater than or equal
+	< less than
+	<= less than or equal
+	= assignment operator
+	&& and
+	|| or
+
+PRINTING
+	println("string") prints to the console
+
+OBJECT
+var objectName = {
+	key: value,
+	key2: value2,
+	keyName3: value3
+	"key with space": value4 // don't use whitespace in key names anyway!
+};
+	values can be other objects, arrays, booleans, integers, strings, etc..
+
+	objectName.key returns value
+	objectName.key2 returns value2
+	objectName.keyName3 returns value3
+
+	OR
+
+	objectName[key] = value
+		uses bracket notation to reassign the value
+
+	Creating New Properties:
+		objectName.newKey = newValue;
+
+	Deleting Properties:
+		delete objectName.newKey;
+
+
+OBJECT TYPE DECLARATION
+var ObjectName = function(parameter1, parameter2, parameter3) {
+	// this is a CONSTRUCTOR FUNCTION	
+	this.property1 = parameter1;
+	this.property2 = parameter2;
+	this.property3 = parameter3;
+	this.methodName = function() {
+		... // this is equivalent to using the prototype method below
+	}
+};
+
+var objectInstance = new ObjectName(argument1, argument2, argument3);
+
+ObjectName.prototype.methodName = function() {
+	...
+}
+// all instances of type ObjectName have that function
+
+OBJECT INHERITANCE
+var ChildClassName = function(parameter) {
+	ParentClassName.call(this, parameter);
+
+	IS EQUIVALENT TO
+
+	this.property = parameter;
+};
+ChildClassName.prototype = Object.create(ParentClassName.prototype);
+
+
+TESTING
+Program.assertEqual(something, resultThatSomethingIsEqualTo)
+	returns true or false

@@ -1,0 +1,100 @@
+Learning Outcomes
+  Why are grids effective for helping site layout?
+    let you define where things are very concretely
+
+  What are the major different types of grids in use today?
+    ...
+
+  How could you design your own grid (on paper)?
+    just draw it
+
+  How can you implement your own grid in CSS?
+    Using advanced CSS selectors, clearfixes, floating, border-box, and optional gutters
+
+
+
+Simple Grid Example
+  <div class="grid">
+    <div class="col-2-3">
+       Main Content
+    </div>
+    <div class="col-1-3">
+       Sidebar
+    </div>
+  </div>
+
+  [class*='col-'] {
+    float: left;
+  }
+
+  .col-2-3 {
+    width: 66.66%;
+  }
+  .col-1-3 {
+    width: 33.33%;
+  }
+
+  bam. That's it.
+
+  add the clearfix..
+
+  .grid:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+Gutters: separators between things
+  1) Set everything to border-box
+    *, *:after, *:before {
+      -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+              box-sizing: border-box;
+    }
+
+  2) Apply a fixed padding to the righht side of all columns except the last one
+    [class*='col-'] {
+      padding-right: 20px;
+    }
+
+    [class*='col-']:last-of-type {
+      padding-right: 0;
+    }
+
+Outside Gutters
+  <div class="grid grid-pad">
+  </div>
+
+  1) Add left padding to the grid parent (optionally top and bottom padding)
+    .grid-pad {
+      padding: 20px 0 20px 20px;
+    }
+  2) Restore right padding to the last column
+    .grid-pad > [class*='col-']:last-of-type {
+      padding-right: 20px;
+    }
+
+More Column Choices
+  .col-1-2 {
+    width: 50%;
+  }
+  .col-1-4 {
+    widtH; 25%;
+  }
+  .col-1-8 {
+    width: 12.5%;
+  }
+
+
+
+
+Fluid Media
+  img, embed, object, video {
+    max-width: 100%''
+  }
+
+
+Responsive Web Design = designing your code base to address the needs of many/ideally all screen sizes
+Media Queries
+  CSS rules designed specifcially for a variety of screen sizes
+  are only called upon IF and WHEN the device fits the parameters of the media query

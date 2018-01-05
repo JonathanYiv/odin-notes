@@ -1,0 +1,81 @@
+Learning Outcomes
+  When should you use tables?
+    to markup structured tabular data and display it in an easily digestable form
+
+  What is the structure of a table?
+    <table>
+      <caption></caption>
+      <thead>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+      <tfooter>
+        This outlines the content of the table and can be either before or after tbody.
+      </tfooter>
+    </table>
+
+  What are the special tags that dictate certain parts of a table, e.g. headers or captions?
+    <th>
+
+  How can you combine cells in a table?
+    using the `colspan` and `rowspan` attributes on the <th> and <td> elements
+
+  Why do you need to be careful about your paddings and borders in tables?
+    <tr> elements don't have borders
+    <td> elements do have borders
+    therefore that can various misalignments
+    you have to ensure you place your borders and paddings correctly on each element
+    to create a good-looking table
+
+  How do you align text within cells in a table?
+    using the `vertical-align` and `text-align` CSS properties
+
+<th>
+  The `scope` attribute helps identify what content a table header relates to
+    A value of `col` indicates that every cell within the column relates directly to the table header
+    A value of `row` indicates that every cell within the row relates directly to the table header
+
+    There are also `colgroup` and `rowgroup` values
+
+  The `headers` attribute helps identify a table element that is associated with a different header if necessary
+    You must assign the id attribute to the relevant <th> element
+
+
+Combining Multiple Cells
+  The `colspan` and `rowspan` attributes work on either the <td> or <th> elements and let you combine table cell elements
+  Their default value, obviously, is 1
+
+Table Borders
+  CSS Properties
+    border-collapse
+      collapse           - borders condense into one, <td> border is primary
+      separate (default) - borders stack up next to eachother
+      inherit
+    border-spacing
+      space between borders when `border-collapse: separate;`
+      can accept one or two values (horizontal/vertical)
+
+Adding Borders
+  Borders can not be applied to <tr> elements or table structural elements
+
+Striping Tables
+  you can alternate background colors on rows to make tables more legible
+
+  you can style using the :nth-child psuedo-class selector with an even/odd argument
+  i.e.
+    tr:nth-child(even)
+
+  <td> elements include borders while <th> elements do not
+
+Aligning Text
+  the CSS property `text-align` centers text horizontally
+  the CSS property `vertical-align` centers text vertically only with inline and table-cell elements
+    values
+      top
+      middle
+      bottom

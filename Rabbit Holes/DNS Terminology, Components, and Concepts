@@ -1,0 +1,209 @@
+DNS
+  Domain Name System
+  networking system in place that allows us to resolve human-friendly names to unique addresses
+
+Domain Name
+  the human-friendly name associated with an internet resource
+
+IP Address
+  network addressable location
+  must be unique within its network (in the case of websites, the entire Internet)
+  IPv4 is the most common form of the address
+    four sets of number, each set having up to three digits, each set separated by dots
+    111.222.111.222
+  DNS maps a name to an address so you don't have to remember the numbers
+
+Top-Level Domain (TLD)
+  the most general portion of the domain
+    .com
+    .net
+    .gov
+    .org
+    .edu.io
+  top of hierarchy in domain names
+  ICANN (Internet Corporation for Assigned Names and Numbers) assigns control to parties over to-level domains
+    these parties can distribute domain names under the TLD, through a domain registrar
+
+Hosts
+  within a domain, the domain owner can define individual hosts (separate computers/services)
+  bare domain: example.com
+  host definition: www.example.com
+
+SubDomain
+  DNS works in a hierarchy
+  TLDs can have many domains; domains can have subdomains
+  example: ubuntu.com is a subdomain of com
+  example 2: ubuntu is the second-level domain (SLD) of ubuntu.com
+
+  host vs subdomain
+    host defines a computer/resource
+    subdomain extends the parent domain
+
+FQDN (Fully Qualified Domain Name) aka Absolute Domain Name
+  an absolute name that specifies its location in relation to the absolute root of the DNS
+  example: mail.google.com.
+
+Name Server
+  a computer designated to translate domain names into IP addresses
+  may redirect requests to other name servers or delegate responsibility
+
+Zone File
+  text file that maps domain names and IP addresses
+  reside in name servers
+
+Records
+  within a zone file, records are kept
+  a record is a single mapping between a resource and a name
+  can map a domain name to an IP address, define the name servers for the domain, define the mail servers for the domain, etc
+
+_____________________________
+
+Root Servers
+  at the top of the DNS hierarchy
+  13 root servers in operation
+  handle requests for Top-Level Domains
+  when a request comes in that a lower-level name server cannot resolve, the query is made to the root server for the domain (.org, .com, etc)
+  the root server will direct the requester to the appropriate TLD server (.org)
+
+TLD Servers
+  the TLD server is one level below root servers and will also point the requester to the name server (example.org)
+
+Domain-Level Name Server
+  this server has the actual IP address of the resource
+  it returns the IP address to the requester
+
+Resolving Name Server
+  a server configured to ask other servers questions
+  it caches query results and root server addresses to improve speed
+
+  browsers first check locally for resource locations, then sends it the resolving name server, which checks it cache, then speaks to the appropriate root, then TLD, then domain-level name server accordingly to obtain the IP address
+
+
+_________________________________
+
+Zone Files
+  where name servers store information about domains
+  will either return the answer or the next name server to look at next
+
+  describes a DNS 'zone,' a subset of the entire DNS system
+
+  they have an $ORIGIN - zone's highest level of authority (domain.com.)
+  and a $TTL - "Time to Live" of the information it provides, it caches the queried result until the TTL value runs out
+
+Record Types
+  there can be many different record types within a zone file
+
+  SOA Record
+    "Start of Authority"
+    mandatory record in all zone files
+    must be the first record in a file
+
+domain.com.  IN SOA ns1.domain.com. admin.domain.com. (
+                                            12083   ; serial number
+                                            3h      ; refresh interval
+                                            30m     ; retry interval
+                                            3w      ; expiry period
+                                            1h      ; negative TTL
+)
+    Explanation
+      domain.com.
+        the root of the zone
+        specifies the zone file is for the domain.com. domain
+        can be replaced with `@`, which is a placeholder for the $ORIGIN variable
+
+      IN SOA
+        the "IN" means "internet"
+        SOA indicates the type of record
+
+      ns1.domain.com.
+        defines the primary master name server for this domain
+        name servers can be masters or slaves
+        if dynamic DNS is configured, one server needs to be a primary master
+
+      admin.domain.com
+        the email address of the administrator for this zone
+        your.name@domain.com => your\name.domain.com
+
+      12083
+        serial number for the zone file
+        every time a zone file is edited, this number must be incremented
+        slave servers check if the master server's serial number is larger than theirs, and if so, requests the new one
+
+      3h
+        the refresh interval for the zone
+        amount of time that slaves wait before polling the master for zone file changes
+
+      30m
+        the retry interval for this zone
+        if the slave can't connect the master when refresh interval is up, it waits this time to retry
+
+      3w
+        expiry period
+        if slave can't contact master of this period of time, it no longer returns responses as a sourcec for this zone
+
+      1h
+        time that a name server will cache a name error if it cannot find the requested name in this file
+
+  A and AAAA Records
+    map a host to an IP address
+    "A" record maps a host to an IPv4 address
+    "AAAA" record maps a host to an IPv6 address
+
+host     IN      A       IPv4_address
+host     IN      AAAA    IPv6_address
+
+    explanation:
+      oftentimes 'host' will be `www`
+      sometimes it will be the subdomain ('api.example.com')
+      @ can refer to the base domain
+      * can resolve anything that is not defined explicitly
+
+  CNAME Records
+    define an alias for canonical name for your server (one defined by an A/AAAA record)
+
+server1     IN  A       111.111.111.111
+www         IN  CNAME   server1
+(alias)                 (canonical name)
+
+    recommended usage is when an alias is needed for a resource outside of the current zone
+
+  MX Records
+    define the mail exchanges used for the domain
+    allows emails arrive at your mail server correctly
+
+IN MX 10 mail.domain.com
+
+    apply to the entire zone
+
+    preference number that helps computers decide which server to send mail to if there are multiple mail servers
+    lower preference numbers have higher priority
+
+    MX record should point to a host defined by an AAAA/A record
+
+        IN  MX  10  mail1.domain.com.
+        IN  MX  50  mail2.domain.com.
+mail1   IN  A       111.111.111.111
+mail2   IN  A       222.222.222.222
+
+  NS Records
+    defines the name server used for this zone
+    DNS often caches copies of zone files
+    so other servers may have this zone file, and the zone file defines the original name server
+
+        IN  NS     ns1.domain.com.
+        IN  NS     ns2.domain.com.
+ns1     IN  A      111.222.111.111
+ns2     IN  A      123.211.111.233
+
+    need at least NS records
+
+  PTR Records
+    defines a name associated with an IP address
+    inverse of an A/AAAA record
+
+444.333.222.111.in-addr.arpa.   33692   IN  PTR host.example.com.
+
+  CAA Records
+    specifies which Certificate Authorities (CAs) are allowed to issue SSL/TLS certificates for your domain
+    all CAs are requried to check for these records before issuing a certificate
+    otherwise all CAs may issue a certificate

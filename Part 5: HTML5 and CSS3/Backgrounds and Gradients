@@ -1,0 +1,137 @@
+Learning Outcomes
+  How do you set the background color?
+    using the background-color CSS property
+
+  Which color is used when elements are stacked on top of each other (on the z-axis)?
+    the top-most color
+
+  How do you set a partially transparent color? (rgba anyone?)
+    rgba or hsla
+    provide a fallback color though
+
+  Where are gradients most commonly used in "real world" websites?
+    as website backgrounds
+
+  How do you set a gradient background?
+    using the linear-gradient() or radial-gradient() functions for the background or background-image properties
+
+  How do you make an image the background of an element?
+    using the `background-image` property or the `background` shorthand
+
+  Why is it useful to make the image the background of an element instead of using a regular <img> tag?
+    indicates the image is not meaningful semantically
+
+  How do you make a background image of a fixed size?
+    background-size property
+
+  How do you make a background image repeat?
+    using the shorthand `background` property or the `background-repeat` property
+
+  How do you get your page's background image to fill the page even when you resize the browser?
+    background-size specify 'cover' value
+
+Backgrounds
+  Solid Color | Image | Gradient | Combination
+
+  div {
+    background-color: ...;
+  }
+
+  div {
+    background-image: url("path/to/image.png");
+  }
+  by default, the image will repeat horizontally and vertically from the top left
+  background-repeat and background-position properties control this
+
+  div {
+    ...
+    background-repeat: no-repeat|repeat|repeat-x|repeat-y;
+  }
+  either doesn't repeat, repeats on x and y, repeats on either x or y
+
+  div {
+    ...
+    /* Positioned at top left by default. Can control position relative to that corner */
+    background-position: 20px 10px;
+  }
+  the first value is the horizontal offset
+  the second value is the vertical offset
+  if only one value is specified, the vertical offset is default 50%
+
+  0 0                       100% 0
+  left top                  right top
+
+
+  0 100%                    100% 100%
+  left bottom               right bottom
+
+
+  SHORTHAND
+    div {
+      background: color url position-value-1 position-value-2 repeat;
+    }
+
+
+Gradient Backgrounds
+  introduced in CSS3
+
+  Linear Gradient
+    div {
+      background: linear-gradient(#829484, #823832)
+    }
+
+    identified by using the linear-gradient() function within the background or background-image property
+    first value includes beginning color value
+    second value includes ending color value
+    browser handles transition between colors
+    do include a fallback incase browser doesn't support gradient backgrounds
+
+    by default, linear gradients move from top to bottom
+    can change the direction
+
+    linear-gradient(to right bottom, ...)
+      moves from left top to right bottom
+      can also use degree values
+
+  Radial Gradient Background
+    radial-gradient() function
+    work from inside to outside
+    first value is center
+    second value is outside
+    browser creates transition
+    can have values for location, size, radius, etc
+
+  Gradient Color Stops
+    can add more colors to the gradient function to have the browser transition between multiple colors
+    will divide equal distance by default
+    can identify a location along the gradient for each color stop (as a length value)
+
+    background: linear-gradient(to right, ..., ... 85%, ...);
+
+Multiple Background Images
+  can list multiple images
+  the first image will be the foremost
+  the last will be the rearmost
+
+  example:
+  div {
+    background:  url("foreground.png") 0 0 no-repeat, url("middle-ground.png") 0 0 no-repeat, url("background.png") 0 0 no-repeat;
+  }
+
+
+Other Properties
+  background-size
+    change the size of a background image
+    can specify width and height, can use 'auto' to maintain aspect ratio
+    can also use `cover` and `contain`
+    cover indicates image will be resized to completely cover element's width and height
+      can sometimes cut off part of image
+    contain indicates image will be resized to be contained WITHIN an element's width and height
+      sometimes will not occupy full available size
+    both cover and contain can distort the background
+
+  background-clip
+    controls where the image is cropped
+
+  background-origin
+    where the image is contained within the element

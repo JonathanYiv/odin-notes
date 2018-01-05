@@ -1,0 +1,50 @@
+Learning Outcomes
+  What is responsive design?
+    designing your website to be accessible to a different variety of screen sizes
+
+  Why is responsive design important to your users?
+    accessibility
+
+  How do you make a "fluid" layout?
+    using media queries and responsive design patterns like grid, flexbox, or CSS frameworks
+
+  What are Media Queries?
+    queries you can put into your CSS that are only called upon for certain screen sizes
+    it allows you to have a different set of CSS rules applied to different screen sizes
+
+  How do you use media queries to make your website responsive?
+    by designing your website for different screen sizes accordingly for different media queries
+
+
+Media Query
+  Example:
+    <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 480px)" href="sheet.css">
+
+  This has a media type and the actual query enclosed within parentheses
+
+  Example
+    @media screen and (max-width: 600px) {
+      ...
+    }
+
+
+Viewport
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    sets the width of the viewport to the width of the device and sets the initial zoom level to 1.0
+    page content will be displayed 1:1
+
+50-75 characters is the established maximum comfort of line length
+
+max-width is important
+
+
+Response Web Design
+  Flexible Grid
+  Flexible Images
+    img { width: 100%; height: auto; }
+  CSS3 Media Queries and Screen Resolutions
+
+Breakpoints: When your site reaches a certain viewing width, and callsnew style for that width (i.e. media query)
+
+
+Respond.js and Modernizr.js are javascript solutions that bring the power of CSS3/HTML5 to non-supporting browsers

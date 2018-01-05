@@ -1,0 +1,120 @@
+Learning Outcomes
+  How do you declare a variable in javascript?
+  What are three different ways to declare a variable?
+  Which one should you use when?
+  What are the rules for naming variables?
+  What are operators, operands, and operations?
+  What is concatenation and what happens when you add numbers and strings together?
+  What are the different type of operators in Javascript?
+  What is the difference between == and ===?
+  What are operator precedence values?
+  What are the increment/decrement operators?
+  What is the difference between prefixing and postfixing them?
+  What are assignment operators?
+  What is the 'Unary +'' Operator?
+
+Javascript Variable Declaration
+  var x = 3.14;
+
+Numbers
+  numbers can be declared with/without decimals
+  with/without scientific notation
+    i.e. 123e5
+  no different types of numbers
+  floating point arithmetic is not always 100% accurate
+  primitive values
+
+Concatenation
+  number + number = number
+  string + string = string
+  number + string = string
+
+Numeric Operations
+  javascript tries to convert strings to numbers in numeric operations
+  non-addition, as that is concatenation above
+
+NaN (Not a Number)
+  JS reserved word
+  not a legal number
+  a mathematical operation with a NaN results in NaN or concatenation
+    isNaN(x); // returns true if not a number
+
+Infinity
+  number outside the largest possible number
+
+Hexadecimal
+  0x...
+
+==
+  checks for equal value
+===
+  checks for equal value AND type
+Objects can't be compared with == or ===, always returns false
+
+
+Operands: numbers in an arithmetic operation
+Operation: operation to be performed between two operands
+Operator: definition of operation type
+
+
+Javascript has operator precedence values that may affect left-to-right parsing
+so keep that in mind
+
+
+typeof(x);
+  determines the data type of the input
+
+Increment/Decrement Operators
+  ++
+  --
+  can not be applied directly to a number
+  must be used on a variable
+  returns the current value, then increments the variable
+  can be placed before/after a variable (prefix returns the new value/postfix returns the old value)
+
+Assignment Operators
+  =
+  +=
+  -=
+  *=
+  /=
+  Assignment operators returns the assigned value
+
+Unary: an operator with a single operand (-5)
+Binary: an operator with two operands (5 - 3)
+
+Unary +
+  +(value)
+  will convert value into a number, if not already a number
+
+
+Chaining Assignments
+  a = b = c = 2 + 2;
+
+
+Comma Operator
+  (5 + 2, 3 + 4)
+  both expressions are evaluated
+  only the last result is returned
+  needs parenthesis because comma operator has low precedence
+
+
+Variable Declaration
+  the `let` keyword is the modern variable declaration that should be used generally
+    example:
+      let message = "hello";
+      alert(message); // returns message
+      let message = 'Sup', age = 5, test = "fire";
+
+  the `var` keyword is very similar to `let`, with some small differences
+
+  Naming Conventions
+    1) Only letters, digits, $, and _
+    2) The first character can not be a digit
+    3) camelCase
+    4) case-sensitive
+
+  the `const` keyword declares a constant unchanging variable
+  fully uppercase constants are commonly used as aliases for difficult-to-remember values
+
+

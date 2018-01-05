@@ -1,0 +1,34 @@
+Containers
+> Bootstrap requires a containing element to wrap site contents and house the grid system
+> containers are not nestable
+> .container is a responsive fixed width container
+> .container-fluid is a full width container
+
+
+Grid System
+> 12-Columns
+
+> Rows are placed within a container
+> Rows are used to create horizontal groups of columns
+> Content is placed inside columns
+> ONLY columns may be immediate children of rows
+
+> .row, .col-xs-4 are examples of predefined classes for grid layouts
+> three .col-xs-4 would create three equal columns
+
+> columns have gutters
+
+> if > 12 columns are placed in a row, the columns will wrap onto a new line
+
+> grid classes apply to devices with screen widths GREATER THAN OR EQUAL TO the breakpoint size
+> they override smaller breakpoints
+
+> you can nest rows
+
+
+Clearfix
+> Sometimes you will need to use .clearfix
+
+
+Offsetting Columns
+> .col-md-offset-* classes increase the left margin of a column by * columns

@@ -1,0 +1,356 @@
+HTML5 brought in:
+  features geared towards displaying media and interactive features
+  new semantic tags
+
+Learning Outcomes
+  What are semantic tags and how are there more of them in HTML5?
+    semantic tags are wrappers that have meaning as opposed to a div
+    there are more of them like <aside>, <header>, <nav>, <footer>
+    they allow the content to become more meaningful
+
+  What does the canvas element do for you?
+    it creates a blank canvas that you can draw on with javascript
+
+  Why is canvas potentially amazing?
+    it can do all sorts of crazy shit
+
+  What are the new video control features?
+    autoplay    - plays asap automatically
+    buffered    - determine the time ranges
+    controls    - lets user control video playback
+    crossorigin, height, loop, muted, played, preload, poster, src, width, playsinline
+
+  What are the new audio control features?
+    autoplay, buffered, controls, loop, muted, played, preload, src, volumne
+
+  What is local storage and how is it used?
+    it stores data on the user agent's computer
+    unlike cookies, this data is not sent with every request
+    and the server can access it using javascript
+
+  What are data attributes and how are they used?
+    They are little attributes that you custom name and assign a value of your own to them
+    they can be put on any element
+
+  How can data attributes be used to pass off data from your back end to your front end?
+    add the attribute to an element using back end scripts
+
+  What are the compatibility trade-offs of the new features?
+    old browsers don't support these new features
+
+  Are there any performance trade-offs with the new features?
+    somewhat
+
+  How does HTML5 fix the problem of needing Flash installed to play movies on many devices?
+    offers native support for video
+
+
+Dive into HTML5
+  Five Things
+    1) HTML5 is a collection of features
+       HTML5 specification also defines how angle brackets interact with Javascript through the DOM
+    2) HTML4 is forwards-compatible
+    3) <!DOCTYPE html> is the HTML5 declaration
+       Obsolete elements from older versions still render in HTML5
+    4) HTML5 is well-supported
+    5) HTML5 is the standard.
+
+  History
+    One of the headers that gets sent with requests is the `Content-Type` header
+    example: `Content-Type: text/html`
+
+    text/html is the 'MIME type' of the page
+    images have their own MIME types (image/jpeg, image/png, etc)
+    Javascript and CSS have their own MIME type
+
+    Definitions
+      MIME = Multipurpose Internet Mail Extensions - identifies files on the internet according to their nature/format
+      content negotiation = the user agent tells the server what types of resources it supports and the server returns something accordingly
+
+  Detecting HTML Features
+    when browser renders a webpage, it constructs a DOM (Document Object Model)
+    the DOM is a collection of objects that individually represent every single HTML element on the page
+
+    Technique to Detect Feature Support
+      1) Check if a certain property exists on a global object
+      2) Create an element, then check if a certain property exists on that element
+      3) Create an element, check if a certain method exists on that element, then call the method and check the return value
+      4) Create an element, set a property to a certain value, then check if the property has retained its value
+
+    Modernizr - <script src="modernizr.min.js"></script>
+      an open source Javascript library that detects support for many HTML5 and CSS3 features
+
+      when run, it creates a global object called Modernizr, that has a set of boolean properties for features it can detect
+      if supported, the property is true
+
+    Canvas
+      <canvas> is "a resolution-dependent bitmap canvas that can be used for rendering graphics, game graphics, or other visual images on the fly"
+
+      it is a rectangle on your page where you can use javascript to draw anything you want
+
+      HTML5 defines a set of functions (the canvas API) for drawing shapes, defining paths, creating gradients, and applying transformations
+
+      to use Modernizr
+
+          if ( MOdernizr.canvas ) {
+            do stuff
+          } else {
+            // no support
+          }
+
+    Canvas Text
+      The Canvas Text API was shipped separately and is supported separately
+
+      to use Modernizr
+
+          if ( Modernizr.canvastext ) {
+            do stuff
+          } else {
+            // no support
+          }
+
+    Video
+      <video> embedding used to be impossible without third-party plugins
+
+      you can specify multiple video files and one will be selected based on support
+
+      to use Modernizr
+
+        if (Modernizr.video) {
+          do stuff
+        } else {
+          // no support
+          // use QuickTime or Flash instead
+        }
+
+    Video Formats
+      the language of a video is called a "codec", the algorithm used to encode the video into a stream of bits
+
+      using Modernizr
+
+        if (Modernizr.video) {
+          // Video is supported. Check for format
+          if (Modernizr.video.ogg) {
+            ...
+          } else if ( Modernizr.video.h264) {
+            ...
+          }
+        } ...
+
+    Local Storage
+      HTML5 storage allows websites to store information larger than cookies on your computer
+      the web site can access it with Javascript (it isn't sent back every time like cookies)
+
+      using Modernizr
+
+        if (Modernizr.localstorage) {
+          do stuff
+        } else
+          // not supported
+        }
+
+    Web Workers
+      allow you to spawn multiple "threads" that run Javascript at the same time
+
+      if (Modernizr.webworkers) {
+        do stuff
+      } else {
+        // not supported
+      }
+
+    Offline Web Applications
+      start as online web applications
+      web server informs browser of necessary files to work
+      you can then use it offline
+      when online, it will upload changes
+
+      if (Modernizr.applicationcache) {
+        is supported
+      } else {
+        is not supported
+      }
+
+    Geolocation
+      the art of finding out where someone is
+
+      if (Modernizr.geolocation) {
+        is supported
+      } else {
+        is not supported
+      }
+
+    Input Types
+      HTML5 defines new input types
+        search (searchboxes)
+        number (spinboxes)
+        range (sliders)
+        color (color pickers)
+        tel (telephone numbers)
+        url (web addresses)
+        email (email addresses)
+        date (calendar date pickers)
+        month (months)
+        week (weeks)
+        time (timestamps)
+        datetime (precise, absolute date + time stamps)
+        datetime-local (for local dates and times)
+
+      if (!Modernizr.inputtypes.date) {
+        // no support
+      }
+
+    Placeholder Text
+      HTML5 adds placeholder text to forms
+
+      if (Modernizr.input.placeholder) {
+        is supported
+      } else {
+        is not supported
+      }
+
+    Form Autofocus
+      moves autofocusing from a javascript script to being supported by HTML5
+
+      if (Modernizr.input.autofocus) {
+        is supported
+      } else {
+        is not supported
+      }
+
+    Microdata
+      can define microdata to provide additional semantics on webpages
+
+      if (Modernizr.microdata) { is supported }
+
+    History API
+      manipulate the browser history via script
+      can add entries to the browser history
+      allows URL to be unique identifier even in script-heavy applications that don't ever perform a full page refresh
+
+      if (Modernizr.history) { is supported }
+
+
+  DocTypes and Browser Modes
+    doctype lets the browser know which mode to use
+
+    Quirks: browsers violate contemporary Web format specifications and render according to oldschool practices
+    Standards: browsers sticks to the specifications
+    Almost Standards: implements the vertical sizing of table cells traditional and not rigorously according to CSS2
+                      aka "limited quirks mode"
+
+  Character Encoding
+    all text is stored in a particular character encoding
+    character encoding is a decryption key for the text
+    a sequence of bytes needs a character encoding to decode the bytes into characters
+    always specify or there are security vulnerabilities
+
+  Relations
+    the rel attribute identifies why something is being linked, as in what is the relation
+    `stylesheet` is the most common
+    `alternate` is also common
+    `author` links author information
+    `next` and `prev` identify pages before/after
+
+    <link rel="shortcut icon" href="/favicon.ico">
+      the second most popular link relation
+      used to associate a small icon with a page
+
+  New Semantic Elements
+    <section> thematic grouping of content, usually with heading (like chapters)
+    <nav>
+    <article> independently distributable or reusable
+    <aside>
+    <hgroup> heading of a section, good to wrap a header and a tagline
+    <header>
+    <footer>
+    <time>
+    <mark> represents a run of text in a document marked/highlighted for reference purposes
+
+    each article element creates a new node in the DOM, and and node can have its own <h1> element
+
+  Canvas
+    a rectangle in your page where you can use Javascript to draw anything you want
+
+    example:
+      <canvas width="300" height="300"></canvas>
+
+  Videos
+    Videos have containers and codecs (combination of the words "code decoder")
+    The containers contain a video stream and audio stream, and metadata relevant to the two streams
+
+    When watching a video, it
+      1) interprets container format to find out what to do
+      2) decodes the video stream and displays the series of images
+      3) decodes the audio stream and sends the sound to spkears
+
+    Container Formats
+      MPEG 4 (Motion Pictures Experts Group) - .mp4, .m4v
+                                             - based on .mov QuickTime
+      Ogg - .ogv
+          - open source-friendly
+      Flash Video - .flv
+      WebM - .webm
+           - open source-friendly
+           - defined for use with HTML5 video
+      ASF - .asf
+          - Microsoft - not open source-friendly
+      Audo Video Interlave - .avi
+                           - old Microsoft container
+
+    Codecs
+      There are lossy and lossless codecs
+      Lossless codecs are too big to be useful on the web
+
+      Video Codecs
+        H.264
+          - aka MPEG-4 part 10 aka MPEG-4 AVC aka MPEG-4 Advanced Video Coding
+          - splits standard into profiles that define a set of optional features that trade complexity for file size
+          - this way it has video for low-quality to high-quality
+        Theora
+        VP8
+          - open source
+          - produces output on par with H.264 high profile while maintaining low decoding complexity on par with H.264 baseline
+      Audio Codecs
+        channels determines how many speakers the audio can send to
+        MP3 (aka MPEG-1 Audio Layer 3)
+          - 2 channels of sound
+          - can be encoded at different bitrates (more bitrates = better quality = bigger file size)
+          - patent-encumbered
+        AAC (Advanced Audio Coding)
+          - patent-encumbered
+          - up to 48 channels of sound
+          - also has profiles
+        Vorbis (aka Ogg Vorbis)
+          - open source
+          - unlimited channels of sound
+
+      For Maximum Compatability:
+        1) One version with WebM (VP8 + Vorbis)
+        2) One version with H.264 and AAC "low complexity" in MP4
+        3) Theora video and Vorbia audio in Ogg
+        4) Fallback to Flash
+
+
+Tips
+  The figure element and figcaption element can be used to semantically identify a figure and caption
+  Small is used for small print
+  Quotes are not necessary for attributes
+  Elements don't HAVE to be closed
+  scripts/links don't need the type attribute
+  contenteditable can be applied to elements to allow users to edit text
+  form inputs have a required attribute
+
+  you can add the pattern attribute to have regex in your HTML markup
+
+
+  Data Attribute
+    You can attach a data attribute to elements
+    <div class="test" data-something="Value">...</div>
+    <div class="test" data-another-name="Value 2">...</div>
+
+    then you can retrieve it in Javascript
+
+      document.getElementByClass('test').getAttribute('data-something') == "Value"
+
+    or used in CSS
+      property: attr(data-another-name);

@@ -1,0 +1,128 @@
+Base-10
+0 1 2 3 4 5 6 7 8 9
+
+Base-2
+0 1
+
+Base-16 : Hexadecimal
+0 1 2 3 4 5 6 7 8 9 a b c d e f
+231 = E7
+      The E is 16^1s, of which there are 14
+      The 7 is 16^0s, of which there are 7
+      So 16*14 + 1*7 = 231
+
+      Because each spot is a place of '16'
+
+
+Git
+Working Directory         Staging Area            .git Directory (Repository)
+Stage to Staging Area     Commit to .Git          Checkout to working directory
+Contains Modified Files   Contains staged files   Contains committed files
+
+
+Git Command Line Syntax
+program | action | destination
+
+
+ASCII = American Standard Code for Information Interchange
+uses 7-bit binary system
+A = 65 = 1000001
+
+
+JS Operators
++
+-
+*
+/
+=
+===
+!==
+!
+
+
+einstellung: when a fixed mindset inhibits you from solving a problem
+interleaving: using variety of concepts to learn
+NOPS
+  Notice discomfort
+  Own it
+  Push into it
+  Stay with it
+
+
+CSS Color
+color is used for foreground
+background-color is used for background color
+There are 147 named colors
+You can use rgb, rgba, hsl, hsla
+use redundant declarations for graceful degradation
+
+font-family is used for type of fonts, state multiple for graceful degradation
+  font-family: idealFont, fallbackFont, fallbackFont2
+
+import fonts in HTML head
+
+serif vs sans-serif
+  serif has details at end of main strokes called serifs
+  sans serif has flat ends, modern/cleaner
+
+font-size specifies size of font, can use px, em, %
+line-height specifies space between lines, use ems
+space between lines is called 'leading'
+word-spacing specifies space between words
+  default = 0.25em
+letter-spacing specifies space between letters
+font-weight specifies boldness
+  bold|normal|100|200|300|400|500|600|700|800|900|thin
+font-style: italic|normal;
+text-transform: uppercase|lowercase;
+text-decoration: underline|overline|linethrough;
+text-align: left|center|right;
+
+
+use ems and percentages instead of px
+
+
+Borders
+  border-style: solid|dashed|doted|double|groove|inset|outset|ridge|hidden|none
+  border-width: thin|medium|thick|#px|top|top right bottom left
+  border-right|top|bottom|left-width: ...
+  border-color
+  border: width style color;
+  border-radius: ...;
+
+
+Background Imageas
+  background-image: repeat|repeat-x|repeat-y|no-repeat
+  background-position: top left | top center | top right
+                       left center | center | right center
+                       bottom left | bottom center | bottom right
+  background: url("...") repetition position;
+  background-size: cover|contain;
+  background-attachement: scroll|fixed
+
+
+Protocol = language
+DNS = address book
+Computer = node in network with an IP address
+router delivers packets
+packets are sent within the network from node to node
+modem = combined device for modulation/demodulation between the digital data of a computer and the analog signal of a telephone line
+ISP (Internet Service Provider) = company with special routers
+
+
+
+Git Workflow
+Fork your own fork from the original repository (upstream) to your own repository (origin)
+Clone it to your local computer for your local clone
+Push to your origin from local master
+Add the upstream rem,ote pointing to the original repository
+Pull from upstream to master
+
+
+
+Breakpoints
+  put into elements or sources
+  Types
+    subtree modification = child element added/removed/moved
+    attribute modification = attribute of element changed dynamically
+    node removal = selected node is removed

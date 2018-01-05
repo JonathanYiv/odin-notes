@@ -1,0 +1,103 @@
+Learning Outcomes
+  What is the basic list syntax?
+    <ul> or <ol>
+      <li>
+    </ul> or </ol>
+
+  How do you nest lists inside each other?
+    <ul>
+      <li>...</li>
+      <li>
+        <ol>
+          <li>...</li>
+        </ol>
+      </li>
+    </ul>
+
+
+Unordered List CSS Property
+  list-style-type property
+    disc
+      = bullet points
+    circle
+      = circle
+    square
+      = square
+    none
+      = unmarked
+    decimal, decimal-leading-zero, lower-roman, upper-roman, lower-greek, lower-alpha / lower-latin
+    upper-alpha / upper-latin, armenian, georgian
+
+  Adding Image as List Style
+    list-style-type: none;
+    background: url("custom-icon.png") 0 50% no-repeat;
+    padding-left: 12px
+
+Ordered List HTML Attribute
+  type
+    1
+      = numbered with numbers
+    A
+      = numbered with uppercase letters
+    a
+      = numbered with lowercase letters
+    I
+      = numbered with uppercase roman numerals
+    i
+      = numbered with lowercase roman numerals
+
+  start
+    determines the starting number, only accepts integer value
+
+  reversed
+    list appears in reverse order
+    is boolean
+
+  value
+    change its value within the list
+    all subsequent items follow that value
+
+Description List
+  <dl>
+    <dt>Term</dt>
+    <dd>description of term</dd>
+  </dl>
+
+  can contain numerous terms and descriptions
+  can have multiple terms per description
+  and multiple descriptions per term
+
+
+Display Horizontally
+  CSS
+    float: left;
+      OR
+    display: inline;
+      OR
+    display: inline-block; (most common because you can add spacing and vertical margins)
+
+    note: when changing display, the list item marker is removed
+          this does not occur when floating, however we most always clear our floats
+
+CSS List Style Position
+  list-style-position
+    outside (default)
+      content appear directly to the right, outside of list item marker
+      no content can wrap below it
+    inside (rare)
+      places list item marker in line with the first line of the <li> element
+    inherit
+
+CSS Shorthand
+  list-style
+    combines list-style-type and list-style-position
+    first list list-style type, then list-style-position
+    example:
+      list-style: circle inside;
+
+
+Lists
+  Three Types
+    1) Unordered
+    2) Ordered
+    3) Description

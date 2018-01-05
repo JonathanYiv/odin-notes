@@ -1,8 +1,368 @@
 Learning Outcomes
 	How is an HTML5 document structured?
-	What are elements/tags?
-	What are element attributes?
-	When should you use IDs vs Classes?
-	What attributes are required by image and links for them to be effective and accessible?
-	Where should your CSS live?
+		Document Type Declaration
+		HTML
+			Head
+				Meta
+			Body
+				Visible Content
 
+	What are elements/tags?
+		Elements are designators that define structure/content of objects
+
+	What are element attributes?
+		properties to provide additional information about an element
+
+	When should you use IDs vs Classes?
+		IDs can only be used once for significant elements
+		classes can be used multiple times
+
+	What attributes are required by image and links for them to be effective and accessible?
+		alt for accessibility
+		href for link source
+
+	Where should your CSS live?
+		separately from your HTML
+
+
+HTML: HyperText Markup Language
+	  gives content structure and meaning
+
+CSS: Cascading Style Sheets
+	 a presentation language that styles the appearance of content
+
+HTML and CSS are independent and should remain separate.
+
+HTML Terms
+	Elements: 	<element> - designators that define structure/content of objects
+	Tags: 		<opening tag>...</closing tab> - The opening tag marks the beginning of an element
+											- the closing tag marks the end
+	Attributes: properties to provide additional information about an element
+				common - id, class, src, href
+				<x attribute="value"></x>
+
+HTML Document Structure
+	<!DOCTYPE html> - Document Type Declaration
+	<html lang="en"> - declares the beginning of the document
+	<head> - identifies the top of the document and metadata
+		<meta charset="utf-8"> - identifies the character encoding
+		<title>Title</title> - the title of the document
+	<body> - the visible content of a webpage
+
+
+Note: Self-Closing Elements
+	  <br>, <img>, <meta>, <wbr>, <embed>, <input>, <param>, <hr>, <link>, <source>
+
+
+Code Validators
+	HTML: https://validator.w3.org
+	CSS: http://jigsaw.w3.org/css-validator/
+
+CSS Terms
+	Selectors: 	designation of exactly which element(s) within our HTML are targeted and apply styles to
+				generally target an attribute value, like id/class, or target the type of element
+				target { ... }
+	Properties: all the styles that will be applied to the selected element
+				target {
+					property: ...;
+				}
+	Values: 	the behavior of a property
+				target {
+					property: value;
+				}
+
+Selectors
+	Type: 	targets elements by their element type
+	Class:	targets elements based on the element's class attribute
+			.class { ... }
+	ID: 	targets elements based on the element's id attribute
+			can only select one element at a time
+			#id { ... }
+
+	There are more advanced selectors (https://learn.shayhowe.com/advanced-html-css/complex-selectors/)
+		Child
+		Sibling
+		Attribute
+		Psuedo-Classes
+		Psuedo-Elements
+
+Referencing CSS
+	Inside <head>, the <link> element defines the relationship between an HTML and CSS file
+	The 'rel' attribute specifies the relationship, in this case 'stylesheet'
+	'href' identifies the location of the CSS file
+
+	<head>
+		<link rel="stylesheet" href="main.css">
+	</head>
+
+CSS Resets
+	all browsers have their own default styles
+	to ensure cross-browser compatability, CSS resets are widely used
+
+	They provide a unified style for all browsers by removing all styling
+
+	The reset needs to be at the top of our style sheet
+
+	http://meyerweb.com/eric/tools/css/reset/
+
+
+Semantics: the practice of giving content on the page meaning and structure by using the proper element
+		   semantic code describes the value of content on a page, regardless of style/appearance
+
+Divisions and Spans
+	<div>s and <span>s are HTML elements that act as containers only for styling purposes
+	they have no semantic value
+
+	They are very useful to applying targeted styles
+	They will have class or id attributes for styling purposes
+	Warning: Choose the attribute value with care! It should refer to the content of the element, not the appearance!
+
+	<div>
+		block-level element
+		identify large groupings of content
+
+	<span>
+		inline-level element
+		identifies smaller groupins of text within a block-level element
+
+
+
+Note: Block vs Inline
+	  Block elements begin on a new line, stack on top of eachother, and occupy any available width
+	  	Can be nested inside another and may wrap inline-level elements
+	  Inline elements fall into the normal flow, lining up one after the other, and maintain the width only of itself
+	 	Can not wrap block-level elements
+
+Note: Comments
+	  HTML: <!-- ... -->
+	  CSS: /* ... */
+
+
+Text-Based Elements
+	Headings
+		<h1> through <h6>
+		Block-level
+		Break up content and establish hierarchy
+		Help search engines index and determine content
+		Do not use just to make text bold or big
+
+	Paragraphs
+		<p>
+		Block-level
+
+	Bold Text with Strong
+		<strong></strong>
+		Places a strong importance on text and bolds it.
+
+		<b></b>
+		Is used to stylistically offset text.
+
+		The two are semantically different. Generally use <strong>
+
+	Italicize Text with Emphasis
+		<em></em>
+		Inline-level
+		Semantically places a stressed emphasis on text -- use this.
+
+		<i></i>
+		Semantically conveys text in an alternative voice or tone
+		as if it were placed in quotation marks
+
+
+Structure Elements
+	HTML5 introduced structurally based block-level elements
+	<header>, <nav>, <article>, <section>, <aside>, <footer>
+	These can be used multiple times per page
+
+	Header
+		<header>
+		Identifies the top of a page or other segment of a page
+		Generally includes a heading, introductory text, and even navigation
+
+	Navigation
+		<nav>
+		Identifies a section of major navigational links on a page.
+		Should be used only for primary navigation sections
+
+	Article
+		<article>
+		identifies a section of independent, self-contained content that can be independently distributed/reused
+		often used to mark up blog posts, articles, user-submitted content, etc
+		"Could the content within be replicated elsewhere without any confusion?"
+
+	Section
+		<section>
+		Thematic grouping of content
+		Generally includes a heading
+		Breaks up and provides hierarchy to a page
+
+	Article vs Section vs Div
+		If the content is being grouped solely for styling purposes, use <div>
+		If the content adds to the document outline and can be put into another context, <article>
+		If the content adds to the document outline and represents a thematic group, <section>
+
+	Aside
+		<aside>
+		Holds content that is partially related to the content surrounding
+		Examples are sidebars, inserts, brief explanations
+
+	Footer
+		<footer>
+		identifies the end of page/article/section/segment
+		found at the bottom of its parent
+
+
+Encoding
+	Special characters include punctuation marks, accented letters, symbols, etc
+	They need to be encoded because they can be misunderstood
+	&...;
+	is the format
+
+
+Hyperlinks
+	<a> anchor
+		inline-level
+		href attribute (hyperlink reference) is required to specify the destination of the link
+		anchor elements can wrap any level element
+
+	Linking to Email Address
+		href attribute needs to start with 'mailto:' followed by email address
+		i.e.
+			href="mailto:jonathanyiv@gmail.com"
+
+		can also specify the subject and body using query parameters
+		i.e.
+			href="mailto:jonathanyiv@gmail.com?subject=Job%20Offer&body=Here%20is%20job"
+
+	New Window
+		target="_blank"
+
+	Linking to Parts of the Same Page
+		Set `id` attribute on element to link to
+		then use the value within the href attribute
+
+		example:
+			<body id="top">
+				...
+				<a href="#top">Back to Top</a>
+				...
+			</body>
+
+HTML Best Practices
+	Goal: well-structured and standards-compliant
+
+	Use the proper semantic element
+	although HTML has over 100 elements available, it makes your content well-structured
+
+	Syntax Rules:
+		Use lowercase letters within element names, attributers, and values
+		indent nested elements
+		strictly use double quotes
+		remove the forward slash at the end of self-closing elements
+		omit the values on boolean attributes
+			example:
+				<h5 hidden> as opposed to <h5 hidden='hidden'>
+
+	ID and CLASS values must be relevant to the content, NOT THE STYLE
+	example:
+		<p class="red"> vs <p class="error">
+
+	Images should always have the "alt" attribute for accessibility
+		should be very descriptive
+		if image has no meaningful value, it should be a CSS background image
+
+	No inline style, only external style sheets
+
+	Use as few divs as possible
+
+	Refactor code continuously
+
+
+CSS Best Practices
+	Goal: keep code lean and well-organized
+
+	Organize groups of code with comments
+
+	Use multiple lines anad spaces
+
+	class names should be all lowercase and use hyphen delimiters
+
+
+	Longer selectors are easier to break than shorter selectors
+	IDs shouldn't be used within selectors
+	Replace long selectors, if necessary, with specific classes
+
+	Maximum nesting should be three levels deep
+
+	Use shorthand property/values and hexadecimal when applicable
+
+	Remove units from any 0 value
+
+	group and align vendor prefixes
+
+	example:
+
+		div {
+		background: -webkit-linear-gradient(#a1d3b0, #f6f1d3);
+		background:    -moz-linear-gradient(#a1d3b0, #f6f1d3);
+		background:         linear-gradient(#a1d3b0, #f6f1d3);
+		-webkit-box-sizing: border-box;
+		   -moz-box-sizing: border-box;
+		        box-sizing: border-box;
+		}
+
+	place an unprefixed version of property/value last, after any prefixed versions
+	to ensure browsers that support the unprefixed version render that style according to cascade (top to bottom)
+
+	modularize styles for reuse
+
+
+HTML Best Practices 2
+	Soft Tabs with 2 Spaces
+	Add IE Compatability Mode
+	No 'type' attribute needed when including CSS/Javascript
+
+	Attribute Order
+		class
+		id, anme
+		data-*
+		src, for, type, href, value
+		title, alt
+		role, aria-*
+
+	Avoid JS generated markup
+
+CSS Best Practices 2
+	Soft Tabs with 2 Spaces
+
+	Keep individual selectors to a single line
+		.selector-one
+		.selector-two {
+			...
+		}
+
+	no spaces after commas within rgb, rgba, hsl, hsla, rect
+
+	don't prefix with a leading zero
+
+	lowercase hex values
+
+	quote attribute values in selectors
+
+	Declaration Order
+		1) Positioning
+		2) Box-Model
+		3) Typographic
+		4) Visual
+
+	Don't use @import
+
+	one declarations can be on a single line
+
+	shorthand for: padding, margin, font, background, border, border-radius when possible
+
+	avoid nesting when possible
+
+	use classes over generic element tags
+
+	max selector elements is three

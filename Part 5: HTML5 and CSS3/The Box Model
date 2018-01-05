@@ -1,0 +1,166 @@
+You MUST know and master the Box Model.
+
+Learning Outcomes
+  What's the difference between margin and padding?
+    both are the amount of space around an element
+    padding is within the border
+    margin is outside the border
+
+  How do borders affect the size of the box?
+    by default, it is additive
+
+  How can margins be used to center an element horizontally on the page?
+    give the parent element a width
+    then give the element a margin of auto for the left and right sides
+
+  What does it mean that "margins are collapsed?"
+    touching margins of two or more boxes combine to form a single margin
+    if one margin > another margin, only the larger margin is valued
+    if one margin is negative, then the margin values are added together
+    if both are negative, the greater negative value is used
+
+  What is the difference between `block`, `inline-block`, and `inline` elements when thinking about the box model?
+    block elements occupy any available width, regardless of content, and begin on a new line
+    inline-level elements only occupy the width of their content and line up on the same line, one after another
+    inline-block-level elements behave as a block-level element but are in line with other elements, don't begin on a new line, and have space between them
+    inline-level elements can NOT have width and height set
+
+  When are you required to specify the width of an element vs letting the browser figure it out for you?
+    you are never required to, but you should for specific styling and positioning
+
+  How do box shadows affect element box sizing?
+    they add to it
+
+  How can you check an element's box model in your developer tools?
+      Inspect Element -> Computed
+
+
+The Box Model
+  Concept: every element on a page is a rectangular box and may have width, height, padding, borders, and margins
+
+  Display Property
+    > block-level elements occupy any available width, regardless of content, and begin on a new line
+    > inline-level elements only occupy the width of their content and line up on the same line, one after another
+    > inline-block-level elements behave as a block-level element but are in line with other elements, and don't begin on a new line. They also have a small space between two inline-block elements
+
+    The CSS `display` property defines each elements block, inline, or block-level status
+    All elements have a default value that can be overwritten
+    There is also the `none` value which completely hides an element and renders the page as if the element doesn't exist -- the nested elements within will be hidden as well
+
+  Working with Box Model
+    the element core is defined by the width and height
+      which can be determined by the display property
+                              by the contents of the element
+                              and/or the specified width and height properties
+      paddings and borders expand the dimensions of the box outward from the element's width and height
+      margins will follow the border
+
+    the relevant CSS properties are WIDTH, HEIGHT, PADDING, BORDER, and MARGIN
+
+    total width = margin-right + border-right + padding-right + width + padding-left + border-left + margin-left
+    total height = margin-top + border-top + padding-top + height + padding-bottom + border-bottom + margin-bottom
+
+  Width and Height
+    every element has default width/height
+    you can specify the property values for width and height for ONLY non-inline elements if necessary
+    ONLY block and inline-block level elements accept width/height properties
+
+    Defaults
+      block-level elements have a default width of 100% - they consume the entire horizontal space available
+      inline-block elements expand/contract for content
+
+  Margin and Padding
+    Margin
+      amount of space surrounding an element
+      falls outside of border
+      transparent in color
+      can be used to position and provide breathing room
+
+      note: vertical margins are not accepted by inline-level elements
+
+    Padding
+      amount of space surrounding an element inside of the border
+      provides spacing directly within an element
+      works vertically on inline-level elements
+      transparent in color
+
+    Declaration
+      Shorthand
+        margin: 2px;
+          sets the same value for all four sides
+        margin: 10px 20px;
+          sets the top/bottom then right/left
+        margin: 10px 20px 0 15px;
+          sets top, right, bottom, then left
+
+        You can replace padding and margin in the above example
+
+      Longhand
+        margin-top
+        margin-right
+        margin-bottom
+        margin-left
+
+        You can replace margin with padding in the above example
+
+  Borders
+    between padding and margin
+    outline an element
+    requires three values: width, style, and color
+
+    shorthand:
+      border: width style color;
+
+    longhand:
+      border-width:
+      border-style: solid|double|dashed|dotted|none
+      border-color:
+
+    specify sides
+      border-bottom
+      border-top
+      border-right
+      border-left
+        more specifically
+          border-bottom-width
+            etc
+
+    Border Radius
+      rounds corners of an element
+      accepts length units that identify the radius by which corners of an element are to be rounded
+
+      notation:
+        border-radius: 1px;
+        border-radius: 1px 1px;
+          top-left/bottom-right then top-right/bottom-left
+        border-radius: top-left top-right bottom-right bottom-left;
+
+      longhand example:
+        border-top-right-radius: 5px;
+
+  Box Sizing
+    box-sizing: content-box|border-box
+    changes the way box size is calculated
+
+    content-box
+      default
+      additive design
+      the size of an element begins with the width/height properties, then any padding, border, and/or margin is added
+
+    border-box
+      any border or padding property values are included within the width and height of an element
+      the margin is still additive
+
+    border-box is the best! may have issues with older browsers
+
+ASIDE NOTE
+div {
+  -webkit-box-sizing: content-box;
+     -moz-box-sizing: content-box;
+          box-sizing: content-box;
+}
+  used to support older browsers that require vendor prefixes that support different properties/values
+
+  most common are:
+    Mozilla Firefox -moz-
+    Microsoft I

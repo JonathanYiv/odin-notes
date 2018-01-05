@@ -1,0 +1,172 @@
+Learning Outcomes
+  Why are forms probably the most important part of your site?
+    they represent user interaction with the web site/app
+    by allowing users to send data to it
+
+  How do you construct a basic form?
+    <form>
+      // form elements
+    </form>
+
+  How do you specify which path the form gets submitted to?
+    <form action="/path">
+    The action attribute specifies the path the form is submitted to.
+
+  When would you want to submit using GET vs POST requests?
+    <form method="post">
+    The method attribute specifies the HTTP method the form will submit as
+
+  What are all the possible form element types?
+    <input> types
+      HTML5: color, date, datetime, email, month, number, range, search, tel, time, url, week
+      text, radio, checkbox, submit, hidden, file
+
+    <textarea></textarea>
+
+    <select>
+      <option>
+    </selection>
+
+  When should you use checkboxes instead of radio buttons?
+    when you want users to be able to select multiple options
+
+  When should you use a combobox/dropdown instead of a text field?
+    when there is a long list of possible and defined options
+
+  How do you make a very large text field?
+    the <textarea> element has two sizing attributes
+      cols for width
+      rows for height
+      more commonly used is the CSS height and width properties within CSS
+
+  How do you link elements with their labels?
+    the <label> `for` attribute must match the <input> elements `id` attribute
+    or the <label> must wrap the <input>
+
+  How do you link element sections together (e.g. check boxes) so they are nicely formatted when your server receives them?
+    by using the `name` attribute for the <input> element (it should be the same for each group)
+
+  What should your "submit" button say instead of "submit?"
+    It depends on the form
+
+
+Target
+  <form target="_blank">
+  Like hyperlinks, you can specify the target, _blank will open a new tab
+  The default is _self, which opens in the current window
+  other values are _parent or _top
+
+Radio Buttons
+  all radio buttons should have the same name attribute value so all buttons of a group correspond to one another
+  then the value attribute should have different values representing what each radio button represents
+
+  you can also use the 'checked' boolean attribute to preselect a radio button
+
+
+Drop-Down Lists
+  <select> // wraps the menu options
+  <select name=""> // the name attribute specifies the group
+    <option> // each menu option
+    <option value=""> // the value attribute specifies the value of the menu option
+
+  the `selected` boolean attribute is available to preselect an option
+
+    <select name="day">
+      <option value="Friday" selected>Friday</option>
+      <option value="Saturday">Saturday</option>
+      <option value="Sunday">Sunday</option>
+    </select>
+
+  You can add the boolean attribute `multiple` to the <select> element lets the user
+  select more than one option from the list at a time
+
+
+Submit Button
+  <input type="submit" value="text that appears within the button">
+    this can not wrap any content
+
+  <button></button>
+    this can wrap other elements
+    type="submit" by default
+    instead of using the value attribute to control the button text, the wrapped text will appear
+
+Hidden Inputs
+  a way to pass data to the server without display it to users
+  usually used for info not pertinent to the user but useful when processing the form
+  can be viewed in the source code (NOT for sensitive/secure info)
+
+  <input type="hidden" name="something-something-code" value="asdkfgjasdlgbasdg">
+
+File Input
+  <input type="file" name="file">
+  Styling an input element with type file is a very tough task with CSS
+
+Organizing Form Elements
+  Labels, Fieldsets, and Legends
+
+  Labels
+    provide caption/headings for form controls
+    helps all users and for assistive technologies
+
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username">
+
+    These label and input elements are tied together by having the `for` and `id` attributes matching
+    Clicking on the <label> element brings focus to the proper form control
+
+    Labels can also wrap form controls
+      <label>
+        <input>
+      </label>
+    This allows omission of the for and id attributes
+
+  Fieldset
+    groups form controls and labels into organized sections like the <section> element, except for forms
+
+    it is a block-level element that wraps related elements within a <form>
+    also have a border outline by default
+
+    <form>
+      <fieldset>
+        <label>
+          Username
+          <input type="text" name="username">
+        </label>
+        <label>
+          Password
+          <input type="text" name="password">
+        </label>
+      </fieldset>
+    </form>
+
+  Legend
+    a legend provides a caption/heading for the <fieldset> element
+    should be right after the opening <fieldset> tag
+
+    <fieldset>
+      <legend>Login</legend>
+    </fieldset>
+
+Attributes
+  `disabled` turns off an element/control so it is not available for interaction/input
+  won't send any value to the server
+
+  `placeholder` places placeholder text within the element that disappears once the control is clicked on gains focus
+
+  `required` enforces the element/form control must contain a value
+  or an error message is displayed by the browser
+
+  More
+    accept, formaction, formnovalidate, maxlength, readonly, autocomplete, formenctype, formtarget, min,
+    selectionDirection, autofocus, formethod, max, pattern, step
+
+
+Button `type` attribute
+  Values
+    submit
+      sends the form's data to the web page defined by the action
+    reset
+      resets all the form widgets to their default value
+    button
+      does nothing
+      useful for JS

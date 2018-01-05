@@ -1,0 +1,114 @@
+Overview
+  A 2D system that can handle columns and rows.
+
+Summary
+  1) Create a container element with display grid and define the column and row sizes.
+  2) Then place child elements into the grid with CSS properties grid-column and grid-row
+
+
+Terminology
+  Grid Container: The element on which `display: grid;` is applied
+    The direct parent of all grid items
+
+  Grid Item: the direct descendants of the grid container
+
+  Grid Line: the dividing lines that make up the structure of the grid
+
+  Grid Track: the space between two adjacent grid lines (columns/rows)
+
+  Grid Cell: one individual unit of the grid
+
+  Grid Area: total space surrounded by four grid lines. may be composed of any number of grid cells
+
+Parent Properties
+  `display: grid | inline-grid | subgrid;`
+    grid - generates a block-level grid
+    inline-grid - generates an inline-level grid
+    subgrid - if the grid itself is a grid item, then you can have it inherit the properties of the parent grid
+
+  `grid-template-columns/rows: (track-size) ... | [(line name in brackets)] (track-size) ...`
+    defines the columns and rows of the grid with a space separated list of values
+    values represent the track size and the space between them represents the grid line
+    line name is arbitrary, can have more than one name
+    track size can be a length/percentage/fraction (fr unit)
+    you can specify `auto` as a track size
+
+    can repeat for shorthand
+      .container {
+        grid-template-columns: repeat(3, 20px [col-start]) 5%;
+      }
+
+    fr Unit
+      1fr 1fr 1fr sets each item to a third
+      fr are calculated after the non-flexible items
+
+  `grid-template-areas:
+    "header header header header"
+    "main main . sidebar"
+    "footer footer footer footer";`
+
+    in this case, you are giving a name to each grid cell in a 3 X 4 grid
+    you can then give an item the property `grid-area: header` and it will fill those grid areas
+
+    a period signifies an empty cell
+
+  shorthand
+    use `grid` instead
+    `grid-template: (grid-template-rows) / (grid-template-columns)`
+      also accepts none for default values, and subgrid for subgrid values and default
+
+  `grid-column/row-gap: (line-size)`
+    a length value for the gutters
+    not created on the outer edges
+
+  shorthand
+    `grid-grap: (grid-row-gap) (grid-column-gap)`
+
+  `justify-items: start | end | center | stretch;`
+    aligns the columns inside a grid unit along the row axis
+    start aligns to the left
+    end aligns to the right
+    center aligns in the center
+    stretch (default) fills the width
+    can be set indivually on items with the `justify-self` property
+
+  `align-items: start | end | center | stretch (default);`
+    aligns the columns inside a grid unit along the column axis
+
+  `justify-content: start | end | center | stretch | space-around | space-between | space-evenly;`
+    if the grid size is not the size of the container, sets alignment of the grid itself within the grid container
+    aligns horizontally
+
+  `align-content: start | end | center | stretch | space-around | space-between | space-evenly;`
+    same as justify-content, except aligns vertically
+
+  `grid-auto-columns/rows: (unit);`
+    specifies the size of any auto-generated grid tracks (implicit grid tracks)
+
+  `grid-auto-flow: row | column | row dense | column dense;`
+    grid items not explicitly placed are placed with the auto-placement algorithm
+    this property controls that algorithm
+    `row` fills each row in order, adding new rows as necessary (default)
+    `column` fills each column in order, adding new columns if necessary
+    `dense` tells it to fill earlier holes if possible
+
+  shorthand
+    `grid: (grid-template-rows) / (grid-template-columns)[optional onwards] (grid-auto-flow) (grid-auto-rows) / (grid-auto-columns)
+
+Children Properties
+  `grid-column-start` and `grid-row-start` determine the line where the item begins
+  `grid-column-end` and `grid-row-end` determine the line where the item ends
+    values
+      line number/name
+      span (number)
+      span (name)
+      auto (auto-placement, automatic span, or default span of 1)
+    note: items can overlap, z-index control stacking order
+
+  `grid-column` and `grid-row` are shorthand for above, `start / end`
+
+  `grid-area: (name) | (start row) / (column start) / (row end) / (column end);`
+    can use the name from `grid-template-areas` or as super shorthand for the above
+
+  `justify-self: start | end | center | stretch`
+  `align-self: start | end | center | stretch`

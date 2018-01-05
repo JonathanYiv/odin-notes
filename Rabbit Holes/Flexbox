@@ -1,0 +1,86 @@
+Flexbox = Flexible Box
+  appropriate to the components of an application, small-scale layouts
+  Grid is intended for larger scale layouts
+
+Parent Properties
+  `display: flex` or display: inline-flex;`
+    defines a flex container, enabling a flex context for all its direct children
+
+  `flex-direction: row | row-reverse |column | column-reverse;`
+    establishes the main axis and defines the direction flex items are placed in a flex container
+    row -> (default)
+    row-reverse <-
+    column v
+    column-reverse ^
+
+  `flex-wrap: nowrap | wrap | wrap-reverse;`
+    by default, flex items try to fit on one line
+      nowrap is default
+      wrap allows wrapping top to bottom
+      wrap-reverse allows wrapping bottom to top
+
+  shorthand
+    `flex-flow: (flex direction) || (flex wrap)`
+
+  `justify-content: flex-start | flex-end | center | space-between | space-around | space-evenly;`
+    defines the alignment along the main axis
+    distributes the extra free space left over when all the flex items on a line are inflexible or are flexible but have reached their maximum size
+
+    flex-start (default) - items packed towards start
+      | x y z           |
+    flex-end - items packed toward end
+      |           x y z |
+    center - items centered
+      |      x y z      |
+    space-between - items evenly distributed, first item on start line, last item on last line
+      |x       y       z|
+    space-around - items evenly distributed in the line with equal space between them
+      | x      y      z |
+    space-evenly - items distributed equally
+      |   x    y    z   |
+
+  `align-items: flex-start | flex-end | center | stretch | baseline`
+    the justify-content version for the cross-axis (perpendicular to the main-axis)
+    i.e. justify-content is for horizontal then align-items is for vertical
+
+    flex-start, flex-end, center all function similarly as justify-content
+    stretch (default) - stretches items to fill container (respect min/max-width still)
+    baseline - items are aligned such as their baselines align (text)
+
+  `align-content: flex-start | flex-end | center | space-between | space-around | stretch`
+    aligns a flex container's lines when there is extra space in the cross-axis
+    only has affect when there multiple lines of flex-items
+
+    flex-start - packs lines to the start of container
+    flex-end - packs lines to the end of container
+    center - packs lines to the center
+    space-between - evenly distributed lines, first line at start, last one at end
+    space-around - lines evenly distributed with equal space
+    stretch (default) - lines expand to take up the remaining space
+
+Children Properties
+  `order: (integer);`
+    flex items are laid out in source order by default
+    however, you can modify this
+
+  `flex-grow: (number);`
+    the default is 0
+    defines ability for flex item to grow if necessary
+    if all items have flex-grow set to 1, the remaining space is distributed equally
+    if one item has 2, the remaining space would take up twice as much space as the others
+
+  `flex-shrink: (number);`
+    defines ability for flex item to shrink if necessary
+    default is 1
+
+  `flex-basis: (length) | auto;`
+    default is `auto`
+    defines the default size of an element before the remaining space is distributed
+    can be a length or keyword
+
+  shorthand
+    recommended usage
+    `flex: none | (flex-grow) (optionally flex-shrink) (optionally flex-basis)
+
+  `align-self: auto | flex-start | flex-end | center | baseline | stretch;`
+    allows the default alignment to be overriden for individual flex items

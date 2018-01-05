@@ -1,0 +1,107 @@
+Learning Outcomes
+  Why do fonts matter?
+    they impact the way the text feels on the page
+    and text is a huge part of the web
+
+  What's the difference between a serif and sans-serif font?
+    serif has little decorations at the edges of text
+    sans-serif doesn't
+    (sans means without in latin)
+    (serif is the little curly thing)
+
+  What are font-family attributes used for?
+    to set the typeface and fallback typefaces
+
+  How is the active font determined in a font-family?
+    from left to right, the one that is first available
+
+  Where does the browser actually get its fonts from?
+    your computer
+
+  Where can you get additional fonts from and how do you get them onto your page?
+    from the internet or producing your own or getting a font file
+
+  What are the disadvantages of using web fonts? Of loading your own?
+    can increase load time
+
+  What are the important properties of fonts that you can specify using CSS?
+    family, size, style, variant, weight, line height
+
+
+Font-Face
+  lets you use custom typefaces on the web
+
+  @font-face {
+    font-family: 'NewFont';
+    src: url('NewFont.ttf');
+  }
+
+  h1, h2, h3 { font-family: 'NewFont', serif; }
+
+  The font-face declaration explicitly names the font, then can be used accordingly
+  The src property points to where the browser can find the font asset
+
+
+
+Typeface = the artistic impression of how text looks/feels/reads
+Font = file that contains a typeface
+Typeface : Font :: Song :: Mp3
+
+
+Selection
+  Important:
+    primary typeface
+    text color
+  Font Properties:
+    `font-family` property declares which font to use, including fallback/substitute fonts
+    `font-size` lets you set the size of text using pixels, em units, %, pts or keywords
+    `font-style: normal|italic|oblique|inherit`
+    `font-variant: normal|small-caps|inherit|` will set text in small capitals
+    `font-weight: normal|bold|bolder|lighter|inherit|100-900`
+      normal = 400
+      bold = 700
+      note: some typefaces don't have certain weights available
+    `line-height` is the distance between two lines of text (leading)
+      best practice: 1.5x our font-size, 150% or 1.5
+      can also be used to vertically center a single line of text within the element
+      use the same property value as height
+    shorthand
+      `font: font-style font-variant font-weight font-size line-height font-family`
+      example:
+        font: italic small-caps bold 14px/22px "Helvetica Neue", Helvetica, sans-serif;
+  Text Properties:
+    `text-align: left|right|center|justify|inherit`
+      aligns text within an element
+      justify stretches the lines so that each line has equal width
+    `text-decoration: none|underline|overline|line-through|inherit`
+    `text-indent: 20px;`
+    `text-shadow: (horizontal offset) (vertical offset) (blur radius) (color);`
+      example:
+        text-shadow: 3px 6px 2px rgba(0,0,0,.3);
+        casting a 30% opaque black shadow 3 pixels to the right, 6 pixels down, and blurred 2 pixels off all text
+      you can chain multiple text shadows using comma separated values
+      box-shadow works exactly like text-shadow, but can accept an optional fourth length value for the spread of the shadow
+      box-shadow can also include an optional inset value at the beginning to place the shadow inside an element as opposed to outside
+    `text-transform: none|capitalize|uppercase|lowercase|inherit`
+    `letter-spacing: -.5em;`
+    `word-spacing: .25em;`
+
+
+Web-Safe Fonts
+  Arial
+  Garamond
+  Lucida Sans, Lucida Grande, Lucida
+  Tahoma
+  Trebuchet
+  Courier New, Courier
+  Georgia
+  Palatino Linotype
+  Times New Roman, Times
+  Verdana
+
+
+
+Reference HTML Elements
+  <cite> - used to reference a creative work, author, or resource
+  <q> - used for short, inline quotations
+  <blockquote> - used for longer external quotations

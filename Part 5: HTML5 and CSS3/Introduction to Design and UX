@@ -1,0 +1,113 @@
+UX
+  Users can do things:
+    effectively
+    efficiently
+    with satisifaction
+
+optimize by talking to users and evaluating metrics
+
+Learning Outcomes
+  What is design?
+    a method of problem solving
+
+  What is user experience?
+    a user's experience with a system
+
+  What's the difference between UX and UI?
+    UI is a User Interface
+    UX is User Experience
+    UX is more sciency, the skeleton, and UI is more design, the cosmetics
+    A UI without UX is a painter slapping paint onto a canvas without thought
+    a UX without UI is the frame of a sculpture with no paper mache on it
+    products start with UX followed by UI
+
+  What are the three things UX is meant to focus on?
+    users can do things effectively, efficiently, and with satisfaction
+
+  What is visual hierarchy and why is it so important for websites?
+    the priority of viewing content
+    the most important content is at the top of hierarchy, which should be seen first, then directs you to the next element in the hierarchy
+
+  What are the primary ways to achieve visual hierarchy?
+  using CRAP
+    by using color, contrast, texture, shape, position, orientation, and size
+    you organize elements on a page so a user gets a sense of visual importance
+
+  What is the design hierarchy pyramid?
+    a pyramid that prioritizes the most important elements of design, taken from Maslow's hierarchy of eneds
+
+  What are the CRAP factors of effective layout and what are they used for?
+    Contrast - helps establish a dominant item i.e. the focal point
+    Repetition - establishes a clear sense of unity, consistency, and cohesiveness
+    Alignment - makes design feel cleaner instead of chaotic
+    Proximity - move things closer/further to achieve an organized look
+
+
+Ten Principles of 'Good Design'
+  innovative
+  makes a product useful
+  aesthetic
+  makes a product understandable
+  unobstrusive
+  honest
+  long-lasting
+  thorough
+  environmentally friendly
+  as little design as possible
+
+
+Wireframes: connect information architecture to the visual design of a website/app
+  help establish functionality and the relationship between different screen templates of a product
+  focus on kinds of information, range of functions, relative priorities of information/functions, rules for displaying information, and effect of different scenarios on the display
+
+A good user interface never draws more attention to itself than enforcing user goals
+
+UX incorporates aspects of psychology, anthropology, sociology, compsci, graphic design, industrial design, and cognitive design
+  goal is to create a seamless, simple, and useful interaction between a user and a product
+
+Testing UX
+  Are customers confused using your site?
+  Does a competitor have a better UX?
+  Are you losing customers over time?
+
+UX Essentials
+  1) Visual Design - use striking visual elements to help convey your message and information to guide decisions
+  2) Information Architecture - organize the information on your site meaningfully and optimize its navigation
+  3) Market Research - What does your target audience like/dislike?
+  4) Interaction Design - Create a friendly interface based on expected user behavior
+  5) Usability - make sure people can properly navigate through your site to maximize accessibility
+
+HCI = Human-Computer Interaction
+
+
+
+UX Techniques
+  A/B Testing
+  User Surveys
+  Wireframes/Prototypes
+  User Flow Charts
+  Storytelling
+  Design Patterns
+  Profiling Users
+  Content Inventory
+  Content Style Guides
+
+
+Design
+  design = communication
+  remove visual clutter
+  principle of signal-versus-noise to remove nonessential elements
+  empty space is important
+  contrast hihglights elements
+  repetition gives unity and organization
+  alignment connects elements visually for a clean and organized look
+  group related items
+
+
+Contrast
+  can come from size, color, among many other things
+
+
+
+UX = product is useful, usable, and meaningful
+UI = product looks nice
