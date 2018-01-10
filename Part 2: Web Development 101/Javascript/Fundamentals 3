@@ -1,0 +1,140 @@
+Learning Outcomes
+  What are functions?
+  How do you declare a function?
+  How do you invoke a function?
+  What is an anonymous function?
+  How do you declare an anonymous function?
+  Why are function names important?
+  What are parameters?
+  What is scope?
+  What is global vs local scope?
+  What are return values?
+  How do you declare a default value for a parameter?
+  What is the difference between a function declaration and function expression?
+  What is the syntax of arrow functions?
+
+
+Functions
+  store a piece of code inside a defined block
+  then call it by name
+
+  function name() {
+    ...
+  }
+
+  if a function returns nothing, it returns undefined
+  functions should be short and do one thing
+
+  Function Defaults
+    function name(parameter = default) {
+      ...
+    }
+
+    that default can even be another function
+
+Anonymous Function
+  function () {
+    ...
+  }
+
+  has no name
+  won't do anything on its own
+  generally used along with an event handler to run a load of code
+
+  example:
+    myButton.onclick = function() {
+      ...
+    }
+
+    var example = function() {
+      ...
+    }
+
+
+Scope
+  Global Scope - outside of functions
+
+
+Notes
+  A function will not execute unless it has parenthesis i.e. myFunction() unlike other languages that call the function at any mention
+
+  In JavaScript, a function is a value
+
+  There is no need for ; at the end of code blocks and syntax structures like {}
+
+  Functions can be perceived as actions
+
+
+Callback Functions/Callbacks
+  If we pass a function to another function and expect it to be 'called back' later if necessary
+
+  example:
+    function doesSomething()
+
+    function testSomething(parameter, passedFunction) {
+      if (parameter === true) {
+        passedFunction();
+      }
+    }
+
+    in this case, doesSomething() is a callback function
+    you can even declare the function inside of the invoking, like this
+      function testSomething(parameter, function() { ... });
+
+
+Function Declaration
+  function name(a, b) {
+    ...
+  }
+
+Function Expression
+let name = function(a, b) {
+  ...
+};
+
+Function Expressions are created when execution reaches it and is usable from then on.
+Function Declarations are usable within the whole code block (but not outside of it) in an 'initialization stage'
+Use function declarations by default unless they are not suited for the task
+
+Arrow Functions
+  let func = (arg1, arg2, ..argN) => expression
+
+  creates a function `func`, evaluates the expression on the right and returns the result
+
+  equivalent to
+    let func = function(arg1, arg2, ...argN) {
+      return expression;
+    }
+  but more concise
+
+  Syntax
+    (...args) => expression
+    (...args) => { body }
+
+    No Arguments
+      () => ...
+
+
+EXAMPLE OF ARROW FUNCTION
+let age = prompt("What is your age?", 18);
+
+let welcome = (age < 18) ?
+  () => alert('Hello') :
+  () => alert("Greetings!");
+
+welcome(); // ok now
+
+
+
+EXERCISES
+function add7(x) {
+  return x + 7;
+}
+
+function multiply(x, y) {
+  return x * y;
+}
+
+let capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
+let lastLetter = (string) => string.slice(-1);

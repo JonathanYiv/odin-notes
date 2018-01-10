@@ -49,7 +49,7 @@ Parent Properties
 
   `align-content: flex-start | flex-end | center | space-between | space-around | stretch`
     aligns a flex container's lines when there is extra space in the cross-axis
-    only has affect when there multiple lines of flex-items
+    only has affect when there are multiple lines of flex-items
 
     flex-start - packs lines to the start of container
     flex-end - packs lines to the end of container

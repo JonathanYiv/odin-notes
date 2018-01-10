@@ -1,0 +1,180 @@
+Learning Outcomes
+  What is DOM in relation to a webpage?
+    The Document Object Model - a family-tree-like representation of the contents of a webpage wherein elements are nodes with different relationships depending on arrangement
+
+  What's the difference between a "node" and an "element?"
+    a node is any DOM object
+    an element is a TYPE of node that represents objects specified in the HTML file by the tags
+
+  How do you target nodes with "selectors?"
+    you use specific methods to target them
+
+  What are the basic methods for finding/adding/removing/altering DOM nodes?
+    Finding:
+      element.querySelector(selector)
+      element.querySelectorAll(selectors)
+    Adding:
+      parentNode.appendChild(childNode)
+      parentNode.insertBefore(newNode, referenceNode)
+    Removing:
+      parentNode.removeChild(child)
+    Altering:
+      modifying the style object of a node
+      changing attributes
+      changing classes with classList
+      adding text with textContent
+      adding HTML with innerHTML
+
+  What is the difference between a 'nodelist' and an 'array of nodes?'
+    a nodelist is similar to an array, but is missing some functionality that arrays have
+    both are collections of nodes
+    however, a nodelist is obtained from querySelectorAll
+
+  How do 'events' and 'listeners' work? What are three ways to use events in your code?
+    events are types of actions that occur on your page
+    listeners are when javascript listens for these events
+    1) attaching function attributes
+    2) attaching `on_event` property on the DOM object in javascript
+    3) attach event listeners to the node in your javascript
+
+  How does 'bubbling' work?
+    ...
+
+DOM - Document Object Model
+  A family tree-like representation of the contents of a webpage
+  a family tree of 'nodes' with different relationships depending on arrangement
+
+  "child"
+  "sibling"
+  "parent"
+  "branch"
+
+Targeting Nodes with Selectors
+  Standard CSS Selectors
+  Relational Selectors also exist
+
+
+When HTML code is parsed by a browser, it is converted to the DOM
+  each node has properties and methods attached to them
+    these properties and methods are the tools used by JavaScript to manipulate the page
+
+Query Selectors
+  element.querySelector(selector)
+    returns reference to the first match of `selector`
+
+  element.querySelectorAll(selectors)
+    returns a "nodelist" containing references to all of the matches of the selectors
+    not an array
+    nodelists don't have all the methods available to arrays
+
+Creating Elements
+  document.createElement(tagName[options])
+    creates a new element of tag type <tagName> with [options] as optional parameters
+    example:
+      const div = document.createElement('div');
+
+Appending Elements
+  parentNode.appendChild(childNode)
+    appends childNode as the last child of parentNode
+
+  parentNode.insertBefore(newNode, referenceNode)
+    inserts newNode into parentNode before referenceNode
+
+Removing Elements
+  parentNode.removeChild(child)
+    removes child from parentNode on the DOM and returns a reference to the child
+
+Altering Elements
+  when you have a reference to an element, you can use that reference to alter the element's properties
+  can add/remove/alter attributes
+  change classes
+  add inline style
+  etc
+
+  example - Adding Inline Styles:
+    const div = document.createElement('div');
+
+    div.style.color = 'blue';
+
+    div.style.cssText = 'color: blue; background: white';
+
+    div.setAttribute('style', 'color: blue; background: white');
+
+    note: style is an object
+    note: style rules inline javascript have hyphenated rules become camelCale
+      example: background-color -> backgroundColor
+
+  example - Editing Attributes:
+    div.setAttribute('id', 'theDiv');
+
+    div.getAttribute('id');
+
+    div.removeAttribute('id');
+
+    note: all attributes can be edited
+
+  example - Working with Classes:
+    div.classList.add('new');
+
+    div.classList.remove('new');
+
+    div.classList.toggle('active');
+
+    note: it is standard and cleaner to toggle a CSS style rather than adding/removing inline CSS
+
+  example - Text Content:
+    div.textContent = 'Hello World!';
+
+  example - Adding HTML:
+    div.innerHTML = '<span>Hello World!</span>';
+
+    use innerHTML sparingly due to security issues
+
+Events
+  events are actions that occur on your page (i.e. mouse clicks/keypresses/etc)
+  javascript can listen and react to these events
+
+  1) Attach function attributes directly on your HTML elements
+  2) Set the `on_event_` property on the DOM object in your JavaScript
+  3) Attach event listeners to the nodes in your Javascript
+
+  The third option, ATTACHING EVENT LISTENERS TO NODES IN JAVASCRIPT, is the preferred method.
+
+  example - method 1:
+    <button onclick="alert('Hello World')">Click Me</button>
+
+  example - method 2:
+    HTML
+    <button id="btn">Click Me</button>
+
+    Javascript
+    var btn = document.querySelector('#btn');
+    btn.onclick = () => alert("Hello World");
+
+  note: DOM elements can only have ONE 'onclick' property
+
+  example 3 - method 3:
+    HTML
+    <button id="btn">Click Me Too</button>
+
+    Javascript
+    let btn = document.querySelector('#btn');
+    btn.addEventListener('click', () => {
+      alert("Hello World");
+    });
+
+  example 4 - accessing parameters:
+    btn.addEventListener('click', function(e) {
+      alert(e);
+    })
+
+    `e` is an object that references the event itself
+
+
+Other Useful Events
+  click
+  dblclick
+  keypress
+  keydown
+  keyup
+  More: https://www.w3schools.com/jsref/dom_obj_event.asp

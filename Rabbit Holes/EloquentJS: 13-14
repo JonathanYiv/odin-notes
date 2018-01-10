@@ -1,0 +1,33 @@
+About `document`
+  `document` is a global variable that gives you access to the DOM
+
+  `document.documentElement` returns the root, usually <html> element
+
+  `document.body` returns <body>
+
+  each DOM node has a nodeType property
+    numeric code that identifies the type of node
+    regular elements: 1
+    text nodes: 3
+    comments: 8
+
+DOM Node Relationships
+  all element nodes have a `childNodes` property that holds a NodeList array-like object
+
+  firstChild
+  parentNode
+  previousSibling
+  nextSibling
+  lastChild
+
+Find Elements
+  document.getElementsByTagName("a")[1];
+
+  getElementById
+  getElementByClassName
+
+Changing the Document
+  removeChild
+  appendChild
+  insertBefore
+  replaceChild

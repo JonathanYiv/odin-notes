@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div id="container">
+    </div>
+    <button onclick="alert('Hello World')">Click Me</button>
+    <button id="btn">Click Me</button>
+    <script>
+      const container = document.querySelector('#container');
+
+      const content = document.createElement('div');
+      content.classList.add('content');
+      content.textContent = 'This is the glorious text-content!';
+      container.appendChild(content);
+
+      const para = document.createElement('p');
+      para.style.color = 'red';
+      para.textContent = "Hey I'm red!"
+      container.appendChild(para);
+
+      const header = document.createElement('h3');
+      header.style.color = 'blue';
+      header.textContent = "I'm a blue h3!";
+      container.appendChild(header);
+
+      const div = document.createElement('div');
+      div.style.border = '1px solid black';
+      div.style.background = 'pink';
+      const miniHeader = document.createElement('h1');
+      miniHeader.textContent = "I'm in a div";
+      const miniParagraph = document.createElement('p');
+      miniParagraph.textContent = "ME TOO!";
+      div.appendChild(miniHeader);
+      div.appendChild(miniParagraph);
+      container.appendChild(div);
+
+      var btn = document.querySelector('#btn');
+      // btn.onclick = () => alert("Hello World");
+
+      btn.addEventListener('click', function(e) {
+
+        e.target.style.background = 'blue';
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+Learning Outcomes
+  How do you open the DevTools in Chrome? In Firefox?
+  What do you press to point to elements in the page and have the HTML highlighted?
+  What do you press to switch to different viewports?
+  What are the 9 DevTools panels and what are they each for?
+  In the 'Elements' panel, why is the "Styles" tab useful?
+  In the 'Elements' panel, why is the "Computed" tab useful?
+  In the 'Elements' panel, why is the "Event Listeners" tab useful?
+  What is the Console?
+  What are breakpoints?
+
+DevTools
+  Random
+    You can change the network speed in Chrome DevTools
+    The listed CSS is from most specific to most general
+
+  Tools
+    1) Elements
+    2) Console
+    3) Sources
+    4) Network
+    5) Performance
+    6) Memory
+    7) Application
+    8) Security
+    9) Audits
+
+    Elements
+      view DOM tree
+      edit DOM elements
+      view and change CSS rules
+      view and change element's box model
+
+    Console
+      log diagnostic information in the development process
+      shell prompt to interact with document and DevTools
+      various settings to improve workflow such as filtering, execution contexts, clearing/saving history, condensing vs timestamps of repeated messages
+
+    Network
+      provides insights into resources that are requested/downloaded over the network
+      in real time
+
+    Audits
+      analyzes a page as it loads
+      provides suggestions and optimizations for decreasing page load time
+
+    Sources
+      inspect resources that are loaded in the page
+      interact with HTML5 Database, Local Storage, Cookies, AppCache, etc
+
+    Performance
+      optimize performance by recording and exploring events that happen during the lifecycle of a site
+
+    Memory
+      profiles memory usage and tracks down leaks
+
+    Application
+      inspect all loaded resources including IndexedDB or Web SQL databases, local/session storage, cookies, Application Cache, images, fonts, and stylesheets
+
+    Security
+      debug mixed content issues, cert problems, etc
+
+
+Persistent Authoring
+  https://developers.google.com/web/tools/setup/setup-workflow
+  map resources served from a local webs erver to files on disk
+
+Debugging with Javascript
+  You can set breakpoints on the DOM, Event Listeners, and more
+  this will stop the code in the Sources tab on the relevant line of code
+  there are then buttons to step through the code to help you navigate
+
+  Types of Breakpoints
+    Line of Code              - pause right before exact region of code
+                              - on the Sources tab, for a specific file, click on the line number
+    Conditional Line of Code  - above, but only when some condition is true
+                              - same as above, except right-click -> 'add conditional breakpoint'
+    DOM                       - on code that changes/removes a specific DOM node or its children
+                              - on the Elements tab, right-click and 'Break on...'
+                              - Subtree Modifications or Attributes Modifications or Node Removal
+    XHR                       - when an XHR URL contains a string pattern
+                              - on the Sources tab, expand the XHR Breakpoints section, and add a breakpoint
+    Event Listener            - on code that runs after an event is fired
+                              - on the Sources tab, expand the 'Event Listeners Breakpoints' section and check any
+    Exception                 - on the line of code throwing a caught/uncaught exception
+                              - press the 'Pause on exceptions' button in the Sources tab
+    Function                  - whenever a specific function is called
+                              - insert debug(functionName) in the code or from the DevTools console
+
+XHR: XMLHttpRequest

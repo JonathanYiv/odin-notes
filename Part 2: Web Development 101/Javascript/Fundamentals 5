@@ -1,0 +1,126 @@
+Learning Outcomes
+  What are objects?
+
+
+Objects
+  used to store keyed collections of various data and more complex entities
+
+  Object Constructor Syntax
+    let user = new Object();
+
+  Object Literal Syntax
+    let user = {
+      key: value, // this is a property
+      "multi word property name must be quoted": value,
+    }
+
+  property values are accessible using dot notation
+    objectExample.propertyName // returns value
+
+  delete objectExample.propertyName // deletes a property
+
+  Trailing Comma: the last property in a list may end with a comma
+
+  Square Bracket Notation
+    objectExample["multi word property name which must be accessed only using square bracket notation"]
+
+    let key = "something"
+    objectExample[key] = true;
+    // objectExample["something"] = true
+
+    you can use this to obtain a property name as the result of any expression
+    it can be calculated at run-time or depend on user input
+    and can also be used to access a property
+
+  Computed Properties
+    using square brackets in an object literal
+
+    example:
+      let keyName = prompt("Question?", "Placeholder Text");
+
+      let objectName = {
+        [keyName]: value, // the name of the property is taken from the prompt variable
+      };
+      // we can even use more complex expressions inside square brackets
+
+  NOTE: Square Brackets are MUCH more powerful than the dot notation
+
+
+Property Value Shorthand
+  In real code, we often use existing variables as values for property names:
+
+    function makeUser(name, age) {
+      return {
+        name: name,
+        age: age,
+      }
+    }
+
+  This use-case is so common, there is a special shorthand:
+
+    function makeUser(name, age) {
+      return {
+        name,
+        age,
+      }
+    }
+
+
+Existence Check
+  objectExample.noSuchProperty === undefined // true means the property doesn't exist
+
+  alternatively
+
+  "noSuchProperty" in objectExample // returns true if the property exists
+
+
+
+For...In Loop
+  for(key in object) {
+    // executes the object for each key among object properties
+  }
+
+  example:
+    let user = {
+      name: "John",
+      age: 30,
+      isAdmin: true,
+    }
+
+    for(let key in user) {
+      alert(key);
+      alert(user[key]);
+    }
+
+
+Primitive vs Object
+  primitives store values themselves
+  objects store the address in memory, a 'reference' to it
+
+
+Cloning
+  javascript doesn't support object cloning OR object deep cloning
+
+
+Summary
+  Objects are associative arrays that store key-value pairs. Keys must be strings or symbols and values can be of any type.
+  We can access properties using teh dot notation or the more flexible square brackets notation, which let us take the key from a variable.
+
+  You can delete properties, check if they exist, iterate over an object with a for/in loop.
+
+  Objects are assigned and copied by reference.
+    Object.assign or lodash's _.cloneDeep(obj)
+
+
+
+MDN on Objects
+  The object name acts as a namespace
+  It must be specified first to access anything encapsulated within the object
+  Then you can use a dot and item you want to access to access something inside
+
+  You can set the value of object members using either dot or bracket notation
+  Bracket notations are useful because it can set member names dynamically, not only member values
+
+
+This
+  `this` refers to the current object the code is being written aside

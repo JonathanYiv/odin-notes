@@ -1,0 +1,29 @@
+Typos
+  Capitalization for Code Commentary
+
+Clean Code
+  Indentation
+    Soft Tabs set to 2 Spaces
+  Use Semi-Colons
+  80 Character Ruler
+    Indent the second line TWO levels
+    Break immediately after an operator or comma
+  camelCase
+  Variables begin with a noun
+  Functions begin with a verb
+  Single characters only for loops and callback functions
+
+
+Other Tips
+  pseudo-code + flow diagrams beforehand to plan things out -- planthe structure
+  use comments, but not excessively
+    WRITE YOUR CODE AS IF COMMENTS DON'T EXIST FIRST
+  small single-purpose functions
+  establish naming conventions
+
+Jeff Atwood on Comments
+  1) Strive to make code as simple and understandable as possible without relying at comments
+  2) THEN add comments
+  3) ALTHOUGH, comments can never be replaced by code alone
+
+Martin Fowler: Code IS documentation

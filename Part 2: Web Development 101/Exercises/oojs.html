@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Object-oriented JavaScript example</title>
+  </head>
+
+  <body>
+    <div>
+      <label for="jscode">Enter code:</label>
+      <input type="text" id="jscode">
+      <button>Submit code</button>
+    </div>
+
+    <p></p>
+  </body>
+
+    <script>
+      var input = document.querySelector('input');
+      var btn = document.querySelector('button');
+      var para = document.querySelector('p');
+      btn.onclick = function() {
+        var code = input.value;
+        para.textContent = eval(code);
+      }
+
+      var person = {
+        name: {
+          first: 'Bob',
+          last: 'Smith',
+        },
+        age: 32,
+        gender: 'male',
+        interests: ['music', 'skiing'],
+        bio: function() {
+          alert(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old. He likes ' + this.interests[0] + ' and ' + this.interests[1] + '.');
+        },
+        greeting: function() {
+          alert('Hi! I\'m ' + this.name.first + '.');
+        }
+      };
+    </script>
+</html>

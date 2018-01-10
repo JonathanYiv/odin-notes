@@ -1,0 +1,144 @@
+Based on this: https://github.com/kamranahmedse/developer-roadmap
+I was curious to see where I stood on the flowchart.
+As of 1/8/2018
+
+Rankings
+  U - Unknown (Never Heard of It)
+  Beginner
+    S - Starting (Have used it maybe once or twice and/or read about it)
+    M - Mid-Level (Have used it a few times)
+    E - Edge (Have practiced with it to be familiar, but not enough to be confident)
+  Intermediate
+    S - Starting (Use it frequently and feel comfortable)
+    M - Mid-Level (Use it correctly and efficiently with more advanced use-cases)
+    E - Edge (Use some advanced use-cases, but not confidently)
+  Advanced
+    S - Starting (Use advanced use-cases regularly and comfortably)
+    M - Mid-Level
+    E - Edge
+
+Required for Any Path
+  Git - Version Control (Intermediate M)
+  SSH (Beginner S)
+  HTTP/HTTPS and APIs (Beginner M)
+  Basic Terminal Usage (Intermediate S)
+  Learn to Research (Advanced S)
+  Data Structures & Algorithms (Beginner E)
+  Character Encodings (Beginner S)
+  Design Patterns (Beginner S)
+  GitHub (Intermediate S)
+
+Front-End
+  HTML (Intermediate E)
+  CSS (Intermediate M)
+    Responsive Web (Intermediate M
+    Preprocessors
+      Sass (Beginner S)
+      Less (Beginner S)
+      Stylus (Beginner S)
+      PostCSS (Beginner S)
+    Framework
+      Foundation (Beginner S)
+      Bootstrap (Beginner M)
+      Materialize CSS (Beginner M)
+      Semantic UI (Beginner S)
+    Methodologies
+      SUITCSS (U)
+      BEM (Beginner S)
+      OOCSS (U)
+      SMACSS (U)
+      Systematic CSS (U)
+    Advanced
+      Flexbox (Beginner E/Intermediate S)
+      Gradients (Beginner S)
+      Grids (Beginner S)
+      Rotate (Beginner S)
+      Transform (Beginner S)
+      Skew (U)
+      Scale (Beginner S)
+      Transitions (Beginner S)
+    SVG
+      D3 (U)
+  JavaScript (Beginner M)
+    ES6 (Beginner S)
+    Task Runners
+      npm scripts (Beginner S)
+      gulp (Beginner S)
+      Grunt (Beginner S)
+    Package Manager
+      Yarn (Beginner S)
+      npm (Beginner S)
+    Frameworks
+      Angular (Beginner S)
+        RxJS (U)
+        TypeScript (Beginner S)
+      React (Beginner S)
+        Flux (U)
+        Redux (U)
+        Mobx (U)
+      Vue.js (Beginner S)
+      Preact (U)
+      Ember JS (Beginner S)
+    Testing
+      Jest (U)
+      Mocha (U)
+      Jasmine (Beginner S)
+      Enzyme (U)
+    Module Loader/Bundler
+      Webpack (Beginner S)
+      rollup (U)
+      Parcel (U)
+      RequireJS / AMD (U)
+      Browserify (U)
+    Advanced
+      Design Patterns (Beginner S)
+      Regex (Beginner S)
+      GOF Design Patterns (Beginner S)
+
+Back-End
+  Ruby (Intermediate M)
+    RubyGems (Beginner E)
+    RSpec (Beginner M)
+    MiniTest (Beginner M)
+    Ruby on Rails (Intermediate M)
+    Sinatra (Beginner S)
+    ByeBug (Beginner M)
+  Python (Beginner S)
+    ...
+  Node.js (Beginner S)
+    ...
+  PHP7 (Beginner S)
+    ...
+  Web Servers (Beginner S)
+    ...
+  RESTful APIs (Beginner E)
+  Authentication
+    JWT
+    OAuth 2.0 (Beginner M)
+  SOLID/YAGNI/KISS/etc (Beginner M)
+  Regex (Intermediate S)
+  GraphQL (Beginner S)
+  Docker (Beginner S)
+  Message Brokers (U)
+    ...
+  Storage
+    Caching
+      Memcached (U)
+      Redis (Beginner S)
+    Relational Databases
+      Oracle (Beginner S)
+      PostgreSQL (Beginner E)
+      MariaDB (Beginner S)
+      MySQL (Beginner M)
+      MSSQL (U)
+    NoSQL Databases
+      MongoDB (Beginner S)
+      Cassandra (U)
+      RethinkDB (U)
+      Couchbase (U)
+  Search Engines (U)
+  GOF Design Patterns (Beginner S)
+  Architectural Patterns (Beginner S)
+  Domain-Driven Design (U)
+
+DevOps: Yeah.. I'm not going to touch this one yet. I've only heard of these in passing and read a brief one-two sentences on the concept and role that they play.

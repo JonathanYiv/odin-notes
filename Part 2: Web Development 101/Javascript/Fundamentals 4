@@ -1,0 +1,98 @@
+Learning Outcomes
+  What are arrays?
+  How do you declare an array?
+  What do the shift, unshift, pop, and push methods do to an array?
+  What is the difference between the join and toString methods?
+  What is the difference between slice and splice?
+  What are loops?
+  What is the syntax of a for loop?
+  What is the syntax of a do loop?
+  What is the syntax of a do-while loop?
+  What is the difference between the do-while and do loops?
+  How do you break or continue out of a nested loop?
+
+
+Arrays
+  let arrayExample = ["first", "second", "third"];
+  let arraySecondExample = new Array("fourth", "fifth", "sixth");
+
+  let firstArrayElement = arrayExample[0];
+  arrayExample[0] = "new content"
+
+  arrays are a type of object
+  array elements can be objects
+
+  Methods
+    #length
+    #sort()
+    #shift()
+    #unshift()
+    #push()
+      note: adding elements with high index can create `undefined` holes in an array
+    #pop()
+    Array.isArray() or #instanceof(Array)
+    #toString()
+      converts an array to a string of comma separated array values
+    #join
+      joins all array elements into a string, can specify the separator
+    #splice(start, # of elements to remove, ...elements to add...)
+    delete arrayExample[0]
+      changes the index 0 value to undefined
+    #concat(anotherArray)
+      joins 2+ arrays
+    #slice(start, finish)
+      finish is optional
+
+Associative Arrays/Hashes
+  Javascript does NOT support arrays with named indexes
+
+
+Objects
+  var objectExample = {
+    property: "value one",
+    propertyTwo: 41
+  };
+
+Loops
+  For Loops
+    have counter, exit condition, and an interator
+
+    for(initializer; exit-condition; final-expression) {
+      ..
+    }
+
+    The `break` statement immediately exits the loop
+    The `continue` statement skips to the next iteration of the loop
+
+  While Loops
+    initializer
+    while(exit-condition) {
+      ..
+      final-expression
+    }
+
+  Do While
+    initializer
+    do {
+      ...
+      final-expression
+    } while (exit-condition)
+
+
+Labels for Break/Continue
+  an identifier with a colon before a loop
+
+  outer: for(let i = 0; i < 3; i++) {
+    for(let j = 0; j < 3; j++) {
+      if(...) {
+        break outer;
+      }
+    }
+  }
+
+  breaks and continues only work for the loop it is in, unless you use labels
+
+
+Reminder: Postfix/Prefix Incremental Operators
+  Prefix first increments the variable then returns the NEW value
+  Postfix increments the variable then returns the OLD value

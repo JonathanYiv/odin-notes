@@ -1,0 +1,108 @@
+Learning Outcomes
+  What is a preprocessor?
+    take code written in the preprocessed language and then 'compile to CSS'
+
+  Why do preprocessors rock?
+    aren't bound by the limitations of CSS
+    like variables, interpolation, mixins, nesting
+
+  What does it mean that a preprocessor "compiles to CSS?"
+    it turns the preprocessed language into CSS
+
+  What is SASS/SCSS?
+    Syntactically Awesome StyleSheets
+    SCSS is SASS3 syntax - everything that works in css works in scss
+
+  How can you use SASS to nest CSS?
+    #selector {
+      second-selector { property: value; }
+    }
+
+  How can you use SASS to work with variables in your code?
+    $primary-color: #333333;
+    element {
+      color: $primary-color;
+    }
+
+  Why is it awesome to use mix-ins with SASS?
+    you can DRY out your styling code
+
+  If you're not using Rails, how do you set up SASS?
+    by installing it
+
+  What is LESS and how is it different from SASS?
+    LESS stands for Leaner CSS
+    SASS is in Ruby
+    LESS is in Javascript
+
+    LESS uses @ for variables
+    SASS has Compass/LESS has Preboot
+    and there are other syntax differences
+
+  What other preprocessors are out there?
+    SASS, LESS, Stylus, PostCSS
+
+
+SASS Basics
+  Includes variables, nesting, mixins, inheritance, and more
+
+  Command Line
+    $ sass input.scss output.css
+      preprocesses input.scss into output.css
+
+    $ sass --watch input.scss output.css
+      every time input.scss is saved with changes, it builds output.css
+
+    $ sass --watch app/sass:public/stylesheets
+      the app/sass directory is watched for changes, then built into public/stylesheets
+
+  Variables
+    $variable: value;
+    element {
+      property: $variable;
+    }
+
+  Nesting
+    element {
+      inner-element {
+        ...
+      }
+    }
+
+  Partials
+    _partial.scss
+    Partials can be created with little snippets of CSS
+    then you can use @import to import them into another file
+
+  Import
+    CSS's @import uses another HTTP request
+    SCSS's @import combines the files so it is one HTTP request
+
+  Mixins
+    create a group of CSS declarations to reuse throughout your site
+    can even pass in values
+
+    @mixin name(argument) {
+      ...
+    }
+
+    element { @include name(parameter); }
+
+  Extension/Inheritance
+    share a set of CSS properties from one selector to another
+    placeholder classes are classes that only print when extended
+
+    %placeholder-class {
+      properties: values;
+    }
+
+    element {
+      @extend %placeholder-class;
+    }
+
+  Operators
+    +
+    -
+    *
+    /
+    %

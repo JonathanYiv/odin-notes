@@ -1,11 +1,21 @@
 Learning Outcomes
+  What are the seven data types of javascript?
+  Which data type is NOT primitive?
   What is the difference between single, double, and backtick quotes for strings?
   Which type of quote lets you embed variables/expressions into a string?
+  What is the difference between slice/substring/substr?
   How do you embed variables/expressions into a string?
   How do you escape characters in a string?
   What are methods?
   What are the three logical operators and what do they stand for?
   What are the comparison operators?
+  What is nesting?
+  What are truthy and falsy values?
+  What are the falsy values in Javascript?
+  What is the syntax for an if/else if/else conditional?
+  What is the syntax for a switch statement?
+  What is the syntax for a ternary operator?
+  What is the relationship between null and undefined?
 
 Javascript is 'dynamically typed'
   there are data types
@@ -122,7 +132,7 @@ Edge Comparisons
   null === undefined // false
   when compared, null becomes 0 and undefined becomes NaN
 
-  null and defined == eachother and no other values
+  null and undefined == eachother and no other values
 
 
 Comparisons
@@ -133,3 +143,29 @@ Comparisons
   } else {
     ...
   }
+
+Switch Statements
+  switch (expression) {
+    case choice1/condition:
+      code...
+      break;
+
+    case choice2/condition:
+      code...
+      break;
+
+    case choice3:
+    case choice4:
+    case choice5:
+      code...
+      break;
+
+    default:
+      code...
+  }
+
+Ternary Operator
+  (condition) ? run this code if true : run this code if false
+  ternary: operator has three operands, composed of three parts
+
+

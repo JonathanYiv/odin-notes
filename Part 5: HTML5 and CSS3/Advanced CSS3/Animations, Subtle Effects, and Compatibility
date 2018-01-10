@@ -1,0 +1,103 @@
+Learning Outcomes
+  How do you round corners of a box?
+    border-radius
+
+  How do you add a shadow to a box?
+    box-shadow
+
+  How do you rotate an element a specified amount?
+    using a transformation with the rotate() function
+
+  What interesting animations can you use in CSS3?
+    loads and loads!
+    anything you can imagine almost
+
+  What are psuedo-elements and what are they useful for?
+    good for styling a specific part of a selected element
+
+Pseudo-Elements
+  a keyword added to a selector that lets you style a specific part of the selected element
+    ::first-line is an example
+
+  selector::pseudo-element {
+    property: value;
+  }
+
+  Others
+    ::after, :;before, ::cue, ::first-letter, ::first-line, ::selection
+
+  Experimental
+    ::backdrop, :placeholder, ::marker, ::spelling-error, ::grammar-error
+
+  ::after
+    lets you insert content onto a page from CSS without it appearing in the DOM
+  ::before
+    lets you insert content onto a page before any other content without it appearing in the DOM
+
+  ::after/::before
+    content: "a string";
+    content: url(/path/to/image.jpg);
+    content: "";
+    counter: counter(li);
+
+Border Radius
+  can have 1-4 values
+  border-radius: top-left top-right bottom-right bottom-left;
+  border-radius: top-left top-right/bottom-left bottom-right;
+  border-radius: top-left/bottom-right top-right/bottom-left;
+  border-radius: all-corners;
+
+Box Shadow
+  box-shadow: none|h-offset v-offset blur spread color |insert|initial|inherit;
+    h-offset is the horizontal offset of the shadow, positive on right side of box, negative on left side of box
+    v-offset is the vertical offset, positive below box, negative above the box
+    blur is optional, makes shadow more blurred
+    spread is optional, positive increases size of shadow, negative decreases size
+    color is optional, is color of shadow, default value is text color
+    inset is optional, changes shadow from outer to inner
+
+CSS Transforms
+  transform: <function>
+             none
+             matrix
+             matrix3d
+             translate
+             translate3d
+             translateX
+             translateY
+             translateZ
+             scale
+             scale3d
+             scaleX
+             scaleY
+             scaleZ
+             rotate
+             rotate3d
+             rotateX
+             rotateY
+             skew
+             skewX
+             skewY
+             perspective
+
+CSS Transitions
+  control animation speed when changing CSS properties
+    control which properties to animate
+    setting a delay
+    setting a duration
+    setting a timing function
+
+  list of animatable properties: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties
+
+  transition: <property> <duration> <timing-function> <delay>; (comma-separated for multiple)
+    the shorthand that controls all the components of transitions, listed below
+  transition-property
+    specifies the name/names of CSS properties to which transitions are aplied
+  transition-duration
+    specifies the duration over which transitions occur
+    single duration or multiple values for different properties
+  transition-timing-function: ease | linear | step-end | steps(4, end) |
+    specifies a function to define how intermediate values for properties are computed
+    timing functions determine how intermediate values of the transition are calculated
+  transition-delay
+    defines how long to wait between the time a property is changed and the transition actually begins
