@@ -1,0 +1,94 @@
+Object Literal Syntax
+  The best way to define objects
+
+  const exampleObject = {
+    property: value,
+    otherProperty: otherValue,
+    lastExampleProperty: valueThatIsAFunction() {
+      ...
+    }
+  }
+
+Dot Notation vs Bracket Notation
+  myObject.property VS myObject["property"]
+
+  Dot notation is cleaner and usually preferred.
+  There are several ocassions when it is not possible to use it, i.e. using variables
+
+
+Objects as a Design Pattern
+  Use objects to group things into objects
+
+Object Constructors
+  example:
+    function Player(name, marker) {
+      this.name = name;
+      this.marker = marker;
+      this.sayName = function() {
+        console.log(name);
+      }
+    }
+
+    const player = new Player('steve', 'X');
+    player.sayName();
+
+  Naming Convention: uppercase the first letter of constructor functions
+
+Prototypes
+  JavaScript is a prototype-based language
+
+  all objects have a prototype object, which it inherits methods and properties from
+  the prototype chain is that each object has a prototype that has a prototype, etc
+
+  JavaScript will start at the original object and work its way up the prototype chain to find
+  methods/properties and return undefined if not found
+
+  in normal OOP, the methods/properties are copied
+  in prototypal JS, the methods/properties are found by using the prototype chain
+
+  `prototype` can be used as a property and an attribute
+
+  Prototype Property
+    note: JS functions are a type of Object
+    all JS functions have a prototype property (empty by default)
+    the prototype property's value is an object which acts as a bucket for storing properties and methods that are to be inherited
+
+    You can add methods/properties into the prototype property
+
+  Prototype Attribute
+    refers to the parent object
+    1) If an object is created with an object literal, it inherits from Object.prototype
+    2) If an object is created from a constructor function,  it inherits from that constructor
+
+
+Object.prototype Inherited Properties/Methods
+  constructor
+  hasOwnProperty()
+  isPrototypeOf()
+  propertyIsEnumerable()
+  toLocaleString()
+  toString()
+  valueOf()
+
+NOTE:
+  It is best to define functions on the prototype of an object
+  This means that a single instance of each function will be shared between all the object instances
+  If declared in the constructor, it would be duplicated every time a new instance is created
+  This can use up a lot of memory
+
+  SO:
+    1) Define properties inside the constructor
+    2) Define methods on the prototype
+
+
+Note:
+  Prototype can't be assigned in a circle
+
+
+
+Prototypal Inheritance
+  Use `Object.create`
+    creates a new object with the specified prototype object and properties
+
+  example
+    ExampleObject.prototype = Object.create(Student.prototype)

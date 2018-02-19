@@ -1,0 +1,15 @@
+const
+  `const` does not indicate a value is 'constant' aka 'immutable'
+  the BINDING is immutable
+  using an assignment operator, --, or ++ throws a TypeError exception
+
+primitive values are always immutable
+
+to make an object's values immutable
+  Object.freeze()
+    this freezes the object on a shallow level
+
+
+1) Use const by default
+2) Only use let if rebinding is needed
+3) var shouldn't be used in ES6

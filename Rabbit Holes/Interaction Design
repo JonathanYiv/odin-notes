@@ -1,0 +1,76 @@
+Interaction Design: the structure and behavior of interactive systems
+  Unlike UX Design, interaction design is ONLY concerned with the interactions between a user and a screen
+  Although, in practice, these things are never so clearly delineated
+
+Methodologies
+  Goal-Driven Design
+  Usability
+  The Five Dimensions
+  Cognitive Psychology
+  Human Interface Guidelines
+
+Goal-Driven Design
+  Highest Priority: problem solving
+  > satisfying specific needs and desires of the end-user
+    1) Design first; program second
+    2) Separate responsibility of design from programming
+    3) Hold designers responsible for product quality/user satisfaction
+    4) Define one specific user for your product
+    5) Work in teams of two
+
+Usability
+  Highest Priority: ease of use
+
+  Interpretation 1: Three Principles
+  > Learnability: ease of learning the interface
+  > Flexibility: ways users can interact with the system
+  > Robustness: quality of support for errors
+
+  Interpretation 2: Five Principles
+  > Learnability
+  > Efficiency: perform tasks quickly
+  > Memorability: how memorable is the interface
+  > Errors: how many errors do users make, and how quick do they recover
+  > Satisfaction: do users enjoy the interface
+
+  Interpretation 3: Five Principles (ISO)
+  > Learnability
+  > Understandability
+  > Operability: amount of control user has
+  > Attractiveness
+  > Usability Compliance
+
+The Five Dimensions
+  1D: words should be simple to understand and be effective communication
+  2D: visual representations are all graphics/images, that should be used in moderation
+  3D: physical hardware, such as the mouse/keyboard
+  4D: time, length spent interacting with the first three dimensions, as well as measurement of progress
+  5D: behavior, emotions/reactions a user has
+
+Cognitive Psychology
+  Mental Models: images in a user's mind that inform their expectation of a certain interaction
+  Interface Metaphors: make use of known actions to lead users to new actions
+  Affordances: things that are designed to look like they will do something
+
+Tasks
+  1) Design Strategy
+  2) Wireframes
+  3) Prototypes
+  4) Stay Current
+  5) Follow Industry Leaders
+
+Tools of the Trade
+  Balsamiq Mockups
+  InVision
+  Omigraffle
+  Patternry
+  Sketch
+  Axure
+  UXPin
+
+
+Typography
+  1) Check font capabilities
+  2) Font fallbacks happen on a character basis
+  3) Use <strong> and <emphasis>, not <b> and <i>
+  4)
