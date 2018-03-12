@@ -1,0 +1,378 @@
+Factory Functions vs Constructors
+  > constructor functions, while useful, has extra 'baggage' like `instanceof` and the `constructor` property which are misleading
+  > the constructor is a fundamentally broken construct in JS
+
+Factory Functions
+  example:
+    function ObjectExample(data) {
+      this.data = data;
+    }
+
+    ObjectExample.prototype = {
+      getData: function() {
+        return this.data;
+      }
+    }
+
+    var object = new ObjectExample("data");
+
+    IS EQUIVALENT TO THIS FACTORY FUNCTION
+
+    function exampleObject(data) {
+      var obj = Object.create(exampleObject.proto);
+      obj.data = data;
+      return obj;
+    }
+
+    exampleObject.proto = {
+      getData: function() {
+        return this.data;
+      }
+    }
+
+    var object = new objectExample("data");
+
+  > The objects created in each example are the same
+  > The Factory Function has these advantages:
+    > It doesn't require `new` and isn't meant to be used as a constructor, but as a function
+    > No pretense of creating a class of objects by capitalizing the name
+    > The `prototype` property isn't used, so there will be no `instanceof` link
+
+  example:
+    const personFactory = (name, age) {
+      const sayHello = () => console.log('hello!');
+      return { name, age, sayHello };
+    }
+
+    const jeff = personFactory('jeff', 27);
+
+    jeff.sayHello();
+
+Definitions
+  Scope: variable access
+    Lexical Scope: every inner level can access its outer levels, AKA Static Scope
+    `window`: the object that is the root scope
+    Scope Chain: JavaScript starts at the innermost scope and searches upwards in the scope chain
+    > declaring a variable in a child scope without a declaration pollutes the root scope
+    > scopes can be global or local
+  Context: value of `this`
+    > `this` is the outermost global object, `window`, by default
+  Closure: accessing variables outside of the immediate lexical scope creates a closure
+           Only some languages, like JavaScript and Ruby have closures
+
+          example:
+            const factoryThatCreatesClosure = function() {
+              let counter = 0
+              return function increment() {
+                counter++
+                return counter
+              }
+            }
+
+            const incrementCounter = factoryThatCreatesClosure()
+
+            console.log(incrementCounter())
+            console.log(incrementCounter())
+            console.log(incrementCounter())
+            console.log(incrementCounter())
+            console.log(incrementCounter())
+
+            console.log(counter)
+
+Manipulating Scopes
+  .call()
+  .apply()
+  .bind()
+
+  .call() and .apply() allow you pass in a scope to a function, which binds the correct `this` value
+  example:
+    var links = document.querySelectorAll('nav li');
+    for(var i = 0; i < links.length; i++) {
+      (function () {
+        console.log(this);
+      }).call(links[i])
+    }
+
+    myFunction(); // invokes the function
+    myFunction.call(scope) // invokes the function using .call() with the given scope
+
+  .bind() doesn't invoke functions, it binds the value before function invocation
+    very useful for passing parameters into function references (i.e. you don't want the function to be invocated when referenced to)
+
+The Module pattern
+  JavaScript doesn't officially have 'public' and 'private' scope
+
+  emulating private scope example:
+    (function() {
+      // private scope here
+      var myFunction = function () {};
+    })();
+
+    myFunction(); // Uncaught ReferenceError: myFunction is not defined
+
+  Module Pattern/Revealing Module Pattern
+  example:
+    var Module = (function () {
+      return {
+        myMethod: function() {
+          // ...
+        }
+      };
+    })();
+
+    Module.myMethod();
+
+    // The `return` statement returns our public methods which are accessible in the global scope but are namespaced
+    // Private scope can be created by not returning functions in the module
+    // However, the public scope methods will have access to the private ones because they are in the same scope
+
+  example 2:
+    var Module = (function () {
+      var myModule = {};
+      var _privateMethod = function () {
+
+      };
+      myModule.publicMethod = function () {
+
+      };
+      myModule.anotherPublicMethod = function () {
+
+      };
+      return myModule; // returns the Object with public methods
+    })();
+
+    // you can denote private methods by beginning them with an underscore
+
+
+var vs let vs const
+  var
+    can be redefined/updated
+    function scoped, only available inside the function that they are created in
+    if not declared in function, they are globally scoped
+
+  let and const
+    block scoped, meaning loops like if/for/while now scope them!
+    block === {}
+
+
+closure
+  the idea that functions retain their scope even if they are passed around and called outside of that scope
+
+  closures allow us to create private variables and functions
+
+Factory Functions
+  functions that return objects to use in code
+
+Inheritance with Factories
+  example:
+    const Person = name => {
+      const sayName = () => console.log(`my name is ${name}`);
+      return {sayName};
+    }
+
+    const Nerd = name => {
+      const {sayName} = Person(name);
+      const doSomethingNerdy = () => console.log('nerd stuff');
+      return {sayName, doSomethingNerdy};
+    }
+
+    const jeff = Nerd('jeff');
+
+    jeff.sayName();
+    jeff.doSomethingNerdy();
+
+    // This method of inheritance allows you to pick and choose what to include in the new object
+    // To include the entirety of another object, you can use `Object.assign`
+
+    const Nerd = (name) => {
+      const prototype = Person(name);
+      const doSomethingNerdy = () => console.log('nerd stuff');
+      return Object.assign({}, prototype, {doSomethingNerdy});
+    }
+
+
+Object.assign()
+  copies the values of all enumerable own properties from one or more source objects to a target object
+  returns the target object
+
+  Object.assign(target, ...sources);
+
+
+3 Types of Prototypal Inheritance
+  1) Delegate Prototypes
+  2) Runtime Object Extension
+  3) Closure
+
+  Delegation / Differential Inheritance
+    Delegate Prototype: object that serves as a base for another object
+
+    when accessing a property on the new object, JS works its way up the prototype chain to find it
+
+    this can preserve memory resources because you only need one copy of each method to be shared by all isntances
+    this is not good for storing state, since mutating anything will mutate the member for every instance sharing the prototype
+
+    example:
+      class Greeter {
+        constructor (name) {
+          this.name = name || 'John Doe';
+        }
+        hello () {
+          return `Hello, my name is ${ this.name }`;
+        }
+      }
+
+      const george = new Greeter('George');
+
+      const msg = george.hello();
+
+      console.log(msg);
+
+      // This technique is NOT RECOMMENDED because of the problems associated with classical inheritance and extension of classes
+      // recommended is a Factory Function, as seen below
+
+      const proto = {
+        hello () {
+          return `Hello, my name is ${ this.name }`;
+        }
+      };
+
+      const greeter = (name) => Object.assign(Object.create(proto), {
+        name
+      });
+
+      // Object.create(proto) creates an object with proto as its prototype
+      // Object.assign has that as its first parameter, the object to copy the values of the following source objects
+      // in this case, just the name property
+
+      const george = greeter('george');
+
+      const msg = george.hello();
+
+      console.log(msg);
+
+  Concatenative Inheritance/Cloning/Mixins
+    the process of copying the properties from one object to another, without retaining a reference between the two objects
+
+    example:
+      const proto = {
+        hello: function hello() {
+          return `Hello, my name is ${ this.name }`;
+        }
+      }
+
+      const george = Object.assign({}, proto, {name: 'George'});
+
+      const msg = george.hello();
+
+      console.log(msg);
+
+  Functional Inheritance
+    makes use of a factory function, then tacks on new properties using concatenative inheritance
+
+    functions created for the purpose of extending existing objects are referred to as FUNCTIONAL MIXINS
+
+    allows you to use closure to encapsulate private data
+
+    privileged methods are any methods defined within the closure's function scope, which gives them access to the private data
+
+  Composition over Class Inheritance
+    "Favor object composition over class inheritance"
+
+    class inheritance creates is-a relationships with restrictive taxonomies, all of which are eventually wrong for new use-cases
+
+    has-a, uses-a, can-do relationships employ inheritance
+
+Module Pattern
+  ES6 introduces modules
+
+  example:
+    const calculator = (() => {
+      const add = (a, b) => a + b;
+      const sub = (a, b) => a - b;
+      return {
+        add,
+        sub,
+      };
+    })();
+
+    calculator.add(3,5); // 8
+    calculator.sub(6,2); // 4
+
+  the module pattern wraps the factory in an IIFE (Immediately Invoked Function Expression)
+
+IIFEs
+  (function () {
+    // ...
+  })();
+
+  in JS, functions can be created either through declarations or expressions
+
+  declaration
+    function myFunction () { ... };
+
+  expression
+    var variable = function() { ... };
+
+    also...
+
+    (function () { ... });
+
+  IIFEs are pronounced "iffys"
+  are meant to obtain data privacy, without polluting the global namespace, being self-documenting, and can not be invoked more than once accidentally
+
+
+WAIT WUT
+  const calculator = (() => {
+    const add = (a, b) => a + b;
+    const sub = (a, b) => a - b;
+    return {
+      add,
+      sub,
+    };
+  })();
+
+  var test = function() {
+    const add = (a, b) => a + b;
+    const sub = (a, b) => a - b;
+    return {
+      add,
+      sub,
+    };
+  };
+  test(); // returns {add, sub} object of two functions
+  const calculator = test();
+  calculator = {add, sub};
+  calculator.add is accessing the add property of calculator (which has the function as its value)
+
+Namespacing: a technique to avoid naming collisions in programs
+
+Inheritance: design your types around what they are
+Composition: design your types around what they do
+
+
+
+"Inheritance encourages you to build this taxonomy of objects very early on in the project. And you are most likely going to make big design mistakes while doing that. Because humans cannot predict the future."
+
+"I think it's just better to use composition from the start. It's more flexible, it's more powerful, and it's really easy to do."﻿
+
+"The best teacher I ever had referred to pedagogy as telling a big lie and then gradually reducing the lie in further lessons. :)﻿"
+
+
+
+Closures
+  used for object data privacy in event handlers and callback functions and partial application, currying, and more
+  can create stateful functions
+
+  closure: a combination of a function bundled together (enclosed) with references to its surrounding state (the lexical scope/environment)
+
+  they give you access to an outer function's scope from an inner function
+  closures are created every time a function is created
+
+  to use, define a function inside another function, then expose that function
+  you can expose it by returning it or passing it to another function
+  that function will have access to the variables in the outer function scope, even after the outer function scope has returned
+
+  privileged methods: any exposed method defined within the closure scope
+
+  application: the process of applying a function to its arguments in order to produce a return value
+  partial application: the process of applying a function to some of its arguments (a function that takes a function with multiple parameters and returns a function with fewer parameters)

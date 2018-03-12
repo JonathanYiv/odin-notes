@@ -1,0 +1,39 @@
+Permissions AKA Bits
+  -rwx------ owner
+  ----rwx--- group
+  -------rwx other
+  d--------- directory (the first character indicates what type of object it is)
+
+  r = read: view contents
+  w = write: create/remove files
+  x = execute: cd into directory
+
+Changing Permissions
+  chmod {options} filename
+
+  u
+    owner
+  g
+    group
+  o
+    other
+  a
+    all (ugo)
+  x
+    execute
+  w
+    write
+  r
+    read
+  +
+    add permission
+  -
+    remove permission
+  =
+    set permission
+
+Changing File Owner/Group, must use `sudo`
+  chown (owner) (file)
+  chgrp (group) (file)
+  chown :(group) (file)
+  chown (owner):(group) (file)
