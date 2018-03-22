@@ -1,5 +1,5 @@
-# Notes from The Odin Project
+# Learning to Program: Notes
 
-I have been studying programming through [The Odin Project](https://www.theodinproject.com) for 4 Months now.
-
-This is an accumulation of all the notes I have taken throughout the course.
+I've been learning to program for a bit now.
+This is an accumulation of all the notes I've taken.
+I don't edit them, I just write things down as an exercise in memory and to interact with the information.

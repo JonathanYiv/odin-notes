@@ -102,8 +102,3 @@ postgres=# \q
 ## Deployment
 25. Navigate to your project directory and start passenger: `$ passenger start`
 26. Restart Apache: sudo systemctl restart apache2
-
-[Part 3]
-
-
-
