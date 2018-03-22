@@ -1,0 +1,376 @@
+The History of JavaScript
+  <2010
+    Link to your personal JS files
+    go online to find JS libs
+    download JS libs locally and link to them
+    update manually by downloading new versions
+
+  2010+
+    JavaScript package managers to automate downloading/upgrading packages
+    Bower 2013 overtaken by..
+    npm 2015 is the king but..
+    yarn 2016 is climbing up
+
+    Note:
+      npm used to be a package manager made for node.js (JS runtime to run on server, not frontend)
+
+    So:
+      $ npm init
+        generates a `package.json` which is a config file to save all project information
+        example:
+          {
+            "name": "your-project-name",
+            "version": "1.0.0",
+            "description": "",
+            "main": "index.js",
+            "scripts": {
+              "test": "echo \"Error: no test specified\" && exit 1"
+            },
+            "author": "",
+            "license": "ISC"
+          }
+      $ npm install <package> --save
+        downloads all the code from the package into a folder called `node_modules`
+        modifies the `package.json` file to keep track of the package as a project dependency
+        example:
+          {
+            "name": "modern-javascript-example",
+            "version": "1.0.0",
+            "description": "",
+            "main": "index.js",
+            "scripts": {
+              "test": "echo \"Error: no test specified\" && exit 1"
+            },
+            "author": "",
+            "license": "ISC",
+            "dependencies": {
+              "package": "^2.19.1"
+            }
+          }
+
+        this is useful because instead of sharing the node_modules folder with others, you only need to share
+        the package.json file and they can install with `npm install`
+        we can then link to the file as normal from the /node_modules/ directory
+        however, linking to the file and manually including it in the HTML is inconvenient
+
+  Introducing Webpack: A JS Module Bundler
+    JS was originally created only for the browser, without a way to import code from one file into another
+    so the use of global variables was necessary
+
+    2009 CommonJS created to specify an ecosystem for JS outside the browser
+    to allow JS to import/export code across files without resorting to global variables
+    the most well-known implementation: NODE.JS
+
+    Node.js = JavaScript runtime designed to run on the server
+
+    example to load:
+      // index.js
+      var package = require('package');
+
+    Node.js is a server-side language with access to the computer's file system
+    it also knows the location of each npm module path so you don't have to require the full path
+
+    HOWEVER, the above code wouldn't work in the browser
+    loading files has to be done dynamically either synchronously (slows down execution) or asynchronously (timing issues)
+
+    a module bundler is a tool that gets around the problem with a build step (with access to file system) to create a final output that is browser compatible that doesn't need access to the file system
+    so the module bundler would find all `requires`, and replace them with the actual file
+
+    Module Bundlers
+      2011 Browserify
+      2015 webpack (fueled by React)
+
+    Example Workflow:
+      $ npm install webpack --save-dev
+        --save-dev saves it as a development dependency but not on production
+
+        resulting package.json:
+            {
+              "name": "modern-javascript-example",
+              "version": "1.0.0",
+              "description": "",
+              "main": "index.js",
+              "scripts": {
+                "test": "echo \"Error: no test specified\" && exit 1"
+              },
+              "author": "",
+              "license": "ISC",
+              "dependencies": {
+                "moment": "^2.19.1"
+              },
+              "devDependencies": {
+                "webpack": "^3.7.1"
+              }
+            }
+
+      $ ./node_modules/.bin/webpack index.js bundle.js
+        runs the webpack tool that was installed
+        starting with the index.js file, finds any require statements, replaces them with an output file named bundle.js
+        we will then use the bundle.js in our index.html file
+
+      Every time we change index.js, we will need to run the webpack command
+
+  Transpiling Code
+    converting the code in one language to code in another similar language
+    since browsers are slow to add new features, new languages are created with experimental features that `transpile`
+    to browser compatible languages
+
+    For CSS: Less, Sass, Stylus
+    JavaScript
+      CoffeeScript 2010
+      babel or TypeScript MODERN
+
+  Using a Task Runner
+    a tool that automates different parts of the build process
+      minifying code
+      optimizing images
+      running tests
+      etc
+
+    Grunt 2013, 2nd place Gulp
+      relied on plugins that wrap other command line tools
+    npm scripting MODERN
+
+    example:
+      {
+        "name": "modern-javascript-example",
+        "version": "1.0.0",
+        "description": "",
+        "main": "index.js",
+        "scripts": {
+          "test": "echo \"Error: no test specified\" && exit 1",
+          "build": "webpack --progress -p",                             // this line
+          "watch": "webpack --progress --watch",                         // this line
+          "server": "webpack-dev-server --open"                         // this line
+        },
+        "author": "",
+        "license": "ISC",
+        "dependencies": {
+          "moment": "^2.19.1"
+        },
+        "devDependencies": {
+          "babel-core": "^6.26.0",
+          "babel-loader": "^7.1.2",
+          "babel-preset-env": "^1.6.1",
+          "webpack": "^3.7.1"
+        }
+      }
+
+    $ npm run build
+      will runn webpack with the --progress option to show progress and -p to minimize the code
+    $ npm run watch
+      uses the watch option to automatically run webpack whenever a JS file chjanges
+    $ npm run server
+      a tool that provides a simple webserver with live reloading
+
+
+NPM
+  Website
+    online database of packages and npm-related information
+  Registry
+    a big database about packages in npm
+  CLI
+    npm cli allows you to publish code to the registry
+                          download code from the registry
+
+  used for:
+    - adding packages
+    - downloading tools
+    - run packages
+    - share code
+    - restrict code
+    - form orgs
+    - manage versions and dependencies
+    - discover new solutions
+
+  you can find:
+    - node modules, can be used server side
+    - CL commands
+    - front end packages
+
+Installing Local Packages with NPM
+  $ npm install lodash
+    creates node_modules/ if not exist
+    installs lodash inside node_modules/
+
+  Using Lodash
+    var lodash = require('lodash');
+    var output = lodash.without([1,2,3], 1);
+    console.log(output);
+
+  $ npm install
+    looks at dependencies inside package.json and installs all the packages
+
+  Package.json
+    Required are:
+    {
+      "name": "demo",
+      "version": "1.0.0"
+    }
+
+  $ npm install lodash --save
+    will save lodash as a depndency in package.json
+    can also be added manually
+
+
+Package.json
+  - lists the packages that your project depends on
+  - allows you to specify the versions of a package that your project can use using SemVer
+  - makes your build reproducible and therefore much easier to share
+
+  Requirements
+    - "name"
+      ~ all lowercase
+      ~ one word, no spaces
+      ~ dashes and underscores allowed
+    - "version"
+      ~ in the form of x.x.x
+      ~ follows SemVer
+
+    example:
+      {
+        "name": "cool-package_here",
+        "version": "9.0.3"
+      }
+
+  Creation
+    1) $ npm init
+      runs a CLI questionaire which will create a package.json
+    2) npm init -y
+      creates a default package.json using information extracted from the current directory
+
+      example:
+        {
+          "name": "current-directory-name",
+          "description": "info from the readme or an empty string",
+          "main": "index.js",
+          "scripts": {
+            "test": "echo \"Error: no test specified\" && exit 1"
+          },
+          "repository": {
+            "type": "git",
+            "url": "..."
+          },
+          "keywords": [],
+          "author": "",
+          "license": "ISC",
+          "bugs": {
+            "url:" "..."
+          },
+          "homepage": "..."
+        }
+
+  Specifying Dependencies
+    - "dependencies"
+      ~ production
+    - "devDependencies"
+      ~ development/test
+
+    example:
+      {
+        "name": "my_package",
+        "version": "1.0.0",
+        "dependencies": {
+          "my_dep": "^1.0.0"
+        },
+        "devDependencies" : {
+          "my_test_framework": "^3.1.0"
+        }
+      }
+
+    npm install <package> <--save> <--save-dev>
+      ~ --save saves it to "dependencies"
+      ~ --save-dev saves it to "devDependecies"
+
+Webpack
+  - static module bundler
+  - recursively builds a dependency graph that includes every module your application needs, then packages all those modules into one or more bundles
+
+  Core Concepts
+    1) Entry
+      - entry point: which module webpack should use to begin building its internal dependency graph
+      - you can configure single/multiple entry points in the configuration
+      example:
+        // webpack.config.js
+        module.exports = {
+          entry: './path/to/my/entry/file.js'
+        }
+    2) Output
+      - tells webpack where to emit the bundles it creates and how to name them
+      example:
+        // webpack.config.js
+        const path = require('path');
+
+        module.exports = {
+          ...
+          output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: 'example-file-name.bundle.js'
+          }
+        }
+    3) Loaders
+      - loaders enable webpack to process more than just JS files
+      - config properties `test` identifies which files to trasnform and `use` identifies the loader to do the transforming
+    4) Plugins
+      - plugins range from bundle optimization and minification all the way to defining environment-like variables
+
+  /src
+    source code - code that we'll write and edit
+  /dist
+    distribution code - minimized and optimized output of our build process that will be loaded in the browser
+
+
+  $ npx
+    ships with Node 8.2 and higher
+    runs the webpack binary ./node_modules/.bin/webpack
+
+  webpack.config.js
+    is the webpack configuration file
+    when running $ npx webpack, it will automatically use the webpack.config.js
+    although you can pass a config file like so:
+      $ npx webpack --config <file name>
+
+    can be used to specify loader rules, plugins, resolve options, etc
+
+  Summary: webpack goes through our files in the source directory /src and then compiles all the code necessary into a single file in our distribution directory /dist
+
+ES6 Modules
+  1) import
+  2) export
+
+  example:
+    // a file called functionOne.js
+    const functionOne = () => console.log('FUNCTION ONE!');
+
+    export functionOne;
+
+    // another JS file
+    import functionOne from './functionOne';
+
+    functionOne(); //this should work as expected!
+
+  Using modules help keeps your code cleanly separated
+
+  Two Different Exporting Methods
+    1) Named Exports
+    2) Default Exports
+
+    You can have multiple named exports per module but only one default export
+
+    To export multiple functions, use NAMED EXPORTS
+      example:
+        const functionOne = () => 'ONE';
+        const functionTwo = () => 'TWO';
+
+        export {
+          functionOne,
+          functionTwo
+        }
+
+        // to import in another file
+        import { functionOne, functionTwo } from './myModule'
+
+    Default Export Example:
+      export default function() {}
+
+      export default class {}

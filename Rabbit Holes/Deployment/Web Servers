@@ -1,0 +1,67 @@
+Web Server Basics
+  Web Server: a computer that stores web server software and a website's component files. It includes several parts that control how web users access hosted files, at minimum an HTTP server
+
+  HTTP Server: a piece of software that understands URLs and HTTP.
+
+  The Process: Browser requests a file via HTTP from a web server (hardware), then the HTTP server (software) accepts the request, finds the document if possible, and sends it back to the browser
+
+Types of Web Servers
+  Static: Sends hosted files as-is to your browser
+
+  Dynamic: consists of a static web server plus extra software, commonly an application server and a database
+    the application server updates the hosted files before sending them to your browser
+    the database can hold data
+
+Apache vs Nginx
+  Both are static webservers, but with modules, can act as dynamic web servers.. for PHP
+
+  neither can serve ruby web apps out of the box
+
+  both act as reverse proxies, meaning they can take an incoming HTTP request and forward it to another server, which also speaks HTTP
+
+Application Server
+  an application which:
+    1) loads your app inside its own process space
+    2) sets up a TCP socket, allowing it to communicate with the internet, listens for HTTP requests on this socket, and passes the request data to the app
+    3) the app returns an object, describes the HTTP response, and the application server converts it into an HTTP response and sends it back over the socket
+
+  Some examples of application servers are:
+    Phusion Passenger
+    Unicorn
+    Thin
+    Puma
+    WEBrick (the default rails dev env server -- not good for production due to issues)
+
+  some app servers can/can't be exposed to the internet on Port 80
+  can:
+    Phusion Passenger
+    Rainbows
+  can't:
+    Mongrel
+    Unicorn
+    Thin
+    Puma
+  those that can't must be behind a reverse proxy web server like Apache/Nginx
+
+Phusion Passenger
+  integrates directly into Apache or Nginx
+
+  you edit the web server config file and specify the location of your Ruby app's 'public' directory and it *should* work
+
+
+Deployment: the act of starting your Ruby app in an application server so that it is accessible to visitors
+
+Capistrano
+  * uploads Ruby app's code and files to server machine
+  * install libraries your app might depend on
+  * set up and migrate the database
+  * start/stop daemons your app needs
+  * etc
+
+  Capistrano is not an application server, but a tool to automate the preparation for deployment
+
+  You tell capistrano where the server is, which commands to run every time, and it handles that
+
+
+
+Daemons: computer program that runs as a background process (i.e. without user intervention)

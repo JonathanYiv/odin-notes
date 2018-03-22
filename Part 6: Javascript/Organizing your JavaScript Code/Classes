@@ -1,0 +1,159 @@
+Some argue that `class` is syntactic sugar over the existing prototype based constructors
+Arguments Against
+  > JS is a class-free, OO, and functional programming language that avoids classical inheritance in favor of prototypal inheritance
+  > ES6 class syntax, constructors, and `new` keyword are concepts from classical inheritance to make transitioning developers more comfortable -- but they do not belong in JS
+  > composition over inheritance
+  > Factory Functions/Object Literals/Prototypes/Object.create/Object.assign INSTEAD of Classes/Constructors/new
+  > objects can be connected more easily with prototypes as opposed to only is-a type relationships
+
+Arguments For
+  > The syntax is unfamiliar to classical inheritance developers
+  > This just coats the prototype inheritance with nicer syntax
+
+
+
+Class Syntax
+
+  Prototype-Based Class User example
+    function User(name) {
+      this.name = name;
+    }
+
+    User.prototype.sayHi = function() {
+      alert(this.name);
+    }
+
+    let user = new User("John");
+    user.sayHi();
+
+  Class Example
+    class User {
+      constructor(name) {
+        this.name = name;
+      }
+
+      sayHi() {
+        alert(this.name)''
+      }
+    }
+
+    let user = new User("John");
+    user.sayHi();
+
+    // note that methods in a class do not have commas between them
+
+  > classes declare a variable that references the function named "constructor"
+  > puts methods listed in the definition into User.prototype
+  > class constructors require new
+  > class methods are non-enumerable
+  > class methods have a default `constructor() {}`
+  > classes are always in strict mode
+
+  Getters/Setters
+    example:
+      class User {
+        ...
+        get name() {
+          return this._name;
+        }
+
+        set name(value) {
+          ...
+          this._name = value;
+        }
+      }
+
+  Static Methods
+    static methods can be defined within a class, and are equivalent as assigning it as a function property (where the class in the function)
+    usually used to implement functions that belong to the class, but not any particular instance of it
+
+    example:
+      class A {
+        static doSomething() {
+          ...
+        }
+      }
+
+  Summary
+    class MyClass {
+      constructor(...) {
+        ...
+      }
+
+      method1(...) {}
+      method2(...) {}
+      get something(...) {}
+      set something(...) {}
+      static staticMethod(...) {}
+      ...
+    }
+
+    MyClass' value is a function provided as constructor
+    if no constructor, then it is an empty function
+
+    methods listed in the class declaration become members of its prototype
+    except for static methods which are properties on the function itself
+    static methods are used as class methods instead of instance methods
+
+
+JavaScript Classes (MDN)
+  > Syntactic sugar over existing prototype-based inheritance
+  > NO new OO Inheritance model
+
+  > Classes are 'special functions'
+  > Parallel to the Function Expression/Declaration, there are Class Expressions/Declarations
+
+  Class Declaration
+    class Rectangle {
+      constructor(height, width) {
+        this.height = height;
+        this.width = width;
+      }
+    }
+
+  Class Expression
+  // unnamed
+    var Rectangle = class {
+      constructor(height, width) {
+        this.height = height;
+        this.width = width;
+      }
+    }
+
+    // named
+    var Rectangle = class Rectangle {
+      constructor(height, width) {
+        this.height = height;
+        this.width = width;
+      }
+    }
+
+  > The body of the class within the {} is where class members such as methods/constructor are defined
+  > The bodies of classes are executed in strict mode
+
+  Constructor
+    > the constructor method is a special method that can only be used once per class
+    > can use `super` to call the constructor of the super class
+
+  Extends
+    extends can be used in class declarations/expressions to create a child class
+
+    example:
+      class Dog extends Animal {
+        ...
+      }
+
+      // note: the constructor in a subclass must first call super() before using 'this'
+
+  Mix-Ins
+    example:
+      var calculatorMixIn = Base => class extends Base {
+        calc() {}
+      };
+
+      var randomizerMixin = Base => class extends Base {
+        randomize() {}
+      };
+
+      class Foo {}
+      class Bar extends calculatorMixin(randomizerMixin(Foo)) {}

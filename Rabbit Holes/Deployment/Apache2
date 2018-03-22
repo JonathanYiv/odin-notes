@@ -1,0 +1,42 @@
+Apache keeps its main configuration files within /etc/apache2
+
+Directory
+  apache2.conf
+    main configuration file for the server
+  ports.conf
+    specify the ports that virtual hosts should listen on
+  conf.d/
+    directory for controlling specific aspects of the Apache configuration
+  sites-available/
+    contains all the virtual host files that define different websites
+    establishes which content gets served for which requests
+    are available configurations, not active
+  sites-enabled/
+    establishes which virtual host definitions are actually being used
+    consists of symbolic links to files defined in sites-available/
+  mods-[enabled, available]/
+    define optionally loaded modules
+
+
+Default Virtual Host File
+  /etc/apache2/sites-available/default
+
+  <VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /var/www
+    <Directory />
+      Options FollowSymLinks
+      AllowOverride None
+    </Directory>
+    <Directory /var/www/>
+      Options Indexes FollowSymLinks MultiViews
+      AllowOverride None
+      Order allow,deny
+      allow from all
+    </Directory>
+  </VirtualHost>
+
+  default virtual host is configured to handle any request on port 80, standard http port
+
+  apache uses the most specific virtual host definition that matches the request
