@@ -1,10 +1,9 @@
 # Deploying Refinery CMS on a Debian 9.4 Digital Ocean Droplet with PostgreSQL Database
-Last updated 3/22/2018
-
-This attempt failed.
+Last updated 3/25/2018
 
 ## Creating the Server and Setting it Up
 1. Create a Debian 9.4 droplet on Digital Ocean.
+  * Note: Do not import your SSH keys from your DO profile, because this will add your SSH keys to root. To harden your server access, you should not be able to SSH into root.
 2. Follow the [Initial Server Setup with Debian](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-debian-8). On Step Two, creating a new user, name the user after the site-name.
 3. Update your system: `sudo apt-get update && sudo apt-get upgrade`
 
@@ -42,7 +41,18 @@ sudo apt install nodejs
 18. Install Passenger with Ruby: `$ gem install passenger --no-rdoc --no-ri`
 19. Run the Passenger Apache module installer: `$ passenger-install-apache2-module` and follow the instructions.
   * One of the instructions will have you install apache2-threaded-dev, the package is actually named apache2-dev.
-  * One of the instructions will have you paste configuration code into Apache2 conf files.
+  * One of the instructions will have you paste configuration code into Apache2 conf files. [See here for where to paste](https://www.phusionpassenger.com/library/install/apache/working_with_the_apache_config_file.html)
+```
+# Put this in /etc/apache2/mods-available/passenger.load
+LoadModule passenger_module /home/jonathanyiv/.rvm/gems/ruby-2.4.1/gems/passenger-5.2.1/buildout/apache2/mod_passenger.so
+```
+```
+# Put this in /etc/apache2/mods-available/passenger.conf
+<IfModule mod_passenger.c>
+        PassengerRoot /home/jonathanyiv/.rvm/gems/ruby-2.4.1/gems/passenger-5.2.1
+        PassengerDefaultRuby /home/jonathanyiv/.rvm/gems/ruby-2.4.1/wrappers/ruby
+</IfModule>
+```
 20. Validate your installation: `$ rvmsudo passenger-config validate-install`
 21. Enable Passenger with `$ sudo a2endmod passenger`
 
@@ -69,15 +79,12 @@ sudo apt install nodejs
 ```
 
 ## [Pre-Deployment](https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/standalone/oss/deploy_app_main.html)
+24. Add `gem 'passenger'` to your Gemfile.
 21. Clone your refinery repository to the server in /var/www/: `$ git clone <url>`
 22. Follow the steps in this accepted [SO answer to properly set file permissions](https://askubuntu.com/questions/767504/permissions-problems-with-var-www-html-and-my-own-home-directory-for-a-website).
 27. `$ bundle install --deployment --without development test`
 28. `$ bundle exec rake secret`
-29. Copy secret into `$ nano config/secrets.yml`
-```
-production:
-  secret_key_base: <here>
-```
+29. Permanently export the secret key into the environment variable SECRET_KEY_BASE: `echo "export SECRET_KEY_BASE=..." >> ~/.profile`
 30. Protect config/db:
 ```
 $ chmod 700 config db
@@ -98,7 +105,8 @@ postgres=# \q
 ```
 33. Create the Rails database: `$ bundle exec rake db:create RAILS_ENV=production`
 34. Compile Rails assets and run migrations: `$ bundle exec rake assets:precompile db:migrate RAILS_ENV=production`
+24. `bundle exec rake db:seed RAILS_ENV=production`
 
 ## Deployment
-25. Navigate to your project directory and start passenger: `$ passenger start`
-26. Restart Apache: sudo systemctl restart apache2
+25. Navigate to your project directory and start passenger: `$ rvmsudo passenger start`
+26. Restart Apache: `sudo systemctl restart apache2`
