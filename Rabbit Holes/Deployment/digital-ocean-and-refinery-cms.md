@@ -36,7 +36,7 @@ sudo apt install nodejs
 17. Install Apache: `$ sudo apt-get install apache2 apache2-doc apache2-utils`
 18. Copy the default configuration file: `cp /etc/apache2/sites-available/000-default.conf /etc/acpache2/sites-available/SITENAME.com.conf`
 19. Disable the default site: `$ sudo a2dissite 000-default.conf`
-25. Activate the Rails site: `$ sudo a2ensite <sitename>.com.conf'
+25. Activate the Rails site: `$ sudo a2ensite <sitename>.com.conf`
 ## [Install Passenger](https://www.phusionpassenger.com/library/install/apache/install/oss/rubygems_rvm/)
 18. Install Passenger with Ruby: `$ gem install passenger --no-rdoc --no-ri`
 19. Run the Passenger Apache module installer: `$ passenger-install-apache2-module` and follow the instructions.
@@ -110,3 +110,11 @@ postgres=# \q
 ## Deployment
 25. Navigate to your project directory and start passenger: `$ rvmsudo passenger start`
 26. Restart Apache: `sudo systemctl restart apache2`
+
+## [Adding SSL](https://certbot.eff.org/lets-encrypt/debianstretch-apache)
+1. Enable the Stretch Backports repo: `$ sudo nano /etc/apt/sources.list` and uncomment the last two lines.
+2. Update your package list: `$ sudo apt-get update`
+3. Install Certbot: `$ sudo apt-get install python-certbot-apache -t stretch-backports`
+4. Start the certification process: `$ sudo certbot --authenticator webroot --installer apache`
+  * Note: The webroot is the public directory of your rails project: `var/www/html/rails-app/public`
+5. Enable auto-renewal: `$ sudo certbot renew --dry-run`
