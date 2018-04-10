@@ -40,3 +40,10 @@ Default Virtual Host File
   default virtual host is configured to handle any request on port 80, standard http port
 
   apache uses the most specific virtual host definition that matches the request
+
+
+Virtual Host
+  the practice of running more than one website on a single machine
+  virtual hosts can be IP based (different IP for every site) or name-based (multiple names running on each IP address)
+
+  name-based AKA host-based AKA non-IP virtual hosts

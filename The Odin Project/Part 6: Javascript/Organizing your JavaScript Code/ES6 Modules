@@ -157,7 +157,7 @@ The History of JavaScript
       }
 
     $ npm run build
-      will runn webpack with the --progress option to show progress and -p to minimize the code
+      will run webpack with the --progress option to show progress and -p to minimize the code
     $ npm run watch
       uses the watch option to automatically run webpack whenever a JS file chjanges
     $ npm run server
@@ -209,7 +209,7 @@ Installing Local Packages with NPM
     }
 
   $ npm install lodash --save
-    will save lodash as a depndency in package.json
+    will save lodash as a dependency in package.json
     can also be added manually
 
 
@@ -310,7 +310,7 @@ Webpack
         }
     3) Loaders
       - loaders enable webpack to process more than just JS files
-      - config properties `test` identifies which files to trasnform and `use` identifies the loader to do the transforming
+      - config properties `test` identifies which files to transform and `use` identifies the loader to do the transforming
     4) Plugins
       - plugins range from bundle optimization and minification all the way to defining environment-like variables
 

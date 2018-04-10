@@ -1,0 +1,68 @@
+SOLID
+  Single Responsibility Principle
+  The Open/Closed Principle
+  The Liskov Substitution Principle
+  The Interface Segregation Principle
+  The Dependency Inversion Principle
+
+SRP (Single Responsibility Principle)
+  an object/class/module should have only one responsibility
+  therefore it should have only one reason to change
+
+  example: separating DOM logic from application logic
+
+  reasons:
+    when an object encapsulates multiple responsibilities, changes to the object for one of the responsibilities can negatively impact the others
+
+    SRP allows one to decouple such responsibilities, creating code more resilient to change
+
+  Defining a Single Responsibility
+    Object Role Stereotypes
+      a set of general, pre-established roles which commonly occur across OO architectures
+
+      Types
+        Information Holder
+          - object designed to know certain information and provide that information to other objects
+        Structurer
+          - an object that maintains relationships between objects and information about these relationships
+        Service Provider
+          - an object that performs specific work and offers services to others on demand
+        Controller
+          - an object designed to make decisions and control a complex task
+        Coordinator
+          - an object that doesn't make many decisions, but in a rote/mechanical way, delegates work to other objects
+          - reacts to events and relays commands to other objects
+        Interfacer
+          - an object that transforms information/requests between distinct parts of a system
+
+      Having a mental template of object role stereotypes makes it easier for one to group behaviors into cohesive groups of responsibilities
+
+Open/Closed Principle
+  our modules should be open to extension but closed to modification
+
+  if someone wants to extend our module's behavior, they will not need to modify existing code
+
+Liskov Substitution Principle
+  the subtype behavior should match the base type behjavior as defined in the base type specification
+
+Interface Segregation
+  don't create bloated interfaces
+
+Dependency Inversion Principle
+  Dependency Injection and Inversion of Control are synonomous
+
+  dependency injection is about handing over control from the function itself to the caller of the function
+
+
+Patterns to Reduce Coupling
+  often use variations of the Observer Pattern - one of which is Pub/Sub (Publish/Subscribe) Pattern
+
+  Pub/Sub
+    analogous to a flight tower communicating with planes
+    planes give information to the flight tower, but know nothing about other planes
+
+    anything is able to publish to a topic
+    anything is able to subscribe to a topic
+
+    these anythings won't have to know about other things in the system
+    which gets rid of their coupling

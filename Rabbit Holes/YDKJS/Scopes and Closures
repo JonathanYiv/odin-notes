@@ -1,0 +1,176 @@
+JavaScript Execution
+  1) Compilation
+    A) Tokenizing/Lexing
+      breaking up a string of caharacters into meaningful chunks called tokens
+      lexing identifies tokens in a stateful way
+      tokenizing identifies tokens in a stateless way
+    B) Parsing
+      turning the tokens and turning it into a tree of nested elements called an AST
+      - Abstract Syntax Tree
+    C) Code Generation
+      turns an AST into executable code
+      'black box' for now
+  2) Execution
+
+Understanding Scope
+  Engine: responsible for the start-to-finish compilation and execution
+  Compiler: handles the parsing and code-generation (see above)
+  Scope: collects and maintains a look-up list of all the declared identifiers (variables) and enforces a strict set of rules for their accessibility to currently executing code
+
+Look-Ups
+  A) LHS (Left-hand Side) Look-up
+    a lookup for the variable container itself so it can assign
+  B) RHS (Right-hand side) Look-up
+    a lookup for the variable value for retrieval
+
+  Notes:
+    Function declaration is handled by the compiler and is not a LHS look-up
+    Assigning a parameter in a function is an implicit LHS look-up
+    Passing a value to a function is a RHS look-up
+
+Lexical Scope
+  The scope starts at the immediate scope, then works its way to outer scopes until it reaches the global scope
+
+Errors
+  if an RHS look-up does not find something, this is a ReferenceError from the Engine
+
+  if a LHS look-up does not find something, and the program is not in strict mode, the global Scope will create a new variable of that name in the global scope
+  in strtict mode, automatic/implicit global variable creation is disallowed and a ReferenceError would be thrown
+
+  if a variable is found in an RHS-lookup but you try to do something with it that is impossible, you get a TypeError from Engine
+
+Scope Models
+  A) Lexical Scope
+    used by most programming languages including JavaScript
+  B) Dynamic Scope
+    used by some languages rarely
+
+Lexical Scope
+  scope defined at lexing time
+  based on where variables and blocks of scopes are authored at write time
+
+  each new function creates a new bubble of scope
+
+  scope look-up stops once it finds the first match
+
+Cheating Lexical Scope
+  note: don't do it because it leads to poorer performance because the Engine has to assume weird scoping and reduce its optimizations
+
+  1) eval()
+    takes a string as an argument and treats it as if authored code at that point in the program modifying the scope (unless in strict mode)
+  2) with
+    disallowed in strict mode
+
+Dynamic Scope
+  determined dynamically at runtime
+
+  doesn't concern itself with where/how functions/scopes are declared, but rather where they are called from (the call-stack)
+
+  example:
+    function foo() {
+      console.log( a ); // 3  (not 2!)
+    }
+
+    function bar() {
+      var a = 3;
+      foo();
+    }
+
+    var a = 2;
+
+    bar();
+
+    would result in 3
+    because foo can not resolve the variable reference for `a`, instead of stepping up the nested lexical scope chain, it walks up the call-stack and finds `a` in `bar()`
+
+  summary: lexical-scope is write-time, dynamic-scope is runtime
+
+  note: `this` is also runtime and relates to dynamic scoping
+
+
+Function-based Scope
+  each function you declare creates a bubble of scope, but no other structures create their own scope bubbles
+
+  Principle of Least Privilege/Authority/Exposure
+    in the design of software, such as the API for a module/object, you should only expose what is minimally necessary and 'hide' everything else
+
+    this helps with collision avoidance, especially in the global scope from loaded libraries, which often create a single variable declaration to act as a namespace for that library
+
+    example:
+      var library = {
+        property: "value",
+        doSomething: function() {
+          ...
+        }
+        doSomethingElse: function() {
+          ...
+        }
+      }
+
+    another approach is the modern `module` approach where libraries ever add identifiers to the global scope
+    but instead have their identifiers be explicitly imported into another specific scope through usage of the dependency manager's various mechanisms
+
+  Functions as Scopes
+    If you wrap a function declaration with parenthesis and execute, it becomes a function expression
+
+    hint: if `function` is the first thing in the statement, it is a function declaration
+
+    a function expression does not pollute the global scope and creates a scope of itself
+    you can assign this scope to a container and treat it as a namespace
+    this is similar to an anonymous function
+    these are known as IIFEs (Immediately Invoked Function Expression)
+
+  Anonymous vs Named Functions
+    1) Anonymous functions have no useful name to display in stack traces, which can make debugging more difficult
+    2) Recursion is difficult without having a name
+    3) A descriptive name helps self-document the code
+
+    It is best practice to use inline function expressions with names
+
+Blocks as Scopes
+  JavaScript does not support Block Scope
+  when you declare a variable within a block, it is also inside the enclosing scope
+
+  in a `try/catch`, the `catch` is block-scoped
+
+  using `let` to declare a variable attaches the variable declaration to the scope of whatever block { .. } it is contained in
+
+  note: declarations made with `let` will not hoist to the entire scope of the block they appear in -- they will not exist until the declaration statement
+
+  note 2: you can explicitly declare a block { .. } for readability purposes
+
+Garbage Collection
+  explicitly scoping allows you to inform the JS Engine that certain memory can be garbage collected
+
+Polyfilling Block Scope
+  try/catch is what is used to transpile ES6 block-scoped code to older JS Engines
+
+Hoisting
+  hoisting involves the detail of how scope attachment works with declarations that appear in various locations within a scope
+
+  All declarations, both variables and functions, are processed first before any execution
+  Declarations and assignments are SEPARATE
+  assignments are left for the execution phase
+
+  this gives way to the name 'hoisting', that variable/function declarations are moved from where they appear in the flow of the code to the top of the code
+
+  declaration before assignment
+
+  hoisting is per-scope
+
+  function expressions are not hoisted
+
+  functions are hoisted first, then variables
+
+  multiple/duplicate variable declarations are ignored, subsequent functio declarations do override previous ones
+
+
+Closure
+  closures happen as a result of writing code that relies on lexical scope
+
+  closure is when a function is able to remember and access its lexical scope even when that function is executing outside its lexical scope
+
+  when a function executes, we except the entirety of the inner scope of the function to disappear. however, if the inner scope is still in use, the scope is kept alive
+  if something still has a reference to that scope, that reference is called closure
+
+  whatever facility we use to transport an inner function outside of its lexical scope, it will maintain a scope reference to where it was originally declared, and whenever executed, that closure will be exercised

@@ -1,0 +1,90 @@
+Definitions
+  statement: a group of words, numbers, and operators concluded with a ;
+  variables: symbolic placeholders for values
+  literal value: a standalone value
+  operator: things that perform actions with values/variables
+  expression: several expressions make up a statement - a reference to a variable/value or a set of variable(s)/value(s) combined with operators
+    examples:
+      literal value expression (2)
+      variable expression (b)
+      arithmetic expression (b * 2)
+      assignment expression (a = b * 2)
+      expression statement (b * 2;)
+      call expression statement (alert(a))
+
+Execution
+  JS code is compiled on the fly, then immediately run
+
+Coercion
+  1) Explicit Coercion
+    example:
+      var a = "42";
+      var b = Number(a);
+
+  2) Implicit Coercion
+    in loose-equality comparisons, JavaScript uses implicit coercion to match types and compare
+
+    Rules:
+      a) if either side could be true/false, use strict-equality
+      b) if either side could be falsy, use strict-equality
+
+    Notes:
+      arrays are coerced to strings by joining all the values with commas
+      non-primitive values (arrays, objects, functions) are compared by references matching
+      if a string and a number are compared with lesser/greater, both will be coerced into a number
+
+Types
+  string
+  number
+  boolean
+  null
+  undefined
+  object
+  symbol
+
+  note:
+    typeof null; // "object -- bug that if fixed, would break a lot"
+
+Object Subtypes
+  Array
+  Function
+
+Truthy/Falsy
+  Falsy
+    ""
+    0, -0, NaN
+    null
+    undefined
+    false
+  Truthy
+    everything else
+
+Closures
+  a way to access a function's scope after the function has executed
+
+  often used in the module pattern
+
+  Module Pattern
+    define private implementation details as well as a public API
+
+this
+  1) In strict mode, `this` will be set to `undefined` if not called on an object
+  2) In non-strict mode, `this` will be set to `global` if not called on an object
+  3) If called on an object, `this` will be set to that object
+  4) If used with `.call(object2)`, `this` will be set to object2
+
+Prototypes
+  when referencing a property on an object, if that property doesn't exist, JavaScript will automatically use that object's internal prototype reference to find another object to look for the property on
+
+  the prototype reference is established when the object is created
+  you can also use `Object.create(..)`
+
+Polyfilling
+  taking the definition of a newer feature and producing a piece of code that is equivalent to the behavior, but is able to run in older JS environments
+
+Transpiling
+  there is no way polyfill new syntax, which would throw an error in the old JS engine
+
+  transpiling is a combined term meaning transforming + compiling
+
+  this keeps your code working with older browsers

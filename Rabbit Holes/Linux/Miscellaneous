@@ -1,0 +1,10 @@
+PPA (Personal Package Archive)
+  a collection of software not included in Linux by default, stored in a repository
+
+Unresolved Questions:
+  sources.list?
+  apt-get update and upgrade and autoremove?
+  add PPA?
+  remove PPA?
+  GPG key?
+
