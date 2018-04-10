@@ -1,0 +1,11 @@
+npm@5.2.0 includes a new binary: npx
+
+npx is a tool to simplify a variety of things that used to take more effort with npm
+
+npx <command>
+  runs your local installation
+
+npx <command>
+  also automatically installs a package with that name from the npm registry for you and invokes it
+  when done, the installed package won't be in your globals, to reduce long-term pollution
+  useful because by the time you run a command again, you'll have to run an install to update them
