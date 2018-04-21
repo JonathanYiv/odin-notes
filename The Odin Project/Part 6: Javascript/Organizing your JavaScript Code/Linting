@@ -1,0 +1,62 @@
+Code Linting:
+  static analysis of your code to find problematic patterns or code that doesn't adhere
+  to style guidelines, can sometimes automatically fix
+
+Popular Style Guides
+  AirBNB
+  Google
+
+Popular Linters
+  ESLint (The Most Popular)
+  JSHint
+  JSLint
+
+Benefits
+  1) Reduces Bugs
+    syntax errors
+    minification errors derived from syntax errors
+    scope conflicts
+    security issues
+  2) Saves time
+    pre-code review
+  3) Improves code readability
+
+Text Editors
+  most text editors have linter plugins
+  you can also lint from the command line with a task runner or npm scripts
+  you should also lint as a built task
+
+ESLint
+  Wraps Espree (Abstract Syntax Tree generator) and Estraverse (traversal function library for ASTs)
+  ESLint traverses the generated AST and emits events for each visited node (which contains a lot of info)
+  These events allow ESLint to use logic to check for adherence to rules
+
+  completely pluggable, every single rule is a plugin and more can be added/removed
+
+Using ESLint
+  Locally
+    $ npm install eslint --save-dev
+      installs a local project-based eslint
+    $ ./node_modules/.bin/eslint --init
+      creates a configuration file
+    $ ./node_modules/.bin/eslint filename.js
+
+  Globally
+    $ npm install -g eslint
+    $ eslint --init
+      to create a config file in the directory you are in
+    $ eslint filename.js
+
+  Better to install locally and use a local version
+
+  Can configure the .eslintrc file accordingly
+  (note: rc stands for 'run commands', used for files that contain startup info for a program)
+
+Prettier
+  not a linter
+  formats the layout of your code smartly:
+    spaces
+    indentations
+    line breaks
+    word-wrap
+

@@ -1,0 +1,124 @@
+SASS stands for Syntactically Awesome Style Sheets.
+
+# Preprocessing
+Preprocessor: a program that takes one type of data and converts it into another type of data
+Preprocessor Language: the initial type of data, to be converted into another type
+
+SASS is a preprocessor language that is preprocessed into CSS.
+
+This lets you use features currently unavailable in CSS, such as: variables, nesting, partials, imports, mixins, inheritance, and operators.
+
+# Variables
+SCSS Syntax:
+```
+$font-stack: Helevetica, sans-serif;
+$primary-color: #333;
+
+body {
+    font: 100% $font-stack;
+    color: $primary-color;
+}
+```
+
+Output:
+```
+body {
+    font: 100% Helvetica, sans-serif;
+    color: #333;
+}
+```
+
+# Nesting
+CSS selectors can be nested.
+Don't overly nest. 
+One layer of nesting should be sufficient, and in edge cases, perhaps two.
+
+# Partials
+Partial Sass Files can contain little snippets of CSS to include in other CSS files.
+This helps keep your CSS modularized for easier maintenance.
+Partials are named starting with a leading underscore.
+
+Sass partials are used with the `@import` directive.
+
+# Import
+CSS' Import option `@import` creates another HTML request.
+Sass will, when preprocessing, combine it into the file instead of using multiple HTTP requests.
+
+Syntax:
+```
+// _reset.scss
+...
+```
+
+```
+// base.scss
+
+@import 'reset';
+
+...
+```
+
+This will insert the CSS from `_reset.css` exactly where the import statement occurred.
+
+# Mixins
+A mixin is a group of CSS declarations you want to reuse throughout your site.
+You can pass in values to make your mixin more flexible.
+
+Syntax:
+```
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+       -moz-border-radius: $radius;
+        -ms-border-radius: $radius;
+            border-radius: $radius;
+}
+
+.box { @include border-radius(10px); } 
+```
+
+You create a mixin by using `@mixin <name>`. You can specify a parameter.
+You can then use it as a CSS declaration starting with `@include <name>`.
+
+# Extend/Inheritance
+`@extend` lets you share a set of CSS properties from one selector to another.
+
+Example:
+```
+// This CSS won't print because %equal-heights is never extended.
+%equal-heights {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// This CSS will print because %message-shared is extended.
+%message-shared {
+  border: 1px solid #ccc;
+  padding: 10px;
+  color: #333;
+}
+
+.message {
+  @extend %message-shared;
+}
+
+.success {
+  @extend %message-shared;
+  border-color: green;
+}
+
+.error {
+  @extend %message-shared;
+  border-color: red;
+}
+
+.warning {
+  @extend %message-shared;
+  border-color: yellow;
+}
+```
+
+This reduces having to write multiple class names on HTML elements.
+`%class-name` is a placeholder class.
+
+# Operators
+`+`, `-`, `*`, `/`, and `%` are available in Sass.

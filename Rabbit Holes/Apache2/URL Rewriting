@@ -1,0 +1,13 @@
+# Apache mod_rewrite
+Uses a rule-based rewriting engine (based on regex) to rewrite requested URLs on the fly.
+Supports unlimited rules and unlimited rule conditions.
+
+Operates on the full URLs both in per-server context (httpd.conf) and per-directory context (.htaccess).
+
+This is a very complex module.
+
+# Conclusion
+
+OK...
+Since I'm only using Apache2 temporarily... and will be using Nginx shortly...
+I'll just not learn this.
