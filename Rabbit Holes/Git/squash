@@ -1,0 +1,33 @@
+# `$ git commit --amend`
+* opens an editor with the last commit message, allowing you to modify it
+* replaces the previous commit with this updated commit
+* useful for adding files/modifications/changing descriptions
+
+# Squash: `$ git rebase -i <branch>`
+* re-applies commits, one by one, in order, from your current branch onto another
+* `--interactive` or `-i` is a flag which opens the editor with a list of commits that are about to be changed
+
+```
+pick 07c5abd Introduce OpenPGP and teach basic usage
+pick de9b1eb Fix PostChecker::Post#urls
+pick 3e7ee36 Hey kids, stop all the highlighting
+pick fa20af3 git interactive rebase, squash, amend
+
+# Rebase 8db7e8b..fa20af3 onto 8db7e8b
+#
+# Commands:
+#  p, pick = use commit
+#  r, reword = use commit, but edit the commit message
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#  f, fixup = like "squash", but discard this commit's log message
+#  x, exec = run command (the rest of the line) using shell
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+```

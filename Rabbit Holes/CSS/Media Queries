@@ -1,0 +1,35 @@
+# Summary
+Used when modifying a site/app depending on:
+* the device's general type (print/screen)
+* specific characteristics (browser viewport)
+* environment (ambient light)
+
+# Syntax
+* composed of optional media type and any number of media feature expressions
+* can be combined using logical operators
+* computes to true when ALL media feature expressions are true AND the specified media type matches the display advice
+
+## Media Types
+* `all`
+    * all devices
+    * default
+* `print`
+    * paged material and documents viewed on a screen in print preview mode
+* `screen`
+    * intended for screens
+* `speech`
+    * intended for speech synthesizers
+
+## Media Features
+* These test for specific characteristics of the user agent/output device/environment.
+* Optional.
+* Must be surrounded by parenthesis.
+
+* `width`
+* `height`
+
+## Logical Operators
+* `not`
+* `and`
+* `only`
+* comma-separated media queries act like an `or` operator
