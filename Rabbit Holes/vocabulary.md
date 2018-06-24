@@ -95,3 +95,36 @@ Netlify CMS
     JAMstack based CMS which uses Netlify as a hosting service
 
     open-source React app the wraps the git workflow
+
+
+Template Engine
+    combines template with a data model (interpolation, effectively) to produce result documents
+    written in a template language (such as erb)
+
+    Is a preprocessor specific to documents with compile-time execution
+
+
+Liquid
+    A template language
+    created by Shopify 
+    written in Ruby
+
+YAML
+    YAML Ain't Markup Language
+    Human-friendly data serialization standard
+    .yaml, .yml
+
+Serialization
+    converting an object into a stream of bytes to store the object or transmit it to memory/database/file
+
+Byte
+    a group of binary digits or bits (8) operated on as a unit
+
+"YAML is a Superset of JSON"
+    Inverse: JSON is a subset of YAML
+    Meaning YAML has everything JSON has and more
+    and that JSON has some features of YAML
+
+    So this means:
+        A YAML parser can understand JSON
+        but a JSON parser can't understand YAML
