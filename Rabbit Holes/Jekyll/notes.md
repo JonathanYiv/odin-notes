@@ -156,6 +156,63 @@ See here: https://jekyllrb.com/docs/variables/
 For documentation regarding data made available via the Liquid templating system
 
 # Collections
+1. Tell Jekyll to read in your collection
+2. Add your content
+3. Optionally render your collection's documents into independent files
+
+Note: Can specify the collections directory
+Note 2: Move _posts and _drafts to this directory if so
+Note 3: The directory can not start with an underscore
+```
+collections_dir: collections/
+```
+
+## Step One
+```
+collections:
+  collection_name:
+    metadata: value
+```
+
+Note: Can set default attributes for a collection
+```
+defaults:
+  -
+    scope:
+      path: ""
+      type: collection_name
+    values:
+      layout: page
+```
+
+## Step Two
+Create a corresponding folder `collections_dir/_collection_name` and add documents.
+Use a Front Matter. Everything afterwards will be pushed into the `content` attribute
+
+## Step Three
+```
+collections:
+  collection_name:
+    output: true
+```
+This automatically generates public-facing rendered versions of each document in the collection.
+
+Collections can also be accessed using `site.collection_name`
+and can be looped through like so:
+
+```
+{% for item in site.collection_name %}
+  ...
+{% endfor %}
+```
+
+## `site.collection_name`
+* Is an array of documents
+* Documents have these attributes:
+    * `content` - the unrendered content of the document
+    * `output` - the rendered content of the document
+    * `path` - full path to document's source file
+* Attributes from the YAML Front Matter of a Collection can be accessed anywhere on the site
 
 # Posts/Drafts
 [For future notes]
