@@ -214,5 +214,8 @@ and can be looped through like so:
     * `path` - full path to document's source file
 * Attributes from the YAML Front Matter of a Collection can be accessed anywhere on the site
 
+# URLS
+The structure of the `_site` directory literally represents the URLs for a static website
+
 # Posts/Drafts
 [For future notes]

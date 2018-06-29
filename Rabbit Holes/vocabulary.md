@@ -244,3 +244,8 @@ Byte
     So this means:
         A YAML parser can understand JSON
         but a JSON parser can't understand YAML
+
+TypeScript
+    a typed superset of JS that compiles to plain JavaScript
+    (meaning it has everything JS has and more)
+    (typed: each type of data is predefined)
