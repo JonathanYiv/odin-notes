@@ -249,3 +249,176 @@ TypeScript
     a typed superset of JS that compiles to plain JavaScript
     (meaning it has everything JS has and more)
     (typed: each type of data is predefined)
+
+AWS Lambda
+    a serverless compute service that runs your code in response to events
+    and manages the computing resources for you automatically
+
+    the code you run is called a "Lambda function"
+
+Serverless Computing
+    applications/services without servers
+    they rely on third-party services (Backend as a Service - BaaS)
+    AND/OR
+    rely on custom code run in ephemeral containers (Functions as a Service - FaaS i.e. AWS Lambda)
+
+    Benefits
+        remove the need for an "always-on" server component
+        reduced operational cost, complexity, and engineering lead time
+
+    Drawbacks
+        Increased reliance on vendor dependencies
+        Comparatively immature supporting services
+
+    More details: https://www.martinfowler.com/articles/serverless.html
+
+SPF
+    ?
+
+MX Records
+    ?
+
+GNOME
+    A desktop environment of FOSS that runs on Linux and BSD derivatives
+    Is the default desktop environment on many major Linux Distros including Fedora, Debian, Ubuntu, SUSE Linux Enterprise, RHEL, CentOS, Oracle Linux, SteamOS, Tails, Kali Linux, Solaris Linux
+
+BSD
+    Berkeley Software Distribution (BSD) series of Unix variants options
+    iOS, macOS, FreeBSD, openBSD, NetBSD
+
+VSS - Windows
+    Volume Shadow Copy Service
+    implements a framework to allow volume backups to be performed while applications on a system continue to write to the volumes
+
+Hypervisor
+    AKA a VMM (Virtual Machine Monitor)
+    is a software/firmware/hardware that creatres and runs virtual machines
+
+Firewall
+    a network security device that monitors incoming and outgoing network traffic and decides to block/allow specific traffic based on a defined set of security rules
+
+    Ingress Filtering
+        Examines packets coming in and doesn't let them in depending
+
+    Egress Filtering
+        Examines outbound packets and doesn't let them out if they don't meet predetermined policies
+
+RAID Storage
+    RAID stands for "Redundant Array of Independent Disks"
+    It is a data storage virtualization technology that combines multiple physical disk drive components into one or more logical units for the purposes of data redundancy and/or performance improvement
+
+    Data is distributed across the drives in one of several ways, referred to as RAID levels
+    Each RAID level balances reliability, availability, performance, and capacity differently
+
+    RAID Levels
+        RAID 0
+            ?
+        RAID 1
+            ?
+        RAID 2
+            ?
+        RAID 3
+            ?
+        RAID 4
+            ?
+        RAID 5
+            ?
+        RAID 6
+            ?
+
+Striping
+    ?
+
+Mirroring
+    ?
+
+Parity
+    ?
+
+Spanned Volume
+    ?
+
+Seek Time
+    ?
+
+Rotational Latency
+    ?
+
+Data Redundancy
+    The existence of data that is additional to the actual data and permits correction of errors in stored or transmitted data
+    Can be a complete copy or select pieces of data that allow error detection/reconstruction
+
+Microsoft Exchange Server
+    mail and calendaring server run exlusively on Windows Server OS
+
+vSwitch
+    ?
+
+OSI
+    ?
+
+Network Switch
+    ?
+
+ESXi
+    ?
+
+ipconfig
+    a console application that displays all current TCP/IP network configuration values
+    can modify DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) settings
+
+DHCP (Dynamic Host Configuration Protocol)
+    ?
+
+netstat
+    a command-line network utility tool that displays network connections for TCP, routing tables, and network interface and protcol statistics
+
+FSMO (Flexible Single Master Operation)
+    ?
+
+IRQ (Interrupt Request)
+    ?
+
+ECC Memory (Error-Correcting Code Memory)
+    ?
+
+FAT (File Allocation Table)
+    FAT32
+    FAT64
+    etc
+
+NTFS (New Technology File System)
+    ?
+
+Smart Host
+    ?
+
+Ad Server
+    ?
+
+10.0.1.0 
+    ?
+
+MDF (Master Database Files)
+    ?
+
+LDF (Log Database Files)
+    ?
+
+NAT (Network Address Translation)
+    ?
+
+Layers of Internet
+    ?
+
+QoS (Quality of Service)
+    ?
+
+Forests (Microsoft)
+    ?
+
+Amazon EC2 (Elastic Compute Cloud)
+    ?
+
+.pst (Personal Storage Table)
+    ?

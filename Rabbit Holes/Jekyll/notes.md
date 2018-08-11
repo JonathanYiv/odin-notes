@@ -218,4 +218,6 @@ and can be looped through like so:
 The structure of the `_site` directory literally represents the URLs for a static website
 
 # Posts/Drafts
-[For future notes]
+The `_posts` directory contains your blogposts in either Markdown or HTML
+They are in the format `YEAR-MONTH-DAY-title.MARKUP`, example: `2018-12-31-how-are-you.md`
+All files must begin with YAML Front Matter
