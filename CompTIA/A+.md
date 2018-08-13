@@ -205,4 +205,24 @@ This file will refer to the content of the A+ Certification: 220-901 and 220-902
     * Motherboard Jumpers and Connectors
         * Wires in a case will correlate to connectors on a motherboard.
         * Jumpers are not for connections, but to enable/disable certain features of the motherboard when connected/disconnected.
-* RAM
+* Memory
+    * RAM (Random Access Memory)
+        * The most common type of memory - but is not the only kind (i.e. hard drive, SSD storage which are meant to store data permanently)
+        * Data and programs can only be used when moved to RAM
+        * Random Access means that any storage location can be accessed directly - unlike magnetic tape.
+    * ROM (Read Only Memory)
+        * Can't be changed or erased - good for storing the BIOS
+        * Subtypes
+            * PROM (Programmable ROM) - You can write to it once.
+            * EPROM (Erasable PROM) - Can write and erase physically.
+            * EEPROM (Electrically Erasable PROM) - Can electronically write and erase using Flash Memory/SSD.
+    * SRAM (Static RAM)
+        * Very fast, expensive, and physically large memory.
+        * Often used in processor caches.
+    * DRAM (Dynamic Random Access Memory)
+        * The constantly refreshing memory that is generally referred to when referring to RAM.
+    * SDR SDRAM (Single Data Rate Synchronous DRAM)
+        * 168-pins
+        * Synchronized to a common system clock
+        * Queues up a process while waiting for another
+        * With each clock cycle, you are able to transfer a single piece of data
