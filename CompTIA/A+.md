@@ -742,4 +742,8 @@ This file will refer to the content of the A+ Certification: 220-901 and 220-902
         * Are standardized, but be careful with older ones or with small cases like microATX
         * Some power supplies have a manual switch to switch between 110/115V and 220/230V
         * Plugging in a 115V Power Supply into a 230V Power Source will start a fire
-    
+* Designing Custom Computer Systems
+    * Graphics Workstations/CAD (Computer Aided Design)/CAM (Computer Aided Manufacturing)
+        * Multicore processor for advanced calculations and 3D modeling
+        * High-end video card for complex graphics
+        * Maximum RAM due to significant memory use
